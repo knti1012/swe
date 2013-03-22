@@ -1,5 +1,7 @@
 package de.shop.artikelverwaltung.service;
 
+import static java.util.logging.Level.FINER;
+
 import java.io.Serializable;
 import java.lang.invoke.MethodHandles;
 import java.util.Collections;
