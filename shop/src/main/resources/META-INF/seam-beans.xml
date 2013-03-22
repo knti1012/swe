@@ -7,13 +7,13 @@
        xmlns:u="urn:java:de.shop.util"
        xmlns:m="urn:java:de.shop.mail">
 
-	<u:ValidationService>
+	<u:ValidatorProvider>
 		<u:locales>
 			<s:value>en</s:value>
 			<s:value>de</s:value>
 		</u:locales>
 		<s:modifies/>
-	</u:ValidationService>
+	</u:ValidatorProvider>
 	
 	<!-- TODO <m:BestellungObserver mailAbsender="abcd0011@hs-karlsruhe.de" nameAbsender="Joe Doe">
 		<s:modifies/>

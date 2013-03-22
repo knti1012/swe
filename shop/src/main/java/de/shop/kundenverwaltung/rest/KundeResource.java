@@ -12,7 +12,7 @@ import java.net.URI;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.Logger;
+import org.jboss.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -72,12 +72,12 @@ public class KundeResource {
 
 	@PostConstruct
 	private void postConstruct() {
-		LOGGER.log(FINER, "CDI-faehiges Bean {0} wurde erzeugt", this);
+		LOGGER.debugf ("CDI-faehiges Bean {0} wurde erzeugt", this);
 	}
 
 	@PreDestroy
 	private void preDestroy() {
-		LOGGER.log(FINER, "CDI-faehiges Bean {0} wird geloescht", this);
+		LOGGER.debugf ("CDI-faehiges Bean {0} wird geloescht", this);
 	}
 
 	@GET
@@ -165,7 +165,7 @@ public class KundeResource {
 		final Locale locale = locales.isEmpty() ? Locale.getDefault() : locales
 				.get(0);
 		kunde = ks.createKunde(kunde, locale);
-		LOGGER.log(FINEST, "Kunde: {0}", kunde);
+		LOGGER.debugf ("Kunde: {0}", kunde);
 		final URI kundeUri = uriHelperKunde.getUriKunde(kunde, uriInfo);
 		return Response.created(kundeUri).build();
 	}
@@ -185,7 +185,7 @@ public class KundeResource {
 					+ kunde.getId();
 			throw new NotFoundException(msg);
 		}
-		LOGGER.log(FINEST, "Kunde vorher: %s", origKunde);
+		LOGGER.debugf("Kunde vorher: %s", origKunde);
 
 		Adresse adresseAlt = em.find(Adresse.class, kunde.getAdresse().getId());
 		adresseAlt.setValues(kunde.getAdresse());
@@ -194,7 +194,7 @@ public class KundeResource {
 		origKunde.setValues(kunde);
 		
 		
-		LOGGER.log(FINEST, "Kunde nachher: %s", origKunde);
+		LOGGER.debugf("Kunde nachher: %s", origKunde);
 		
 
 		kunde = ks.updateKunde(origKunde, locale);
