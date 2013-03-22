@@ -22,3 +22,4 @@
   <weld:exclude name="de.shop.**.*Exception"/>
  </weld:scan>
 </beans>
+
