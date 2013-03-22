@@ -1,7 +1,5 @@
 package de.shop.artikelverwaltung.rest;
 
-import static java.util.logging.Level.FINER;
-import static java.util.logging.Level.FINEST;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static javax.ws.rs.core.MediaType.APPLICATION_XML;
 import static javax.ws.rs.core.MediaType.TEXT_XML;
@@ -10,7 +8,7 @@ import java.lang.invoke.MethodHandles;
 import java.net.URI;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.Logger;
+import org.jboss.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -50,12 +48,12 @@ public class ArtikelResource {
 	
 	@PostConstruct
 	private void postConstruct() {
-		LOGGER.log(FINER, "CDI-faehiges Bean {0} wurde erzeugt", this);
+		LOGGER.debugf("CDI-faehiges Bean {0} wurde erzeugt", this);
 	}
 	
 	@PreDestroy
 	private void preDestroy() {
-		LOGGER.log(FINER, "CDI-faehiges Bean {0} wird geloescht", this);
+		LOGGER.debugf("CDI-faehiges Bean {0} wird geloescht", this);
 	}
 	
 	@GET
@@ -78,7 +76,7 @@ public class ArtikelResource {
 		final List<Locale> locales = headers.getAcceptableLanguages();
 		final Locale locale = locales.isEmpty() ? Locale.getDefault() : locales.get(0);
 		artikel = as.createArtikel(artikel, locale);
-		LOGGER.log(FINEST, "Artikel: {0}", artikel);
+		LOGGER.debugf("Artikel: {0}", artikel);
 		
 		final URI artikelUri = uriHelperArtikel.getUriArtikel(artikel, uriInfo);
 		return Response.created(artikelUri).build();
@@ -94,10 +92,10 @@ public class ArtikelResource {
 			final String msg = "Kein Artikel gefunden mit der ID " + artikel.getId();
 			throw new NotFoundException(msg);
 		}
-		LOGGER.log(FINEST, "Artikel vorher: %s", origArtikel);
+		LOGGER.debugf("Artikel vorher: %s", origArtikel);
 	
 		origArtikel.setValues(artikel);
-		LOGGER.log(FINEST, "Artikel nachher: %s", origArtikel);
+		LOGGER.debugf("Artikel nachher: %s", origArtikel);
 		
 		artikel = as.updateArtikel(origArtikel);
 		if (artikel == null) {

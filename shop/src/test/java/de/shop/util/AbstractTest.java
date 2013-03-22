@@ -5,7 +5,8 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.util.Locale;
-import java.util.ServiceLoader;
+
+//import java.util.ServiceLoader;
 
 import javax.annotation.Resource;
 import javax.transaction.SystemException;
@@ -15,7 +16,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.Archive;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
+//import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
 
@@ -32,10 +33,12 @@ public abstract class AbstractTest {
 		return ArchiveService.getInstance().getArchive();
 	}
 
+	/*
 	@BeforeClass
 	public static void dbreload() {
 		ServiceLoader.load(DbReload.class).iterator().next().run(); 
 	}
+	*/
 
 	@Before
 	public void before() throws SystemException { 

@@ -1,5 +1,6 @@
 package de.shop.artikelverwaltung.domain;
 
+
 import static de.shop.util.Constants.KEINE_ID;
 import static de.shop.util.Constants.MIN_ID;
 import static javax.persistence.TemporalType.TIMESTAMP;
