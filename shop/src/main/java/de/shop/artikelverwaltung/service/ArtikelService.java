@@ -7,8 +7,7 @@ import java.lang.invoke.MethodHandles;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
-
-import org.jboss.logging.Logger;
+import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -37,12 +36,12 @@ public class ArtikelService implements Serializable {
 
 	@PostConstruct
 	private void postConstruct() {
-		LOGGER.debugf("CDI-faehiges Bean {0} wurde erzeugt", this);
+		LOGGER.log(FINER, "CDI-faehiges Bean {0} wurde erzeugt", this);
 	}
 	
 	@PreDestroy
 	private void preDestroy() {
-		LOGGER.debugf("CDI-faehiges Bean {0} wird geloescht", this);
+		LOGGER.log(FINER, "CDI-faehiges Bean {0} wird geloescht", this);
 	}
 	
 	public List<Artikel> findVerfuegbareArtikel() {
