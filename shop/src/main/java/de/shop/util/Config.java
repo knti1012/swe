@@ -98,6 +98,7 @@ public class Config implements Serializable {
 		this.empfaengerMail = empfaengerMail;
 	}
 
+	
 	public String getEmpfaengerName() {
 		return empfaengerName;
 	}
