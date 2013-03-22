@@ -38,7 +38,7 @@ import de.shop.kundenverwaltung.domain.Kunde;
 import de.shop.kundenverwaltung.service.KundeService;
 import de.shop.kundenverwaltung.service.KundeService.FetchType;
 import de.shop.util.Log;
-import de.shop.util.ValidationService;
+import de.shop.util.ValidatorProvider;
 
 @Log
 public class BestellungServiceImpl implements Serializable, BestellungService {
@@ -53,7 +53,7 @@ public class BestellungServiceImpl implements Serializable, BestellungService {
 	private KundeService ks;
 
 	@Inject
-	private ValidationService validationService;
+	private ValidatorProvider validatorProvider;
 
 	@Inject
 	@NeueBestellung
@@ -192,7 +192,7 @@ public class BestellungServiceImpl implements Serializable, BestellungService {
 
 	private void validateBestellung(Bestellung bestellung, Locale locale,
 			Class<?>... groups) {
-		final Validator validator = validationService.getValidator(locale);
+		final Validator validator = validatorProvider.getValidator(locale);
 		System.out.println("Bestellung Validator fuer Deutsch: " + validator);
 		final Set<ConstraintViolation<Bestellung>> violations = validator
 				.validate(bestellung);

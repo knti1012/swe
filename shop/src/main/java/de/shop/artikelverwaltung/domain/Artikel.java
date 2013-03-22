@@ -23,10 +23,8 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import de.shop.util.IdGroup;
 @Entity
@@ -49,7 +47,6 @@ import de.shop.util.IdGroup;
 		@NamedQuery(name = Artikel.FIND_ARTIKEL_BY_NAME, query = "SELECT		 a"
 				+ " FROM 	 Artikel a" + " WHERE 	 a.name LIKE :"
 				+ Artikel.PARAM_NAME + " ORDER BY a.id ASC") })
-@XmlRootElement
 public class Artikel implements Serializable {
 
 	private static final long serialVersionUID = 1346429702479816595L;
@@ -81,50 +78,42 @@ public class Artikel implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", unique = true, nullable = false, updatable = false)
 	@Min(value = MIN_ID, message = "{artikelverwaltung.artikel.id.min}", groups = IdGroup.class)
-	@XmlAttribute
 	private Long id = KEINE_ID;
 
 	@Column(name = "art", nullable = false)
 	@NotNull(message = "{artikelverwaltung.artikel.art.notNull}")
 	@Size(max = BEZEICHNUNG_LENGTH_MAX, message = "{artikelverwaltung.artikel.bezeichnung.length}")
-	@XmlElement(required = true)
 	private String art;
 
 	@Column(name = "farbe", nullable = false)
 	@NotNull(message = "{artikelverwaltung.artikel.farbe.notNull}")
-	@XmlElement
 	private String farbe;
 
-	@XmlElement
 	@Column(name = "groesse", nullable = false)
 	@NotNull(message = "{artikelverwaltung.artikel.groesse.notNull}")
 	private String groesse;
 
-	@XmlElement
 	@Column(name = "kategorie", nullable = false)
 	@NotNull(message = "{artikelverwaltung.artikel.kategorie.notNull}")
 	private String kategorie;
 
-	@XmlElement
 	@Column(name = "lagerbestand", nullable = false)
 	private BigInteger lagerbestand;
 
-	@XmlElement
 	@Column(name = "name", nullable = false)
 	@NotNull(message = "{artikelverwaltung.artikel.name.notNull}")
 	private String name;
 
 	@Column(name = "aktualisiert", nullable = false)
 	@Temporal(TIMESTAMP)
-	@XmlTransient
+	@JsonIgnore
 	private Date aktualisiert;
 
 	@Column(name = "erzeugt", nullable = false)
 	@Temporal(TIMESTAMP)
-	@XmlTransient
+	@JsonIgnore
 	private Date erzeugt;
 
-	@XmlElement
 	@Column(name = "preis")
 	@DecimalMin("0.0")
 	private Double preis;

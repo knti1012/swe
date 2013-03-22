@@ -35,12 +35,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import de.shop.kundenverwaltung.domain.Kunde;
@@ -75,7 +72,6 @@ import de.shop.util.IdGroup;
 		@NamedQuery(name = Bestellung.FIND_BESTELLUNG_BY_ID_FETCH_LIEFERUNGEN, query = "SELECT DISTINCT b"
 				+ " FROM   Bestellung b LEFT JOIN FETCH b.lieferungen"
 				+ " WHERE  b.id = :" + Bestellung.PARAM_ID), })
-@XmlRootElement
 public class Bestellung implements Serializable {
 
 	private static final long serialVersionUID = -374175121702956649L;
@@ -113,12 +109,11 @@ public class Bestellung implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Min(value = MIN_ID, message = "{bestellverwaltung.bestellung.id.min}", groups = IdGroup.class)
 	@Column(name = "id", unique = true, nullable = false, updatable = false)
-	@XmlAttribute
 	private Long id = KEINE_ID;
 
 	@Column(name = "aktualisiert", nullable = false)
 	@Temporal(TIMESTAMP)
-	@XmlTransient
+	@JsonIgnore
 	private Date aktualisiert;
 
 	@Column(name = "erzeugt", nullable = false)
@@ -135,29 +130,28 @@ public class Bestellung implements Serializable {
 
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "k_fk", nullable = false, updatable = false, insertable = false)
-	@XmlTransient
+	@JsonIgnore
 	private Kunde kunde;
 
 	@Transient
-	@XmlElement(name = "kunde", required = true)
+	@JsonProperty("kunde")
 	private URI kundeUri;
 
 	@OneToMany
 	@JoinColumn(name = "b_fk", nullable = false, updatable = false)
 	@NotEmpty(message = "{bestellverwaltung.bestellung.bestellpositionen.notEmpty}")
 	@Valid
-	@XmlElementWrapper(name = "bestellpositionen", required = true)
-	@XmlElement(name = "bestellposition", required = true)
+	@JsonProperty("bestellpositionen")
 	private List<Bestellposition> bestellpositionen;
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "bestellung_lieferung", joinColumns = @JoinColumn(name = "b_fk"), 
 	inverseJoinColumns = @JoinColumn(name = "l_fk"))
-	@XmlTransient
+	@JsonIgnore
 	private Set<Lieferung> lieferungen;
 
 	@Transient
-	@XmlElement(name = "lieferungen")
+	@JsonProperty("lieferungen")
 	private URI lieferungenUri;
 
 	public Bestellung() {

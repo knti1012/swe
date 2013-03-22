@@ -31,11 +31,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import de.shop.util.IdGroup;
@@ -52,7 +49,6 @@ import de.shop.util.PreExistingGroup;
 				+ " FROM   Lieferung l"
 				+ " WHERE  UPPER(l.lieferant) LIKE :"
 				+ Lieferung.PARAM_LIEFERANT) })
-@XmlRootElement
 public class Lieferung implements java.io.Serializable {
 	private static final long serialVersionUID = 7560752199018702446L;
 
@@ -72,35 +68,32 @@ public class Lieferung implements java.io.Serializable {
 	@GeneratedValue
 	@Column(name = "id", unique = true, nullable = false, updatable = false, precision = LONG_ANZ_ZIFFERN)
 	@Min(value = MIN_ID, message = "{bestellverwaltung.lieferung.id.min}", groups = IdGroup.class)
-	@XmlAttribute
 	private Long id = KEINE_ID;
 
 	@Column(name = "lieferant")
-	@XmlElement
 	private String lieferant;
 
 	@Column(name = "transport_art")
 	@Enumerated(STRING)
 	@NotNull(message = "{bestellverwaltung.lieferung.transport_art.notNull}")
-	@XmlElement
 	private TransportType transportArt;
 
 	@ManyToMany(mappedBy = "lieferungen", cascade = { PERSIST, MERGE })
 	@NotEmpty(message = "{bestellverwaltung.lieferung.bestellungen.notEmpty}", groups = PreExistingGroup.class)
 	@Valid
-	@XmlTransient
+	@JsonIgnore
 	private Set<Bestellung> bestellungen;
 
 	@Past
 	@Column(nullable = false)
 	@Temporal(TIMESTAMP)
-	@XmlTransient
+	@JsonIgnore
 	private Date erzeugt;
 
 	@Past
 	@Column(nullable = false)
 	@Temporal(TIMESTAMP)
-	@XmlTransient
+	@JsonIgnore
 	private Date aktualisiert;
 
 	public Lieferung() {

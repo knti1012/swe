@@ -36,7 +36,7 @@ import de.shop.kundenverwaltung.domain.PasswordGroup;
 import de.shop.util.Default;
 import de.shop.util.IdGroup;
 import de.shop.util.Log;
-import de.shop.util.ValidationService;
+import de.shop.util.ValidatorProvider;
 
 @Log
 public class KundeService implements Serializable {
@@ -56,7 +56,7 @@ public class KundeService implements Serializable {
 	private transient EntityManager em;
 
 	@Inject
-	private ValidationService validationService;
+	private ValidatorProvider validatorProvider;
 
 	@PostConstruct
 	private void postConstruct() {
@@ -131,7 +131,7 @@ public class KundeService implements Serializable {
 	}
 
 	private void validateNachname(String nachname, Locale locale) {
-		final Validator validator = validationService.getValidator(locale);
+		final Validator validator = validatorProvider.getValidator(locale);
 		final Set<ConstraintViolation<Kunde>> violations = validator
 				.validateValue(Kunde.class, "nachname", nachname, Default.class);
 		if (!violations.isEmpty())
@@ -177,7 +177,7 @@ public class KundeService implements Serializable {
 	}
 
 	private void validateKundeId(Long kundeId, Locale locale) {
-		final Validator validator = validationService.getValidator(locale);
+		final Validator validator = validatorProvider.getValidator(locale);
 		final Set<ConstraintViolation<Kunde>> violations = validator
 				.validateValue(Kunde.class, "id", kundeId, IdGroup.class);
 		if (!violations.isEmpty())
@@ -206,7 +206,7 @@ public class KundeService implements Serializable {
 	}
 
 	private void validateEmail(String email, Locale locale) {
-		final Validator validator = validationService.getValidator(locale);
+		final Validator validator = validatorProvider.getValidator(locale);
 		final Set<ConstraintViolation<Kunde>> violations = validator
 				.validateValue(Kunde.class, "email", email, Default.class);
 		if (!violations.isEmpty())
@@ -235,7 +235,7 @@ public class KundeService implements Serializable {
 	}
 
 	private void validateKunde(Kunde kunde, Locale locale, Class<?>... groups) {
-		final Validator validator = validationService.getValidator(locale);
+		final Validator validator = validatorProvider.getValidator(locale);
 
 		final Set<ConstraintViolation<Kunde>> violations = validator.validate(
 				kunde, groups);

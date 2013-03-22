@@ -18,15 +18,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import static javax.xml.bind.annotation.XmlAccessType.FIELD;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-
 
 
 @Entity
 @Table (name = "adresse")
-@XmlAccessorType(FIELD)
 public class Adresse implements Serializable {
 
 	
@@ -54,7 +49,6 @@ public class Adresse implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", unique = true, nullable = false, updatable = false)
 	@Min(value = MIN_ID, message = "{kundenverwaltung.adresse.id.min}", groups = IdGroup.class)
-	@XmlAttribute
 	private Long id = KEINE_ID;
 
 	@Column(name = "hausnummer")
@@ -64,7 +58,6 @@ public class Adresse implements Serializable {
 	@Column(name = "land", nullable = false)
 	@NotNull(message = "{kundenverwaltung.adresse.land.notNull}")
 	@Size(min = LAND_LENGTH_MIN, max = LAND_LENGTH_MAX, message = "{kundenverwaltung.adresse.land.length}")
-	@XmlAttribute(required = true)
 	private String land;
 	
 	
@@ -72,21 +65,18 @@ public class Adresse implements Serializable {
 	@NotNull(message = "{kundenverwaltung.adresse.plz.notNull}")
 	@Size(min = PLZ_LENGTH_MIN, max = PLZ_LENGTH_MAX, message = "{kundenverwaltung.adresse.plz.length}")
 	@Pattern(regexp = "\\d{5}", message = "{kundenverwaltung.adresse.plz}")
-	@XmlAttribute(required = true)
 	private String plz;
 
 	
 	@Column(name = "stadt", length = STADT_LENGTH_MAX, nullable = false)
 	@NotNull(message = "{kundenverwaltung.adresse.stadt.notNull}")
 	@Size(min = STADT_LENGTH_MIN, max = STADT_LENGTH_MAX, message = "{kundenverwaltung.adresse.stadt.length}")
-	@XmlAttribute(required = true)
 	private String stadt;
 	
 	
 	@Column(name = "strasse", length = STRASSE_LENGTH_MAX, nullable = false)
 	@NotNull(message = "{kundenverwaltung.adresse.strasse.notNull}")
 	@Size(min = STRASSE_LENGTH_MIN, max = STRASSE_LENGTH_MAX, message = "{kundenverwaltung.adresse.strasse.length}")
-	@XmlAttribute(required = true)
 	private String strasse;
 
 	

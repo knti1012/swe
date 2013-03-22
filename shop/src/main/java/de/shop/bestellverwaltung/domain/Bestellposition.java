@@ -9,11 +9,6 @@ import java.net.URI;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.DecimalMin;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,6 +21,9 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Transient;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 import de.shop.artikelverwaltung.domain.Artikel;
 import de.shop.util.IdGroup;
 
@@ -37,7 +35,6 @@ import de.shop.util.IdGroup;
    	            	    + " FROM   Artikel a"
    	            	    + " WHERE  a NOT IN (SELECT bp.artikel FROM Bestellposition bp)")
 })
-@XmlRootElement
 public class Bestellposition implements Serializable {
 	private static final long serialVersionUID = 2222771733641950913L;
 	
@@ -49,28 +46,25 @@ public class Bestellposition implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Min(value = MIN_ID, message = "{kundenverwaltung.bestellposition.id.min}", groups = IdGroup.class)
 	@Column(name = "id", unique = true, nullable = false, updatable = false)
-	@XmlAttribute
 	private Long id;
 	
 	@ManyToOne(optional = false)
     @JoinColumn(name = "ar_fk", nullable = false)
 	@NotNull(message = "{bestellverwaltung.bestellposition.artikel.notNull}")
-	@XmlTransient
+	@JsonIgnore
 	private Artikel artikel;
 
 	@Transient
-	@XmlElement(name = "artikel", required = true)
+	@JsonProperty("artikel")
 	private URI artikelUri;
 	
 	@Column(name = "anzahl", nullable = false)
 	@Min(value = ANZAHL_MIN, message = "{bestellverwaltung.bestellposition.anzahl.min}")
-	@XmlElement
 	private Integer anzahl;
 	
 	@Column(name = "preis", nullable = true)
 
 	@DecimalMin("0.0")
-	@XmlElement
 	private Double preis;
 	
 	public Bestellposition() {

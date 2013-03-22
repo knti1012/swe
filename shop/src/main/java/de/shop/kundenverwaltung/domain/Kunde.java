@@ -35,11 +35,9 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.validator.constraints.Email;
 
 import de.shop.bestellverwaltung.domain.Bestellung;
@@ -84,7 +82,6 @@ import de.shop.util.IdGroup;
 		@NamedQuery(name = Kunde.FIND_KUNDEN_BY_DATE, query = "SELECT k"
 				+ " FROM  Kunde k" + " WHERE k.erzeugt = :"
 				+ Kunde.PARAM_KUNDE_ERZEUGT) })
-@XmlRootElement
 public class Kunde implements Serializable {
 
 	private static final long serialVersionUID = -9003409977721553025L;
@@ -144,60 +141,53 @@ public class Kunde implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Min(value = MIN_ID, message = "{kundenverwaltung.kunde.id.min}", groups = IdGroup.class)
 	@Column(name = "id", unique = true, nullable = false, updatable = false)
-	@XmlAttribute
 	private Long id = KEINE_ID;
 
 	@Column(length = EMAIL_LENGTH_MAX, nullable = false, unique = true)
 	@Email(message = "{kundenverwaltung.kunde.email.pattern}")
-	@XmlElement(required = true)
 	private String email;
 
 	@Column(name = "geschlecht")
 	@NotNull(message = "{kundenverwaltung.kunde.geschlecht.notNull}")
-	@XmlElement
 	private String geschlecht;
 
 	@Column(name = "nachname", nullable = false)
 	@NotNull(message = "{kundenverwaltung.kunde.nachname.notNull}")
 	@Pattern(regexp = NACHNAME_PATTERN, message = "{kundenverwaltung.kunde.nachname.pattern}")
 	@Size(min = NACHNAME_LENGTH_MIN, max = NACHNAME_LENGTH_MAX, message = "{kundenverwaltung.kunde.nachname.length}")
-	@XmlElement(required = true)
 	private String nachname;
 
 	@Column(name = "password", length = PASSWORD_LENGTH_MAX)
 	@NotNull(message = "{kundenverwaltung.kunde.password.notNull}")
-	@XmlElement
 	private String password;
 
 	@Column(name = "vorname")
 	@NotNull(message = "{kundenverwaltung.kunde.nachname.notNull}")
 	@Size(min = NACHNAME_LENGTH_MIN, max = NACHNAME_LENGTH_MAX, message = "{kundenverwaltung.kunde.vorname.length}")
-	@XmlElement
 	private String vorname;
 
 	@Column(name = "erzeugt", nullable = false)
 	@Temporal(TIMESTAMP)
-	@XmlTransient
+	@JsonIgnore
 	private Date erzeugt;
 
 	@Column(name = "aktualisiert", nullable = false)
 	@Temporal(TIMESTAMP)
-	@XmlTransient
+	@JsonIgnore
 	private Date aktualisiert;
 
 	@Transient
-	@XmlElement(name = "bestellungen")
+	@JsonProperty("bestellungen")
 	private URI bestellungenUri;
 
 	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name = "k_fk", nullable = false)
-	@XmlTransient
+	@JsonIgnore
 	private List<Bestellung> bestellungen;
 
 	@OneToOne(optional = false, fetch = FetchType.EAGER, cascade = {PERSIST, MERGE, REMOVE})
 	@JoinColumn(name = "add_fk")
 	@NotNull(message = "{kundenverwaltung.kunde.adresse.notNull}")
-	@XmlElement(required = true)
 	private Adresse adresse; 
 
 	@PrePersist
