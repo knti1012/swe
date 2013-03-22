@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.Logger;
+import org.jboss.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -70,12 +70,12 @@ public class BestellungResource {
 	
 	@PostConstruct
 	private void postConstruct() {
-		LOGGER.log(FINER, "CDI-faehiges Bean {0} wurde erzeugt", this);
+		LOGGER.debugf("CDI-faehiges Bean {0} wurde erzeugt", this);
 	}
 	
 	@PreDestroy
 	private void preDestroy() {
-		LOGGER.log(FINER, "CDI-faehiges Bean {0} wird geloescht", this);
+		LOGGER.debugf("CDI-faehiges Bean {0} wird geloescht", this);
 	}
 	
 	@GET
@@ -96,7 +96,7 @@ public class BestellungResource {
 	public Collection<Lieferung> findLieferungenByBestellungId(@PathParam("id") Long id) {
 		
 		final String errorMsg = "findLieferungenByBestellungId: NOT YET IMPLEMENTED"; 
-		LOGGER.severe(errorMsg);
+		LOGGER.fatal(errorMsg);
 		final Response response = Response.serverError()
 	                                      .entity(errorMsg)
 	                                      .build();
@@ -129,10 +129,10 @@ public class BestellungResource {
 			final String msg = "Kein Bestellung gefunden mit der ID " + bestellung.getId();
 			throw new NotFoundException(msg);
 		}
-		LOGGER.log(FINEST, "Kunde vorher: %s", origBestellung);
+		LOGGER.debugf("Kunde vorher: %s", origBestellung);
 	
 		origBestellung.setValues(bestellung);
-		LOGGER.log(FINEST, "Kunde nachher: %s", origBestellung);
+		LOGGER.debugf("Kunde nachher: %s", origBestellung);
 		
 		bestellung = bs.updateBestellung(origBestellung);
 		if (bestellung == null) {
@@ -213,7 +213,7 @@ public class BestellungResource {
 
 		final URI bestellungUri = uriHelperBestellung.getUriBestellung(bestellung, uriInfo);
 		final Response response = Response.created(bestellungUri).build();
-		LOGGER.finest(bestellungUri.toString());
+		LOGGER.fatalf (bestellungUri.toString());
 		
 		return response;
 	}
