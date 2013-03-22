@@ -1,8 +1,7 @@
 package de.shop.bestellverwaltung.service;
 
 import static de.shop.util.Constants.KEINE_ID;
-import static java.util.logging.Level.FINER;
-import static java.util.logging.Level.FINEST;
+
 
 import java.io.Serializable;
 import java.lang.invoke.MethodHandles;
@@ -10,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
-import java.util.logging.Logger;
+import org.jboss.logging.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -61,12 +60,12 @@ public class BestellungServiceImpl implements Serializable, BestellungService {
 
 	@PostConstruct
 	private void postConstruct() {
-		LOGGER.log(FINER, "CDI-faehiges Bean {0} wurde erzeugt", this);
+		LOGGER.debugf("CDI-faehiges Bean {0} wurde erzeugt", this);
 	}
 
 	@PreDestroy
 	private void preDestroy() {
-		LOGGER.log(FINER, "CDI-faehiges Bean {0} wird geloescht", this);
+		LOGGER.debugf("CDI-faehiges Bean {0} wird geloescht", this);
 	}
 
 	@Override
@@ -170,7 +169,7 @@ public class BestellungServiceImpl implements Serializable, BestellungService {
 		}
 
 		for (Bestellposition bp : bestellung.getBestellpositionen()) {
-			LOGGER.log(FINEST, "Bestellposition: {0}", bp);
+			LOGGER.debugf("Bestellposition: {0}", bp);
 		}
 
 		kunde = ks.findKundeById(kunde.getId(), FetchType.MIT_BESTELLUNGEN,
@@ -197,7 +196,7 @@ public class BestellungServiceImpl implements Serializable, BestellungService {
 		final Set<ConstraintViolation<Bestellung>> violations = validator
 				.validate(bestellung);
 		if (violations != null && !violations.isEmpty()) {
-			LOGGER.exiting("BestellungService", "createBestellung", violations);
+			LOGGER.errorf("BestellungService", "createBestellung", violations);
 			throw new BestellungValidationException(bestellung, violations);
 		}
 	}
