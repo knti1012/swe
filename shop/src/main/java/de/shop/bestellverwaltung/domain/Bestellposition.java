@@ -1,6 +1,7 @@
 package de.shop.bestellverwaltung.domain;
 
 
+import static de.shop.util.Constants.ERSTE_VERSION;
 import static de.shop.util.Constants.MIN_ID;
 
 import java.io.Serializable;
@@ -9,6 +10,7 @@ import java.net.URI;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.DecimalMin;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,6 +22,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Transient;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -47,6 +50,10 @@ public class Bestellposition implements Serializable {
 	@Min(value = MIN_ID, message = "{kundenverwaltung.bestellposition.id.min}", groups = IdGroup.class)
 	@Column(name = "id", unique = true, nullable = false, updatable = false)
 	private Long id;
+	
+	@Version
+	@Basic(optional = false)
+	private int version = ERSTE_VERSION;
 	
 	@ManyToOne(optional = false)
     @JoinColumn(name = "ar_fk", nullable = false)
@@ -91,6 +98,14 @@ public class Bestellposition implements Serializable {
 		this.id = id;
 	}
 	
+	public int getVersion(){
+		return this.version;
+	}
+	
+	public void setVersion(int version){
+		this.version = version;
+	}
+	
 	public Artikel getArtikel() {
 		return artikel;
 	}
@@ -124,8 +139,9 @@ public class Bestellposition implements Serializable {
 	@Override
 	public String toString() {
 		final Long artikelId = artikel == null ? null : artikel.getId();
-		return "Bestellposition [id=" + id + ", artikel=" + artikelId
-			   + ", anzahl=" + anzahl + "]";
+		return "Bestellposition [id=" + id + ", version=" + version
+				+ ", artikel=" + artikelId
+				+ ", anzahl=" + anzahl + "]";
 	}
 
 	@Override

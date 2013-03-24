@@ -1,6 +1,7 @@
 package de.shop.kundenverwaltung.domain;
 
 import static de.shop.util.Constants.KEINE_ID;
+import static de.shop.util.Constants.ERSTE_VERSION;
 import static de.shop.util.Constants.MIN_ID;
 import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.CascadeType.MERGE;
@@ -14,6 +15,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -31,6 +33,7 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
+import javax.persistence.Version;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -131,7 +134,8 @@ public class Kunde implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Kunde [id=" + id + ", aktualisiert=" + aktualisiert
+		return "Kunde [id=" + id + ", version=" + version
+				+ ", aktualisiert=" + aktualisiert
 				+ ", email=" + email + ", erzeugt=" + erzeugt + ", geschlecht="
 				+ geschlecht + ", nachname=" + nachname + ", password="
 				+ password + ", vorname=" + vorname + "]";
@@ -143,6 +147,10 @@ public class Kunde implements Serializable {
 	@Column(name = "id", unique = true, nullable = false, updatable = false)
 	private Long id = KEINE_ID;
 
+	@Version
+	@Basic(optional = false)
+	private int version = ERSTE_VERSION;
+	
 	@Column(length = EMAIL_LENGTH_MAX, nullable = false, unique = true)
 	@Email(message = "{kundenverwaltung.kunde.email.pattern}")
 	private String email;
@@ -209,6 +217,13 @@ public class Kunde implements Serializable {
 		this.id = id;
 	}
 
+	public int getVersion() {
+		return version;
+	}
+	public void setVersion(int version) {
+		this.version = version;
+	}
+	
 	public Date getAktualisiert() {
 		return this.aktualisiert;
 	}
@@ -298,6 +313,7 @@ public class Kunde implements Serializable {
 	}
 
 	public void setValues(Kunde kunde) {
+		this.version = kunde.version;
 		this.adresse = kunde.adresse;
 		this.bestellungen = kunde.bestellungen;
 		this.email = kunde.email;

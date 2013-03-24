@@ -1,6 +1,7 @@
 package de.shop.kundenverwaltung.domain;
 
 
+import static de.shop.util.Constants.ERSTE_VERSION;
 import static de.shop.util.Constants.MIN_ID;
 import de.shop.util.IdGroup;
 
@@ -10,13 +11,17 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import static de.shop.util.Constants.KEINE_ID;
+
 import java.io.Serializable;
+
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Version;
 
 
 
@@ -39,7 +44,8 @@ public class Adresse implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Adresse [id=" + id + ", hausnummer=" + hausnummer + ", land="
+		return "Adresse [id=" + id + ", version=" + version
+				+ ", hausnummer=" + hausnummer + ", land="
 				+ land + ", plz=" + plz + ", stadt=" + stadt + ", strasse="
 				+ strasse + "]";
 	}
@@ -50,6 +56,10 @@ public class Adresse implements Serializable {
 	@Column(name = "id", unique = true, nullable = false, updatable = false)
 	@Min(value = MIN_ID, message = "{kundenverwaltung.adresse.id.min}", groups = IdGroup.class)
 	private Long id = KEINE_ID;
+	
+	@Version
+	@Basic(optional = false)
+	private int version = ERSTE_VERSION;
 
 	@Column(name = "hausnummer")
 	@Min(value = 1, message = "{kundenverwaltung.adresse.hausnummer.min}")
@@ -89,6 +99,14 @@ public class Adresse implements Serializable {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+	
+	public int getVersion(){
+		return this.version;
+	}
+	
+	public void setVersion(int version){
+		this.version = version;
 	}
 
 	public Integer getHausnummer() {
@@ -194,6 +212,7 @@ public class Adresse implements Serializable {
 	}
 
 	public void setValues(Adresse adresse) {
+		this.setVersion(adresse.getVersion());
 		this.setId(adresse.getId());
 		this.setStrasse(adresse.getStrasse());
 		this.setHausnummer(adresse.getHausnummer());

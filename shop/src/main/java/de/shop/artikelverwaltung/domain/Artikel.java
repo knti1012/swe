@@ -1,6 +1,7 @@
 package de.shop.artikelverwaltung.domain;
 
 
+import static de.shop.util.Constants.ERSTE_VERSION;
 import static de.shop.util.Constants.KEINE_ID;
 import static de.shop.util.Constants.MIN_ID;
 import static javax.persistence.TemporalType.TIMESTAMP;
@@ -9,6 +10,7 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Date;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,6 +22,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.Version;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -69,7 +72,8 @@ public class Artikel implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Artikel [id=" + id + ", art=" + art + ", farbe=" + farbe
+		return "Artikel [id=" + id + ", version=" + version
+				+ ", art=" + art + ", farbe=" + farbe
 				+ ", groesse=" + groesse + ", kategorie=" + kategorie
 				+ ", lagerbestand=" + lagerbestand + ", name=" + name
 				+ ", preis=" + preis + "]";
@@ -81,6 +85,10 @@ public class Artikel implements Serializable {
 	@Min(value = MIN_ID, message = "{artikelverwaltung.artikel.id.min}", groups = IdGroup.class)
 	private Long id = KEINE_ID;
 
+	@Version
+	@Basic(optional = false)
+	private int version = ERSTE_VERSION;
+	
 	@Column(name = "art", nullable = false)
 	@NotNull(message = "{artikelverwaltung.artikel.art.notNull}")
 	@Size(max = BEZEICHNUNG_LENGTH_MAX, message = "{artikelverwaltung.artikel.bezeichnung.length}")
@@ -148,6 +156,14 @@ public class Artikel implements Serializable {
 		this.id = id;
 	}
 
+	public int getVersion(){
+		return this.version;
+	}
+	
+	public void setVersion(int version){
+		this.version = version;
+	}
+	
 	public String getArt() {
 		return this.art;
 	}
@@ -213,6 +229,7 @@ public class Artikel implements Serializable {
 	}
 
 	public void setValues(Artikel artikel) {
+		this.version = artikel.version;
 		this.art = artikel.art;
 		this.farbe = artikel.farbe;
 		this.groesse = artikel.groesse;

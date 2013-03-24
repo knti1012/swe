@@ -1,6 +1,7 @@
 package de.shop.bestellverwaltung.domain;
 
 import static de.shop.util.Constants.KEINE_ID;
+import static de.shop.util.Constants.ERSTE_VERSION;
 import static de.shop.util.Constants.LONG_ANZ_ZIFFERN;
 import static de.shop.util.Constants.MIN_ID;
 import static javax.persistence.CascadeType.MERGE;
@@ -15,6 +16,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
@@ -27,6 +29,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import javax.persistence.Version;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -70,6 +73,10 @@ public class Lieferung implements java.io.Serializable {
 	@Min(value = MIN_ID, message = "{bestellverwaltung.lieferung.id.min}", groups = IdGroup.class)
 	private Long id = KEINE_ID;
 
+	@Version
+	@Basic(optional = false)
+	private int version = ERSTE_VERSION;
+	
 	@Column(name = "lieferant")
 	private String lieferant;
 
@@ -124,6 +131,14 @@ public class Lieferung implements java.io.Serializable {
 		this.id = id;
 	}
 
+	public int getVersion(){
+		return this.version;
+	}
+	
+	public void setVersion(int version){
+		this.version = version;
+	}
+	
 	public String getLieferant() {
 		return lieferant;
 	}
@@ -192,7 +207,8 @@ public class Lieferung implements java.io.Serializable {
 
 	@Override
 	public String toString() {
-		return "Lieferung [id=" + id + ", lieferant=" + lieferant
+		return "Lieferung [id=" + id + ", version=" + version
+				+ ", lieferant=" + lieferant
 				+ ", transportArt=" + transportArt + ", erzeugt=" + erzeugt
 				+ ", aktualisiert=" + aktualisiert + ']';
 	}

@@ -1,5 +1,6 @@
 package de.shop.bestellverwaltung.domain;
 
+import static de.shop.util.Constants.ERSTE_VERSION;
 import static de.shop.util.Constants.KEINE_ID;
 import static de.shop.util.Constants.MIN_ID;
 import static javax.persistence.TemporalType.TIMESTAMP;
@@ -13,6 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -31,6 +33,7 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
+import javax.persistence.Version;
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
@@ -100,7 +103,8 @@ public class Bestellung implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Bestellung [id=" + id + ", aktualisiert=" + aktualisiert
+		return "Bestellung [id=" + id + ", version=" + version
+				+ ", aktualisiert=" + aktualisiert
 				+ ", erzeugt=" + erzeugt + ", preis=" + preis + ", status="
 				+ status + ", kunde=" + kunde + "]";
 	}
@@ -111,6 +115,10 @@ public class Bestellung implements Serializable {
 	@Column(name = "id", unique = true, nullable = false, updatable = false)
 	private Long id = KEINE_ID;
 
+	@Version
+	@Basic(optional = false)
+	private int version = ERSTE_VERSION;
+	
 	@Column(name = "aktualisiert", nullable = false)
 	@Temporal(TIMESTAMP)
 	@JsonIgnore
@@ -182,6 +190,14 @@ public class Bestellung implements Serializable {
 		this.id = id;
 	}
 
+	public int getVersion(){
+		return this.version;
+	}
+	
+	public void setVersion(int version){
+		this.version = version;
+	}
+	
 	public Date getAktualisiert() {
 		return this.aktualisiert;
 	}
@@ -324,6 +340,7 @@ public class Bestellung implements Serializable {
 	}
 
 	public void setValues(Bestellung bestellung) {
+		this.version = bestellung.version;
 		this.aktualisiert = bestellung.aktualisiert;
 		this.bestellpositionen = bestellung.bestellpositionen;
 		this.erzeugt = bestellung.erzeugt;
