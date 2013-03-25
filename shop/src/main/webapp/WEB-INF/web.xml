@@ -90,6 +90,8 @@
  <security-role>
   <role-name>kunde</role-name> 
  </security-role>
+ 
+<!--
 
  <security-constraint>
  <web-resource-collection>
@@ -163,6 +165,6 @@
   <role-name>admin</role-name> 
  </security-role>
 
-
+-->
 
 </web-app>
