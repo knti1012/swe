@@ -97,6 +97,19 @@
   <role-name>kunde</role-name> 
  </auth-constraint>
  </security-constraint>
+ 
+ <security-constraint>
+ <web-resource-collection>
+  <web-resource-name>Bestellungen finden</web-resource-name> 
+  <url-pattern>/rest/bestellungen</url-pattern> 
+  <http-method>GET</http-method> 
+ </web-resource-collection>
+ <auth-constraint>
+  <role-name>admin</role-name> 
+  <role-name>mitarbeiter</role-name> 
+  <role-name>kunde</role-name> 
+ </auth-constraint>
+ </security-constraint>
   
  <security-constraint>
  <web-resource-collection>
