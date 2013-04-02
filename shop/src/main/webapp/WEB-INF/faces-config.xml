@@ -10,5 +10,21 @@
 
    <!-- Write your navigation rules here. You are encouraged to use CDI for 
       creating @Named managed beans. -->
+<!--<application>
+  <locale-config>
+   <default-locale>en</default-locale>
+   <supported-locale>de</supported-locale>
+  </locale-config>
 
+  <resource-bundle>
+   <base-name>de.shop.messages</base-name>
+   <var>msg</var>
+  </resource-bundle>
+  
+  <resource-bundle>
+   <base-name>de.shop.kundenverwaltung.controller.messages</base-name>
+   <var>msgKv</var>
+  </resource-bundle>
+ </application>
+ -->
 </faces-config>
