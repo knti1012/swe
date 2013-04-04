@@ -4,6 +4,8 @@ import static javax.ejb.TransactionAttributeType.SUPPORTS;
 
 import java.io.UnsupportedEncodingException;
 
+import javax.activation.DataHandler;
+import javax.activation.FileDataSource;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.ejb.Asynchronous;
@@ -14,11 +16,14 @@ import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.mail.Message.RecipientType;
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.Part;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 import org.jboss.logging.Logger;
 
@@ -38,7 +43,7 @@ public class KundeObserver {
 	@Inject
 	private Logger logger;
 	
-	@Resource(lookup = "java:jboss/mail/Default")
+	@Resource(lookup = "java:jboss/mail/jta-data-source")
 	private transient Session mailSession;
 	
 	@Inject
@@ -102,9 +107,11 @@ public class KundeObserver {
 			//message.setHeader("X-Priority", "1");
 			
 			// HTML-Text mit einem Bild als Attachment
+			//TODO: part1 variable
 			/*
 			Multipart multipart = new MimeMultipart();
 			MimeBodyPart textPart = new MimeBodyPart();
+			
 			part1.setContent ("<p>blabla</p>", "text/html");
 			multipart.addBodyPart (part1);
 			
