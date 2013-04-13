@@ -1,6 +1,8 @@
 package de.shop.artikelverwaltung.rest;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import static javax.ws.rs.core.MediaType.APPLICATION_XML;
+import static javax.ws.rs.core.MediaType.TEXT_XML;
 
 import java.lang.invoke.MethodHandles;
 import java.net.URI;
@@ -33,7 +35,7 @@ import de.shop.util.Transactional;
 
 
 @Path("/artikel")
-@Produces(APPLICATION_JSON)
+@Produces({ APPLICATION_XML, TEXT_XML, APPLICATION_JSON })
 @Consumes
 @RequestScoped
 @Transactional
@@ -70,7 +72,7 @@ public class ArtikelResource {
 	}
 	
 	@POST
-	@Consumes(APPLICATION_JSON)
+	@Consumes({ APPLICATION_XML, TEXT_XML })
 	@Produces
 	public Response createArtikel(Artikel artikel, @Context UriInfo uriInfo, @Context HttpHeaders headers) {
 		
@@ -84,7 +86,7 @@ public class ArtikelResource {
 	}
 	
 	@PUT
-	@Consumes(APPLICATION_JSON)
+	@Consumes({ APPLICATION_XML, TEXT_XML })
 	@Produces
 	public void updateArtikel(Artikel artikel, @Context UriInfo uriInfo, @Context HttpHeaders headers) {
 		
