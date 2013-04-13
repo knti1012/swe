@@ -33,7 +33,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.lang.invoke.MethodHandles;
-import java.math.BigDecimal;
 import java.nio.file.CopyOption;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -55,7 +54,6 @@ import org.junit.runner.RunWith;
 
 import com.jayway.restassured.response.Response;
 
-import de.shop.kundenverwaltung.domain.Kunde;
 import de.shop.util.AbstractResourceTest;
 import de.shop.util.NoMimeTypeException;
 
@@ -65,34 +63,50 @@ import de.shop.util.NoMimeTypeException;
 public class KundeResourceTest extends AbstractResourceTest {
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	
-	private static final Long KUNDE_ID_VORHANDEN = Long.valueOf(101);
-	private static final Long KUNDE_ID_NICHT_VORHANDEN = Long.valueOf(1000);
+	private static final Long KUNDE_ID_VORHANDEN = Long.valueOf(2239833);
+	private static final Long KUNDE_ID_NICHT_VORHANDEN = Long.valueOf(9999);
 	private static final Long KUNDE_ID_UPDATE = Long.valueOf(120);
-	private static final Long KUNDE_ID_DELETE = Long.valueOf(122);
-	private static final Long KUNDE_ID_DELETE_MIT_BESTELLUNGEN = Long.valueOf(101);
-	private static final Long KUNDE_ID_DELETE_FORBIDDEN = Long.valueOf(101);
-	private static final String NACHNAME_VORHANDEN = "Alpha";
-	private static final String NACHNAME_NICHT_VORHANDEN = "Falschername";
-	private static final String NEUER_NACHNAME = "Nachnameneu";
+	private static final Long KUNDE_ID_DELETE = Long.valueOf(1405357);
+	private static final Long KUNDE_ID_DELETE_MIT_BESTELLUNGEN = Long.valueOf(4992999);
+	private static final Long KUNDE_ID_DELETE_FORBIDDEN = Long.valueOf(4992999);
+	private static final String NACHNAME_VORHANDEN = "Beckenbauer";
+	private static final String NACHNAME_NICHT_VORHANDEN = "Schweinsteiger";
+	private static final String NEUER_NACHNAME = "Kahn";
 	private static final String NEUER_NACHNAME_INVALID = "!";
-	private static final String NEUER_VORNAME = "Vorname";
+	private static final String NEUER_VORNAME = "Oliver";
 	private static final String NEUE_EMAIL = NEUER_NACHNAME + "@test.de";
 	private static final String NEUE_EMAIL_INVALID = "falsch@falsch";
-	private static final short NEUE_KATEGORIE = 1;
-	private static final BigDecimal NEUER_RABATT = new BigDecimal("0.15");
-	private static final BigDecimal NEUER_UMSATZ = new BigDecimal(10_000_000);
-	private static final String NEU_SEIT = "2000-01-31";
+	//private static final String NEU_ERZEUGT = "2000-01-31";
 	private static final String NEUE_PLZ = "76133";
 	private static final String NEUER_ORT = "Karlsruhe";
 	private static final String NEUE_STRASSE = "Testweg";
 	private static final String NEUE_HAUSNR = "1";
+	
+	/*
+	private static final String NACHNAME_VORHANDEN = "Drescher";
+	private static final String NACHNAME_NICHT_VORHANDEN = "Nicht";
+	private static final Long ID_VORHANDEN = 2239833L;
+	private static final String EMAIL_VORHANDEN = "MandyDrescher@spambob.com";
+	private static final String EMAIL_NICHT_VORHANDEN = "Nicht";
+	private static final String GESCHLECHT = "W";
+	*/
+	private static final String PASSWORD = "55231n";
+/*
+	private static final String NACHNAME_NEU = "Test";
+	private static final String VORNAME_NEU = "Theo";
+	private static final String EMAIL_NEU = "theo@test.de";
+	private static final String PLZ_NEU = "11111";
+	private static final String STADT_NEU = "Testort";
+	private static final String STRASSE_NEU = "Testweg";
+	private static final Integer HAUSNR_NEU = 24;
+	*/
 	
 	private static final String FILENAME = "image.gif";
 	//private static final String FILENAME = "video.mp4";
 	private static final String FILENAME_UPLOAD = "src/test/resources/rest/" + FILENAME;
 	private static final String FILENAME_DOWNLOAD = "target/" + FILENAME;
 	private static final CopyOption[] COPY_OPTIONS = { REPLACE_EXISTING };
-	private static final Long KUNDE_ID_UPLOAD = Long.valueOf(102);
+	private static final Long KUNDE_ID_UPLOAD = Long.valueOf(2239833);
 
 	private static final String FILENAME_INVALID_MIMETYPE = "image.bmp";
 	private static final String FILENAME_UPLOAD_INVALID_MIMETYPE = "src/test/resources/rest/" + FILENAME_INVALID_MIMETYPE;
@@ -203,11 +217,6 @@ public class KundeResourceTest extends AbstractResourceTest {
 		final String nachname = NEUER_NACHNAME;
 		final String vorname = NEUER_VORNAME;
 		final String email = NEUE_EMAIL;
-		final short kategorie = NEUE_KATEGORIE;
-		final BigDecimal rabatt = NEUER_RABATT;
-		final BigDecimal umsatz = NEUER_UMSATZ;
-		final String seit = NEU_SEIT;
-		final boolean agbAkzeptiert = true;
 		final String plz = NEUE_PLZ;
 		final String ort = NEUER_ORT;
 		final String strasse = NEUE_STRASSE;
@@ -216,15 +225,9 @@ public class KundeResourceTest extends AbstractResourceTest {
 		final String password = PASSWORD;
 		
 		final JsonObject jsonObject = getJsonBuilderFactory().createObjectBuilder()
-		             		          .add("type", AbstractKunde.PRIVATKUNDE)
 		             		          .add("nachname", nachname)
 		             		          .add("vorname", vorname)
 		             		          .add("email", email)
-		             		          .add("kategorie", kategorie)
-		             		          .add("rabatt", rabatt)
-		             		          .add("umsatz", umsatz)
-		             		          .add("seit", seit)
-		             		          .add("agbAkzeptiert", agbAkzeptiert)
 		             		          .add("adresse", getJsonBuilderFactory().createObjectBuilder()
 		                    		                  .add("plz", plz)
 		                    		                  .add("ort", ort)
@@ -253,7 +256,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 	
 	
 	@Test
-	public void createPrivatkundeFalschesPassword() {
+	public void createKundeFalschesPassword() {
 		LOGGER.finer("BEGINN");
 		
 		// Given
@@ -262,7 +265,6 @@ public class KundeResourceTest extends AbstractResourceTest {
 		final String nachname = NEUER_NACHNAME;
 		
 		final JsonObject jsonObject = getJsonBuilderFactory().createObjectBuilder()
-            		                  .add("type", AbstractKunde.PRIVATKUNDE)
             		                  .add("nachname", nachname)
             		                  .build();
 		
@@ -280,25 +282,20 @@ public class KundeResourceTest extends AbstractResourceTest {
 	}
 	
 	@Test
-	public void createPrivatkundeInvalid() {
+	public void createKundeInvalid() {
 		LOGGER.finer("BEGINN");
 		
 		// Given
 		final String nachname = NEUER_NACHNAME_INVALID;
 		final String vorname = NEUER_VORNAME;
 		final String email = NEUE_EMAIL_INVALID;
-		final String seit = NEU_SEIT;
-		final boolean agbAkzeptiert = false;
 		final String username = USERNAME;
 		final String password = PASSWORD;
 
 		final JsonObject jsonObject = getJsonBuilderFactory().createObjectBuilder()
-   		                              .add("type", AbstractKunde.PRIVATKUNDE)
    		                              .add("nachname", nachname)
    		                              .add("vorname", vorname)
    		                              .add("email", email)
-   		                              .add("seit", seit)
-   		                              .add("agbAkzeptiert", agbAkzeptiert)
    		                              .addNull("adresse")
    		                              .build();
 
