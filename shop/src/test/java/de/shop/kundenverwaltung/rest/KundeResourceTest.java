@@ -55,7 +55,7 @@ import org.junit.runner.RunWith;
 
 import com.jayway.restassured.response.Response;
 
-import de.shop.kundenverwaltung.domain.AbstractKunde;
+import de.shop.kundenverwaltung.domain.Kunde;
 import de.shop.util.AbstractResourceTest;
 import de.shop.util.NoMimeTypeException;
 
@@ -196,7 +196,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 	}
 	
 	@Test
-	public void createPrivatkunde() {
+	public void createKunde() {
 		LOGGER.finer("BEGINN");
 		
 		// Given
