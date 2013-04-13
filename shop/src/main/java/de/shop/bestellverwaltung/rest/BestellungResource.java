@@ -1,8 +1,6 @@
 package de.shop.bestellverwaltung.rest;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-import static javax.ws.rs.core.MediaType.APPLICATION_XML;
-import static javax.ws.rs.core.MediaType.TEXT_XML;
 
 import java.lang.invoke.MethodHandles;
 import java.net.URI;
@@ -46,7 +44,7 @@ import de.shop.util.Transactional;
 
 
 @Path("/bestellungen")
-@Produces({ APPLICATION_XML, TEXT_XML, APPLICATION_JSON })
+@Produces(APPLICATION_JSON)
 @Consumes
 @RequestScoped
 @Transactional
@@ -120,7 +118,7 @@ public class BestellungResource {
 	}
 
 	@PUT
-	@Consumes({ APPLICATION_XML, TEXT_XML })
+	@Consumes(APPLICATION_JSON)
 	@Produces
 	public void updateBestellung(Bestellung bestellung, @Context UriInfo uriInfo, @Context HttpHeaders headers) {
 		//final List<Locale> locales = headers.getAcceptableLanguages();
@@ -142,7 +140,7 @@ public class BestellungResource {
 		}
 	}
 	@POST
-	@Consumes({ APPLICATION_XML, TEXT_XML })
+	@Consumes(APPLICATION_JSON)
 	@Produces
 	public Response createBestellung(Bestellung bestellung, @Context UriInfo uriInfo, @Context HttpHeaders headers) {
 		final String kundeUriStr = bestellung.getKundeUri().toString();
