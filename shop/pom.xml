@@ -156,9 +156,9 @@
 		
 		<shrinkwrap-resolver-bom.version>2.0.0-beta-2</shrinkwrap-resolver-bom.version>
 		<shrinkwrap-bom.version>1.1.2</shrinkwrap-bom.version>
-		<!--
+		
 		<arquillian-bom.version>1.0.3.Final</arquillian-bom.version>
-		-->
+		
 		
 		<jboss.version>7.2.0.Final</jboss.version>
 		
@@ -265,7 +265,6 @@
 				<scope>import</scope>
 			</dependency>
 			
-			<!--
 			<dependency>
 				<groupId>org.jboss.arquillian</groupId>
 				<artifactId>arquillian-bom</artifactId>
@@ -273,7 +272,6 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
-			-->
 			
 			<!--
 			<dependency>
