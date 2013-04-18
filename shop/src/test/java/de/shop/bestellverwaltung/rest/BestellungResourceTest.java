@@ -10,6 +10,7 @@ import static de.shop.util.TestConstants.BESTELLUNGEN_PATH;
 import static de.shop.util.TestConstants.KUNDEN_ID_PATH;
 import static de.shop.util.TestConstants.KUNDEN_PATH;
 import static de.shop.util.TestConstants.KUNDEN_URI;
+import static de.shop.util.TestConstants.LIEFERUNG_URI;
 import static de.shop.util.TestConstants.LOCATION;
 import static java.net.HttpURLConnection.HTTP_CREATED;
 import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
@@ -53,7 +54,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 
 	private static final String STATUS_NEU = "in bearbeitung";
 
-	@Ignore
+	
 	@Test
 	public void findBestellungById() {
 		LOGGER.finer("BEGINN");
@@ -106,7 +107,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		LOGGER.finer("ENDE");
 	}
 	
-	@Ignore
+	
 	@Test
 	public void createBestellung() {
 		LOGGER.finer("BEGINN");
@@ -122,17 +123,17 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		
 		// Neues, client-seitiges Bestellungsobjekt als JSON-Datensatz
 		final JsonObject jsonObject = getJsonBuilderFactory().createObjectBuilder()
-				                      .add("kundeUri", KUNDEN_URI + "/" + kundeId)
-				                      .add("kunde", getJsonBuilderFactory().createArrayBuilder()
+				                      	.add("kundeUri", KUNDEN_URI + "/" + kundeId)
+				                      	
+				            		   .add("preis",preis)
+				            		   .add("status",status)
+				            		   .add("bestellposition", getJsonBuilderFactory().createArrayBuilder()
 				            		                            .add(getJsonBuilderFactory().createObjectBuilder()
-				            		                                 //.add("kundelUri", KUNDEN_URI + "/" )
-				            		                                 .add("nachname", "mann")
-				            		                                 .add("vorname", "alvin")
-				            		                                 .add("geschlecht","w")
-				            		                                 .add("email","alvin@alvin.de")
-				            		                                 .add("password","12343")))
-				            		   .add("preis",PREIS_NEU)
-				            		   .add("status",STATUS_NEU)
+				            		                               
+				            		                                 .add("anzahl", "2")
+				            		                                 .add("artikelUri", ARTIKEL_URI + "/" )))
+				            		   .add("kundelUri", KUNDEN_URI + "/" )
+				            		   .add("lieferungUri", LIEFERUNG_URI + "/" )
 				            		   
 				            		                            
 				                      .build();
