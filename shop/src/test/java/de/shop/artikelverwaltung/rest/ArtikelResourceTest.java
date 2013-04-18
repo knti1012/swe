@@ -9,6 +9,7 @@ import static de.shop.util.TestConstants.BESTELLUNGEN_ID_PATH_PARAM;
 import static de.shop.util.TestConstants.BESTELLUNGEN_PATH;
 import static de.shop.util.TestConstants.ARTIKEL_ID_PATH_PARAM;
 import static de.shop.util.TestConstants.ARTIKEL_PATH;
+import static de.shop.util.TestConstants.ARTIKEL_ID_PATH;
 import static de.shop.util.TestConstants.KUNDEN_URI;
 import static de.shop.util.TestConstants.LOCATION;
 import static java.net.HttpURLConnection.HTTP_CREATED;
@@ -56,24 +57,29 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 	private static final Long ARTIKEL_LAGERBESTAND_NEU = Long.valueOf(23);
 	
 	
-	@Ignore
+	
 	@Test
 	public void  findArtikelById() {
-		
+		LOGGER.finer("BEGINN");
 		//Given
 		
 		final Long artikelId = ARTIKEL_ID_VORHANDEN;
 		
 		//When 
-		
-	
 		Response response = given().header(ACCEPT, APPLICATION_JSON)
-									.pathParameter("artikelId", artikelId)
-									.get(ARTIKEL_PATH);
-		
+									.pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId)
+									.get(ARTIKEL_ID_PATH);
 		//Then
-		
 		assertThat(response.getStatusCode(), is(HTTP_OK));
+		
+		try (final JsonReader jsonReader =
+	              getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
+			final JsonObject jsonObject = jsonReader.readObject();
+			assertThat(jsonObject.getJsonNumber("id").longValue(), is(artikelId.longValue()));
+		}
+		
+		LOGGER.finer("ENDE");
+	
 	}
 	
 
