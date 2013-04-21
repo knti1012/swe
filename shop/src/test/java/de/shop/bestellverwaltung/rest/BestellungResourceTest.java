@@ -54,7 +54,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 
 	private static final String STATUS_NEU = "in bearbeitung";
 
-	
+	@Ignore
 	@Test
 	public void findBestellungById() {
 		LOGGER.finer("BEGINN");
@@ -74,7 +74,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 				              getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
 			final JsonObject jsonObject = jsonReader.readObject();
 			assertThat(jsonObject.getJsonNumber("id").longValue(), is(bestellungId.longValue()));
-			//assertThat(jsonObject.getString("kundeUri"), is(notNullValue()));
+			assertThat(jsonObject.getString("lieferungenUri"), is(notNullValue()));
 		}
 
 		LOGGER.finer("ENDE");
@@ -99,9 +99,9 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		try (final JsonReader jsonReader =
 				              getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
 			final JsonObject jsonObject = jsonReader.readObject();
-			//assertThat(jsonObject.getString("bestellungenUri"),
-			//		   endsWith("/kunden/" + jsonObject.getInt("id") + "/bestellungen"));
-			assertThat(jsonObject.getJsonNumber("id").longValue(), is(kundeID.longValue()));
+			assertThat(jsonObject.getString("lieferungenUri"),
+				   endsWith("/bestellungen/" + jsonObject.getInt("id") + "/lieferungen"));
+			assertThat(jsonObject.getJsonNumber("id").longValue(), is(bestellungId.longValue()));
 		}
 
 		LOGGER.finer("ENDE");
