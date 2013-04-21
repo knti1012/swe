@@ -111,8 +111,8 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		//when
 		final Response response = given().contentType(APPLICATION_JSON)
                 .body(jsonObject.toString())
-                //.auth()
-                //.basic(username, password)
+                .auth()
+                .basic(username, password)
                 .post(ARTIKEL_PATH);
 		
 		// Then

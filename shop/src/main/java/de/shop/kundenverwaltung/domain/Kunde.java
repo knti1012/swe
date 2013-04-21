@@ -7,6 +7,14 @@ import static javax.persistence.CascadeType.PERSIST;
 import static javax.persistence.CascadeType.MERGE;
 import static javax.persistence.CascadeType.REMOVE;
 import static javax.persistence.TemporalType.TIMESTAMP;
+import static javax.persistence.FetchType.EAGER;
+
+import javax.persistence.ElementCollection;
+import javax.persistence.JoinColumn;
+
+import java.util.Set;
+import de.shop.auth.service.jboss.AuthService.RolleType;
+import javax.persistence.UniqueConstraint;
 
 import java.io.Serializable;
 import java.net.URI;
@@ -16,6 +24,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Basic;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -197,6 +206,13 @@ public class Kunde implements Serializable {
 	@JoinColumn(name = "add_fk")
 	@NotNull(message = "{kundenverwaltung.kunde.adresse.notNull}")
 	private Adresse adresse; 
+	
+	@ElementCollection(fetch = EAGER)
+	@CollectionTable(name = "kunde_rolle",
+	                 joinColumns = @JoinColumn(name = "kunde_fk", nullable = false),
+	                 uniqueConstraints =  @UniqueConstraint(columnNames = { "kunde_fk", "rolle_fk" }))
+	@Column(table = "kunde_rolle", name = "rolle_fk", nullable = false)
+	private Set<RolleType> rollen;
 
 	@PrePersist
 	private void prePersist() {
@@ -310,6 +326,14 @@ public class Kunde implements Serializable {
 		}
 		bestellungen.add(bestellung);
 		return this;
+	}
+	
+	public Set<RolleType> getRollen() {
+		return rollen;
+	}
+
+	public void setRollen(Set<RolleType> rollen) {
+		this.rollen = rollen;
 	}
 
 	public void setValues(Kunde kunde) {

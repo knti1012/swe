@@ -46,7 +46,7 @@
 
 			<!-- Nur notwendig, falls H2 als In-Memory Datenbank genutzt wird-->
 			<property name="hibernate.hbm2ddl.auto" value="create"/>
-			<property name="hibernate.hbm2ddl.import_files" value="sql/01_indexes.sql,sql/10_hibernate_sequences.sql,sql/20_adresse.sql,sql/21_kunde.sql,sql/30_artikel.sql,sql/40_bestellung.sql,sql/41_bestellposition.sql,sql/50_lieferung.sql,sql/51_bestellung_lieferung.sql"/>
+			<property name="hibernate.hbm2ddl.import_files" value="sql/01_indexes.sql,sql/10_hibernate_sequences.sql,sql/20_adresse.sql,sql/21_kunde.sql,sql/30_artikel.sql,sql/40_bestellung.sql,sql/41_bestellposition.sql,sql/50_lieferung.sql,sql/51_bestellung_lieferung.sql,sql/11_rolle.sql,sql/60_kunde_rolle.sql"/>
 			
 		</properties>
 	</persistence-unit>
