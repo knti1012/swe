@@ -54,7 +54,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 
 	private static final String STATUS_NEU = "in bearbeitung";
 
-	@Ignore
+	
 	@Test
 	public void findBestellungById() {
 		LOGGER.finer("BEGINN");
@@ -80,7 +80,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		LOGGER.finer("ENDE");
 	}
 
-	
+	@Ignore
 	@Test
 	public void findKundeByBestellungId() {
 		LOGGER.finer("BEGINN");
@@ -107,7 +107,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		LOGGER.finer("ENDE");
 	}
 	
-	
+	@Ignore
 	@Test
 	public void createBestellung() {
 		LOGGER.finer("BEGINN");
