@@ -7,7 +7,6 @@ import static de.shop.util.TestConstants.BASEURI;
 import static de.shop.util.TestConstants.KUNDEN_ID_FILE_PATH;
 import static de.shop.util.TestConstants.KUNDEN_ID_PATH_PARAM;
 import static de.shop.util.TestConstants.KUNDEN_ID_PATH;
-import static de.shop.util.TestConstants.KUNDEN_NACHNAME_QUERY_PARAM;
 import static de.shop.util.TestConstants.KUNDEN_PATH;
 import static de.shop.util.TestConstants.LOCATION;
 import static de.shop.util.TestConstants.PORT;
@@ -36,11 +35,9 @@ import java.lang.invoke.MethodHandles;
 import java.nio.file.CopyOption;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
@@ -69,36 +66,22 @@ public class KundeResourceTest extends AbstractResourceTest {
 	private static final Long KUNDE_ID_DELETE = Long.valueOf(1405357);
 	private static final Long KUNDE_ID_DELETE_MIT_BESTELLUNGEN = Long.valueOf(4992999);
 	private static final Long KUNDE_ID_DELETE_FORBIDDEN = Long.valueOf(4992999);
-	private static final String NACHNAME_VORHANDEN = "Beckenbauer";
-	private static final String NACHNAME_NICHT_VORHANDEN = "Schweinsteiger";
 	private static final String NEUER_NACHNAME = "Kahn";
 	private static final String NEUER_NACHNAME_INVALID = "!";
 	private static final String NEUER_VORNAME = "Oliver";
 	private static final String NEUE_EMAIL = NEUER_NACHNAME + "@test.de";
 	private static final String NEUE_EMAIL_INVALID = "falsch@falsch";
+	private static final String NEUES_PASSWORT = "abcde";
+	private static final String NEUES_GESCHLECHT = "M";
+	//private static final String NEUE_ADRESSE = "3811389";
 	//private static final String NEU_ERZEUGT = "2000-01-31";
 	private static final String NEUE_PLZ = "76133";
-	private static final String NEUER_ORT = "Karlsruhe";
+	private static final String NEUE_STADT ="Teststadt";
+	private static final String NEUES_LAND ="Deutschland";
 	private static final String NEUE_STRASSE = "Testweg";
-	private static final String NEUE_HAUSNR = "1";
+	private static final Integer NEUE_HAUSNR = 1;
 	
-	/*
-	private static final String NACHNAME_VORHANDEN = "Drescher";
-	private static final String NACHNAME_NICHT_VORHANDEN = "Nicht";
-	private static final Long ID_VORHANDEN = 2239833L;
-	private static final String EMAIL_VORHANDEN = "MandyDrescher@spambob.com";
-	private static final String EMAIL_NICHT_VORHANDEN = "Nicht";
-	private static final String GESCHLECHT = "W";
-	private static final String PASSWORD = "55231n";
-
-	private static final String NACHNAME_NEU = "Test";
-	private static final String VORNAME_NEU = "Theo";
-	private static final String EMAIL_NEU = "theo@test.de";
-	private static final String PLZ_NEU = "11111";
-	private static final String STADT_NEU = "Testort";
-	private static final String STRASSE_NEU = "Testweg";
-	private static final Integer HAUSNR_NEU = 24;
-	*/
+	
 	
 	private static final String FILENAME = "image.gif";
 	//private static final String FILENAME = "video.mp4";
@@ -161,53 +144,7 @@ public class KundeResourceTest extends AbstractResourceTest {
     	assertThat(response.getStatusCode(), is(HTTP_NOT_FOUND));
 		LOGGER.finer("ENDE");
 	}
-	@Ignore
-	@Test
-	public void findKundenByNachnameVorhanden() {
-		LOGGER.finer("BEGINN");
-		
-		// Given
-		final String nachname = NACHNAME_VORHANDEN;
-
-		// When
-		final Response response = given().header(ACCEPT, APPLICATION_JSON)
-				                         .queryParam(KUNDEN_NACHNAME_QUERY_PARAM, nachname)
-                                         .get(KUNDEN_PATH);
-		
-		// Then
-		try (final JsonReader jsonReader =
-				              getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
-			final JsonArray jsonArray = jsonReader.readArray();
-	    	assertThat(jsonArray.size() > 0, is(true));
-	    	
-	    	final List<JsonObject> jsonObjectList = jsonArray.getValuesAs(JsonObject.class);
-	    	for (JsonObject jsonObject : jsonObjectList) {
-	    		assertThat(jsonObject.getString("nachname"), is(nachname));
-	    	}
-		}
-
-		LOGGER.finer("ENDE");
-	}
-	@Ignore
-	@Test
-	public void findKundenByNachnameNichtVorhanden() {
-		LOGGER.finer("BEGINN");
-		
-		// Given
-		final String nachname = NACHNAME_NICHT_VORHANDEN;
-		
-		// When
-		final Response response = given().header(ACCEPT, APPLICATION_JSON)
-				                         .queryParam(KUNDEN_NACHNAME_QUERY_PARAM, nachname)
-                                         .get(KUNDEN_PATH);
-		
-		// Then
-		assertThat(response.getStatusCode(), is(HTTP_NOT_FOUND));
-
-		LOGGER.finer("ENDE");
-	}
-
-	@Ignore
+	
 	@Test
 	public void createKunde() {
 		LOGGER.finer("BEGINN");
@@ -216,23 +153,29 @@ public class KundeResourceTest extends AbstractResourceTest {
 		final String nachname = NEUER_NACHNAME;
 		final String vorname = NEUER_VORNAME;
 		final String email = NEUE_EMAIL;
-		final String plz = NEUE_PLZ;
-		final String ort = NEUER_ORT;
-		final String strasse = NEUE_STRASSE;
-		final String hausnr = NEUE_HAUSNR;
+		final String neu_password = NEUES_PASSWORT;
 		final String username = USERNAME;
 		final String password = PASSWORD;
+		final String geschlecht = NEUES_GESCHLECHT;
+		final String plz = NEUE_PLZ;
+		final String stadt = NEUE_STADT;
+		final String strasse = NEUE_STRASSE;
+		final Integer hausnr = NEUE_HAUSNR;
+		final String land = NEUES_LAND;
 		
 		final JsonObject jsonObject = getJsonBuilderFactory().createObjectBuilder()
-		             		          .add("nachname", nachname)
-		             		          .add("vorname", vorname)
 		             		          .add("email", email)
+		             		          .add("geschlecht", geschlecht)
+		             		          .add("nachname", nachname)
+		             		          .add("password", neu_password)
+		             		          .add("vorname", vorname)
 		             		          .add("adresse", getJsonBuilderFactory().createObjectBuilder()
-		                    		                  .add("plz", plz)
-		                    		                  .add("ort", ort)
-		                    		                  .add("strasse", strasse)
-		                    		                  .add("hausnr", hausnr)
-		                    		                  .build())
+		                    		                .add("hausnummer", hausnr)
+		                    		                .add("land", land)
+		                    		                .add("plz", plz)
+		                    		                .add("stadt", stadt)
+				            		                .add("strasse", strasse)
+				            		                .build())
 		                              .build();
 
 		// When
@@ -253,7 +196,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 		LOGGER.finer("ENDE");
 	}
 	
-	
+	@Ignore
 	@Test
 	public void createKundeFalschesPassword() {
 		LOGGER.finer("BEGINN");

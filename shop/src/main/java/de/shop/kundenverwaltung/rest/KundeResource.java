@@ -104,39 +104,7 @@ public class KundeResource {
 
 		return kunde;
 	}
-
-	@GET
-	public Collection<Kunde> findKundenByNachname(
-			@QueryParam("nachname") @DefaultValue("") String nachname,
-			@Context UriInfo uriInfo, @Context HttpHeaders headers) {
-		Collection<Kunde> kunden = null;
-		if ("".equals(nachname)) {
-			kunden = ks.findAllKunden(FetchType.NUR_KUNDE, null);
-			if (kunden.isEmpty()) {
-				final String msg = "Keine Kunden vorhanden";
-				throw new NotFoundException(msg);
-			}
-		} 
-		else {
-			final List<Locale> locales = headers.getAcceptableLanguages();
-			final Locale locale = locales.isEmpty() ? Locale.getDefault()
-					: locales.get(0);
-			kunden = ks.findKundenByNachname(nachname, FetchType.NUR_KUNDE,
-					locale);
-			if (kunden.isEmpty()) {
-				final String msg = "Kein Kunde gefunden mit Nachname "
-						+ nachname;
-				throw new NotFoundException(msg);
-			}
-		}
-
-		for (Kunde kunde : kunden) {
-			uriHelperKunde.updateUriKunde(kunde, uriInfo);
-		}
-
-		return kunden;
-	}
-
+	
 	@GET
 	@Path("{id:[1-9][0-9]*}/bestellungen")
 	public Collection<Bestellung> findBestellungenByKundeId(
