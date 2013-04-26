@@ -28,6 +28,10 @@ import org.junit.BeforeClass;
 import com.jayway.restassured.RestAssured;
 
 public abstract class AbstractResourceTest {
+	protected static final String USERNAME = "2239833 MandyDrescher@spambob.com";
+	protected static final String PASSWORD = "55231n";
+	protected static final String USERNAME_ADMIN = "2239833";
+	protected static final String PASSWORD_ADMIN = "55231n";
 	protected static final String PASSWORD_FALSCH = "falsch";
 	
 	// Sprache und Zeichensatz
