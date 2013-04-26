@@ -95,8 +95,8 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		final String farbe = ARTIKEL_FARBE_NEU;
 		final Long preis = ARTIKEL_PREIS_NEU;
 		final Long lagerbestand = ARTIKEL_LAGERBESTAND_NEU;
-		final String username = USERNAME;
-		final String password = PASSWORD;
+		final String username = USERNAME_ADMIN;
+		final String password = PASSWORD_ADMIN;
 		
 		// Neues, client-seitiges Bestellungsobjekt als JSON-Datensatz
 		final JsonObject jsonObject = getJsonBuilderFactory().createObjectBuilder()		                    

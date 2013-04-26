@@ -35,7 +35,8 @@
     <auth-method>BASIC</auth-method>
     <realm-name>Webshop</realm-name>
   </login-config>
-  <!--
+
+  
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>Kunden erzeugen und modifizieren</web-resource-name>
@@ -126,5 +127,6 @@
   <security-role>
     <role-name>kunde</role-name>
   </security-role>
-  -->
+  
+  
 </web-app>
