@@ -47,20 +47,21 @@ import de.shop.util.AbstractResourceTest;
 public class BestellungResourceTest extends AbstractResourceTest {
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	
-	private static final Long BESTELLUNG_ID_VORHANDEN = Long.valueOf(1000);
-	private static final Long KUNDE_ID_VORHANDEN = Long.valueOf(2239833);
+	private static final Long BESTELLUNG_ID_VORHANDEN = Long.valueOf(1001);
+	//private static final Long KUNDE_ID_VORHANDEN = Long.valueOf(2239833);
 	
 	private static final Long PREIS_NEU = Long.valueOf(200);
 
-	private static final String STATUS_NEU = "in bearbeitung";
+	private static final String STATUS_NEU = "in Bearbeitung";
 
-	
+
 	@Test
 	public void findBestellungById() {
 		LOGGER.finer("BEGINN");
 		
 		// Given
 		final Long bestellungId = BESTELLUNG_ID_VORHANDEN;
+		final String status = STATUS_NEU;
 		
 		// When
 		Response response = given().header(ACCEPT, APPLICATION_JSON)
@@ -74,7 +75,9 @@ public class BestellungResourceTest extends AbstractResourceTest {
 				              getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
 			final JsonObject jsonObject = jsonReader.readObject();
 			assertThat(jsonObject.getJsonNumber("id").longValue(), is(bestellungId.longValue()));
-			assertThat(jsonObject.getString("lieferungenUri"), is(notNullValue()));
+			assertThat(jsonObject.getString("status"), is(status));
+			assertThat(jsonObject.getJsonNumber("id").longValue(),
+					is(bestellungId.longValue()));
 		}
 
 		LOGGER.finer("ENDE");
@@ -87,7 +90,8 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		
 		// Given
 		final Long bestellungId = BESTELLUNG_ID_VORHANDEN;
-		final Long kundeID = KUNDE_ID_VORHANDEN;
+		
+		
 		// When
 		final Response response = given().header(ACCEPT, APPLICATION_JSON)
 				                         .pathParameter(BESTELLUNGEN_ID_PATH_PARAM, bestellungId)
@@ -99,31 +103,30 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		try (final JsonReader jsonReader =
 				              getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
 			final JsonObject jsonObject = jsonReader.readObject();
-			assertThat(jsonObject.getString("lieferungenUri"),
-				   endsWith("/bestellungen/" + jsonObject.getInt("id") + "/lieferungen"));
-			assertThat(jsonObject.getJsonNumber("id").longValue(), is(bestellungId.longValue()));
+			assertThat(jsonObject.getString("kundeId"),
+					   endsWith("/kunden/" + jsonObject.getInt("id") + "/bestellungen"));
 		}
 
 		LOGGER.finer("ENDE");
 	}
-	
-	@Ignore
+
 	@Test
 	public void createBestellung() {
 		LOGGER.finer("BEGINN");
 		
 		// Given
-		final Long kundeId = KUNDE_ID_VORHANDEN;
+		//final Long kunde_Id = KUNDE_ID_VORHANDEN;
 		final Long preis = PREIS_NEU;
 		final String status = STATUS_NEU;
+		final Long bestellungId = BESTELLUNG_ID_VORHANDEN;
 		
 		
-		final String username = USERNAME;
-		final String password = PASSWORD;
+		final String username = USERNAME_ADMIN;
+		final String password = PASSWORD_ADMIN;
 		
 		// Neues, client-seitiges Bestellungsobjekt als JSON-Datensatz
 		final JsonObject jsonObject = getJsonBuilderFactory().createObjectBuilder()
-				                      	.add("kundeUri", KUNDEN_URI + "/" + kundeId)
+				                      	.add("lieferungUri", LIEFERUNG_URI + "/" + bestellungId)
 				                      	
 				            		   .add("preis",preis)
 				            		   .add("status",status)
@@ -132,7 +135,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 				            		                               
 				            		                                 .add("anzahl", "2")
 				            		                                 .add("artikelUri", ARTIKEL_URI + "/" )))
-				            		   .add("kundelUri", KUNDEN_URI + "/" )
+				            		   .add("kundeUri", KUNDEN_URI + "/" )
 				            		   .add("lieferungUri", LIEFERUNG_URI + "/" )
 				            		   
 				            		                            
@@ -154,49 +157,4 @@ public class BestellungResourceTest extends AbstractResourceTest {
 
 		LOGGER.finer("ENDE");
 	}
-	/*
-	@Test
-	public void updateKunde() {
-		LOGGER.finer("BEGINN");
-		
-		// Given
-		final Long BestellungId = BESTELLUNG_ID_VORHANDEN;
-		final Long KundeId = KUNDE_ID_VORHANDEN;
-		final String username = USERNAME;
-		final String password = PASSWORD;
-		
-		// When
-		Response response = given().header(ACCEPT, APPLICATION_JSON)
-				                   .pathParameter(BESTELLUNGEN_ID_PATH_PARAM, BestellungId)
-                                   .get(KUNDEN_ID_PATH);
-		
-		JsonObject jsonObject;
-		try (final JsonReader jsonReader =
-				              getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
-			jsonObject = jsonReader.readObject();
-		}
-    	assertThat(jsonObject.getJsonNumber("id").longValue(), is(BestellungId.longValue()));
-    	
-    	// Aus den gelesenen JSON-Werten ein neues JSON-Objekt mit neuem Nachnamen bauen
-    	final JsonObjectBuilder job = getJsonBuilderFactory().createObjectBuilder();
-    	final Set<String> keys = jsonObject.keySet();
-    	for (String k : keys) {
-    		if ("bestellposition".equals(k)) {
-    			job.add("bestellposition", jsonObject);
-    		}
-    		else {
-    			job.add(k, jsonObject.get(k));
-    		}
-    	}
-    	jsonObject = job.build();
-    	
-		response = given().contentType(APPLICATION_JSON)
-				          .body(jsonObject.toString())
-                          .auth()
-                          .basic(username, password)
-                          .put(KUNDEN_PATH);
-		
-		// Then
-		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
-   	}*/
 }
