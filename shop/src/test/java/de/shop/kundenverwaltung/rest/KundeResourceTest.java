@@ -196,7 +196,6 @@ public class KundeResourceTest extends AbstractResourceTest {
 		LOGGER.finer("ENDE");
 	}
 	
-	@Ignore
 	@Test
 	public void createKundeFalschesPassword() {
 		LOGGER.finer("BEGINN");
@@ -257,7 +256,6 @@ public class KundeResourceTest extends AbstractResourceTest {
 		LOGGER.finer("ENDE");
 	}
 	
-	@Ignore
 	@Test
 	public void updateKunde() {
 		LOGGER.finer("BEGINN");
@@ -303,7 +301,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
    	}
 	
-	@Ignore
+	
 	@Test
 	public void deleteKunde() {
 		LOGGER.finer("BEGINN");
@@ -324,6 +322,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 		LOGGER.finer("ENDE");
 	}
 	
+	/*
 	@Ignore
 	@Test
 	public void deleteKundeMitBestellung() {
@@ -370,6 +369,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 		
 		LOGGER.finer("ENDE");
 	}
+	
 	@Ignore
 	@Test
 	public void uploadDownload() throws IOException {
@@ -441,6 +441,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 		LOGGER.info("Heruntergeladene Datei abgespeichert: " + FILENAME_DOWNLOAD);
 		LOGGER.finer("ENDE");
 	}
+	
 	@Ignore
 	@Test
 	public void uploadInvalidMimeType() throws IOException {
@@ -475,4 +476,5 @@ public class KundeResourceTest extends AbstractResourceTest {
 		assertThat(response.getStatusCode(), is(HTTP_CONFLICT));
 		assertThat(response.asString(), is(NoMimeTypeException.MESSAGE));
 	}
+	*/
 }
