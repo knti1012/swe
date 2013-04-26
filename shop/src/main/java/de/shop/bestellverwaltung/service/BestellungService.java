@@ -38,4 +38,7 @@ public interface BestellungService {
 
 	Bestellung updateBestellung(Bestellung bestellung);
 
+	Bestellung createBestellung(Bestellung bestellung, Long kundeId,
+			Locale locale);
+
 }

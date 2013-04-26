@@ -1,6 +1,12 @@
 package de.shop.kundenverwaltung.service;
+import de.shop.util.FileHelper;
+
+import javax.enterprise.event.Event;
+
+
 
 import static de.shop.util.Constants.KEINE_ID;
+
 
 
 import java.io.Serializable;
@@ -9,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+
 import org.jboss.logging.Logger;
 
 import javax.annotation.PostConstruct;
@@ -33,6 +40,7 @@ import de.shop.bestellverwaltung.domain.Bestellung_;
 import de.shop.kundenverwaltung.domain.Kunde;
 import de.shop.kundenverwaltung.domain.Kunde_;
 import de.shop.kundenverwaltung.domain.PasswordGroup;
+import de.shop.util.ConcurrentDeletedException;
 import de.shop.util.Default;
 import de.shop.util.IdGroup;
 import de.shop.util.Log;
@@ -57,6 +65,13 @@ public class KundeService implements Serializable {
 
 	@Inject
 	private ValidatorProvider validatorProvider;
+	
+	@Inject
+	private FileHelper fileHelper;
+
+	@Inject
+	@NeuerKunde
+	private transient Event<Kunde> event;
 
 	@PostConstruct
 	private void postConstruct() {
@@ -231,6 +246,7 @@ public class KundeService implements Serializable {
 
 		kunde.setId(KEINE_ID);
 		em.persist(kunde);
+		event.fire(kunde);
 		return kunde;
 	}
 
@@ -252,7 +268,17 @@ public class KundeService implements Serializable {
 
 		validateKunde(kunde, locale, Default.class, PasswordGroup.class,
 				IdGroup.class);
+		
+		// kunde vom EntityManager trennen, weil anschliessend z.B. nach Id und Email gesucht wird
+		em.detach(kunde);
 
+		// Wurde das Objekt konkurrierend geloescht?
+		Kunde tmp = findKundeById(kunde.getId(), FetchType.NUR_KUNDE, locale);
+		if (tmp == null) {
+			throw new ConcurrentDeletedException(kunde.getId());
+		}
+		em.detach(tmp);
+		
 		try {
 			final Kunde vorhandenerKunde = em
 					.createNamedQuery(Kunde.FIND_KUNDE_BY_EMAIL, Kunde.class)
@@ -267,7 +293,7 @@ public class KundeService implements Serializable {
 			LOGGER.debugf("Neue Email-Adresse");
 		}
 
-		em.merge(kunde);
+		kunde = em.merge(kunde); // OptimisticLockException
 		return kunde;
 	}
 
@@ -284,13 +310,21 @@ public class KundeService implements Serializable {
 		}
 
 		if (kunde == null) {
+			// Der Kunde existiert nicht oder ist bereits geloescht
 			return;
 		}
 
 		if (!kunde.getBestellungen().isEmpty()) {
 			throw new KundeDeleteBestellungException(kunde);
 		}
-
+		
+		// Hat der Kunde zu löschenden Bestellungen
+		
+		final boolean hasBestellungen = hasBestellungen(kunde);
+		if (hasBestellungen) {
+			throw new KundeDeleteBestellungException(kunde);
+		}
+		
 		em.remove(kunde);
 	}
 
@@ -341,6 +375,21 @@ public class KundeService implements Serializable {
 		final List<Kunde> kunden = em.createQuery(criteriaQuery)
 				.getResultList();
 		return kunden;
+	}
+	
+	private boolean hasBestellungen(Kunde kunde) {
+		LOGGER.debugf("hasBestellungen BEGINN: %s", kunde);
+		
+		boolean result = false;
+		
+		// Gibt es den Kunden und hat er mehr als eine Bestellung?
+		// Bestellungen nachladen wegen Hibernate-Caching
+		if (kunde != null && kunde.getBestellungen() != null && !kunde.getBestellungen().isEmpty()) {
+			result = true;
+		}
+		
+		LOGGER.debugf("hasBestellungen ENDE: %s", result);
+		return result;
 	}
 
 }
