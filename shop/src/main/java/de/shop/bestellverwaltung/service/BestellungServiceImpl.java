@@ -162,6 +162,17 @@ public class BestellungServiceImpl implements Serializable, BestellungService {
 	}
 
 	@Override
+	public Bestellung createBestellung(Bestellung bestellung, Long kundeId, Locale locale) {
+		if (bestellung == null) {
+			return null;
+		}
+
+		// Den persistenten Kunden mit der transienten Bestellung verknuepfen
+		final Kunde kunde = ks.findKundeById(kundeId, KundeService.FetchType.MIT_BESTELLUNGEN, locale);
+		return createBestellung(bestellung, kunde, locale);
+	}
+	
+	@Override
 	public Bestellung createBestellung(Bestellung bestellung, Kunde kunde,
 			Locale locale) {
 		if (bestellung == null) {
@@ -171,9 +182,10 @@ public class BestellungServiceImpl implements Serializable, BestellungService {
 		for (Bestellposition bp : bestellung.getBestellpositionen()) {
 			LOGGER.debugf("Bestellposition: {0}", bp);
 		}
-
-		kunde = ks.findKundeById(kunde.getId(), FetchType.MIT_BESTELLUNGEN,
-				locale);
+		
+		if (!em.contains(kunde)) {
+			kunde = ks.findKundeById(kunde.getId(), FetchType.MIT_BESTELLUNGEN,locale);
+		}
 		kunde.addBestellung(bestellung);
 		bestellung.setKunde(kunde);
 
@@ -184,6 +196,7 @@ public class BestellungServiceImpl implements Serializable, BestellungService {
 
 		validateBestellung(bestellung, locale, Default.class);
 		em.persist(bestellung);
+		
 		event.fire(bestellung);
 
 		return bestellung;
