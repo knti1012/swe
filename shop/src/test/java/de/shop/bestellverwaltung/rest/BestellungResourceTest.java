@@ -53,6 +53,9 @@ import com.jayway.restassured.response.Response;
 
 
 
+
+
+
 import de.shop.util.AbstractResourceTest;
 
 
@@ -69,6 +72,12 @@ public class BestellungResourceTest extends AbstractResourceTest {
 	private static final String STATUS_NEU = "in Bearbeitung";
 
 	private static final Long BESTELLUNG_ID_DELETE = Long.valueOf(1405357);
+
+	private static final Long KUNDE_ID_VORHANDEN = Long.valueOf(101);
+
+	private static final Long ARTIKEL_ID_VORHANDEN_1 = Long.valueOf(301);
+
+	//private static final Long ARTIKEL_ID_VORHANDEN_2 = null;
 
 	
 	@Ignore
@@ -151,10 +160,12 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		LOGGER.finer("BEGINN");
 		
 		// Given
-		//final Long kunde_Id = KUNDE_ID_VORHANDEN;
+		final Long kundeId = KUNDE_ID_VORHANDEN;
+		final Long artikelId1 = ARTIKEL_ID_VORHANDEN_1;
+		//final Long artikelId2 = ARTIKEL_ID_VORHANDEN_2;
 		final Long preis = PREIS_NEU;
 		final String status = STATUS_NEU;
-		final Long bestellungId = BESTELLUNG_ID_VORHANDEN;
+		//final Long bestellungId = BESTELLUNG_ID_VORHANDEN;
 		
 		
 		final String username = USERNAME_ADMIN;
@@ -162,7 +173,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		
 		// Neues, client-seitiges Bestellungsobjekt als JSON-Datensatz
 		final JsonObject jsonObject = getJsonBuilderFactory().createObjectBuilder()
-				                      	.add("lieferungUri", LIEFERUNG_URI + "/" + bestellungId)
+				                      	.add("kundeUri", KUNDEN_URI + "/" + kundeId)
 				                      	
 				            		   .add("preis",preis)
 				            		   .add("status",status)
@@ -170,7 +181,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 				            		                            .add(getJsonBuilderFactory().createObjectBuilder()
 				            		                               
 				            		                                 .add("anzahl", "2")
-				            		                                 .add("artikelUri", ARTIKEL_URI + "/" )))
+				            		                                 .add("artikelUri", ARTIKEL_URI + "/"+ artikelId1 )))
 				            		   .add("kundeUri", KUNDEN_URI + "/" )
 				            		   .add("lieferungUri", LIEFERUNG_URI + "/" )
 				            		   
