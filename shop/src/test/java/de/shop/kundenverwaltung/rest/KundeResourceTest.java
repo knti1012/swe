@@ -2,57 +2,57 @@ package de.shop.kundenverwaltung.rest;
 
 import static com.jayway.restassured.RestAssured.given;
 import static de.shop.util.TestConstants.ACCEPT;
-import static de.shop.util.TestConstants.BASEPATH;
-import static de.shop.util.TestConstants.BASEURI;
-import static de.shop.util.TestConstants.KUNDEN_ID_FILE_PATH;
+//import static de.shop.util.TestConstants.BASEPATH;
+//import static de.shop.util.TestConstants.BASEURI;
+//import static de.shop.util.TestConstants.KUNDEN_ID_FILE_PATH;
 import static de.shop.util.TestConstants.KUNDEN_ID_PATH_PARAM;
 import static de.shop.util.TestConstants.KUNDEN_ID_PATH;
 import static de.shop.util.TestConstants.KUNDEN_PATH;
 import static de.shop.util.TestConstants.LOCATION;
-import static de.shop.util.TestConstants.PORT;
-import static java.net.HttpURLConnection.HTTP_CONFLICT;
+//import static de.shop.util.TestConstants.PORT;
+//import static java.net.HttpURLConnection.HTTP_CONFLICT;
 import static java.net.HttpURLConnection.HTTP_CREATED;
-import static java.net.HttpURLConnection.HTTP_FORBIDDEN;
+//import static java.net.HttpURLConnection.HTTP_FORBIDDEN;
 import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
 import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
 import static java.net.HttpURLConnection.HTTP_OK;
 import static java.net.HttpURLConnection.HTTP_UNAUTHORIZED;
-import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+//import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-import static org.hamcrest.CoreMatchers.anyOf;
-import static org.hamcrest.CoreMatchers.endsWith;
+//import static org.hamcrest.CoreMatchers.anyOf;
+//import static org.hamcrest.CoreMatchers.endsWith;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.startsWith;
+//import static org.hamcrest.CoreMatchers.startsWith;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
+//import static org.junit.Assert.fail;
 import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+//import java.io.ByteArrayInputStream;
+//import java.io.ByteArrayOutputStream;
+//import java.io.IOException;
 import java.io.StringReader;
 import java.lang.invoke.MethodHandles;
-import java.nio.file.CopyOption;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+//import java.nio.file.CopyOption;
+//import java.nio.file.Files;
+//import java.nio.file.Paths;
 import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
-import javax.xml.bind.DatatypeConverter;
+//import javax.xml.bind.DatatypeConverter;
 
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.FixMethodOrder;
-import org.junit.Ignore;
+//import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.jayway.restassured.response.Response;
 
 import de.shop.util.AbstractResourceTest;
-import de.shop.util.NoMimeTypeException;
+//import de.shop.util.NoMimeTypeException;
 
 
 @RunWith(Arquillian.class)
@@ -64,46 +64,38 @@ public class KundeResourceTest extends AbstractResourceTest {
 	private static final Long KUNDE_ID_NICHT_VORHANDEN = Long.valueOf(9999);
 	private static final Long KUNDE_ID_UPDATE = Long.valueOf(3604278);
 	private static final Long KUNDE_ID_DELETE = Long.valueOf(1405357);
-	private static final Long KUNDE_ID_DELETE_MIT_BESTELLUNGEN = Long.valueOf(4992999);
-	private static final Long KUNDE_ID_DELETE_FORBIDDEN = Long.valueOf(4992999);
 	private static final String NEUER_NACHNAME = "Kahn";
-	private static final String NEUER_NACHNAME_INVALID = "!";
 	private static final String NEUER_VORNAME = "Oliver";
 	private static final String NEUE_EMAIL = NEUER_NACHNAME + "@test.de";
-	private static final String NEUE_EMAIL_INVALID = "falsch@falsch";
 	private static final String NEUES_PASSWORT = "abcde";
 	private static final String NEUES_GESCHLECHT = "M";
-	//private static final String NEUE_ADRESSE = "3811389";
-	//private static final String NEU_ERZEUGT = "2000-01-31";
 	private static final String NEUE_PLZ = "76133";
 	private static final String NEUE_STADT ="Teststadt";
 	private static final String NEUES_LAND ="Deutschland";
 	private static final String NEUE_STRASSE = "Testweg";
 	private static final Integer NEUE_HAUSNR = 1;
 	
+//	private static final Long KUNDE_ID_DELETE_MIT_BESTELLUNGEN = Long.valueOf(4992999);
+//	private static final Long KUNDE_ID_DELETE_FORBIDDEN = Long.valueOf(4992999);
+//	private static final String NEUER_NACHNAME_INVALID = "!";
+//	private static final String NEUE_EMAIL_INVALID = "falsch@falsch";
 	
-	
-	private static final String FILENAME = "image.gif";
-	//private static final String FILENAME = "video.mp4";
-	private static final String FILENAME_UPLOAD = "src/test/resources/rest/" + FILENAME;
-	private static final String FILENAME_DOWNLOAD = "target/" + FILENAME;
-	private static final CopyOption[] COPY_OPTIONS = { REPLACE_EXISTING };
-	private static final Long KUNDE_ID_UPLOAD = Long.valueOf(2239833);
+//	private static final String FILENAME = "image.gif";
+//	private static final String FILENAME = "video.mp4";
+//	private static final String FILENAME_UPLOAD = "src/test/resources/rest/" + FILENAME;
+//	private static final String FILENAME_DOWNLOAD = "target/" + FILENAME;
+//	private static final CopyOption[] COPY_OPTIONS = { REPLACE_EXISTING };
+//	private static final Long KUNDE_ID_UPLOAD = Long.valueOf(2239833);
 
-	private static final String FILENAME_INVALID_MIMETYPE = "image.bmp";
-	private static final String FILENAME_UPLOAD_INVALID_MIMETYPE = "src/test/resources/rest/" + FILENAME_INVALID_MIMETYPE;
+//	private static final String FILENAME_INVALID_MIMETYPE = "image.bmp";
+//	private static final String FILENAME_UPLOAD_INVALID_MIMETYPE = "src/test/resources/rest/" + FILENAME_INVALID_MIMETYPE;
 	
 	
 	@Test
 	public void validate() {
 		assertThat(true, is(true));
 	}
-	@Ignore
-	@Test
-	public void notYetImplemented() {
-		fail();
-	}
-
+	
 	@Test
 	public void findKundeById() {
 		LOGGER.finer("BEGINN");
@@ -196,7 +188,6 @@ public class KundeResourceTest extends AbstractResourceTest {
 		LOGGER.finer("ENDE");
 	}
 	
-	@Ignore
 	@Test
 	public void createKundeFalschesPassword() {
 		LOGGER.finer("BEGINN");
@@ -223,41 +214,6 @@ public class KundeResourceTest extends AbstractResourceTest {
 		LOGGER.finer("ENDE");
 	}
 	
-	@Ignore
-	@Test
-	public void createKundeInvalid() {
-		LOGGER.finer("BEGINN");
-		
-		// Given
-		final String nachname = NEUER_NACHNAME_INVALID;
-		final String vorname = NEUER_VORNAME;
-		final String email = NEUE_EMAIL_INVALID;
-		final String username = USERNAME;
-		final String password = PASSWORD;
-
-		final JsonObject jsonObject = getJsonBuilderFactory().createObjectBuilder()
-   		                              .add("nachname", nachname)
-   		                              .add("vorname", vorname)
-   		                              .add("email", email)
-   		                              .addNull("adresse")
-   		                              .build();
-
-		// When
-		final Response response = given().contentType(APPLICATION_JSON)
-				                         .body(jsonObject.toString())
-                                         .auth()
-                                         .basic(username, password)
-                                         .post(KUNDEN_PATH);
-		
-		// Then
-		assertThat(response.getStatusCode(), is(HTTP_CONFLICT));
-		// TODO einzelne Meldungen durch Bean Validation ueberpruefen
-		assertThat(response.asString().isEmpty(), is(false));
-		
-		LOGGER.finer("ENDE");
-	}
-	
-	@Ignore
 	@Test
 	public void updateKunde() {
 		LOGGER.finer("BEGINN");
@@ -302,8 +258,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
    	}
-	
-	@Ignore
+
 	@Test
 	public void deleteKunde() {
 		LOGGER.finer("BEGINN");
@@ -324,6 +279,41 @@ public class KundeResourceTest extends AbstractResourceTest {
 		LOGGER.finer("ENDE");
 	}
 	
+	/*
+	@Ignore
+	@Test
+	public void createKundeInvalid() {
+		LOGGER.finer("BEGINN");
+		
+		// Given
+		final String nachname = NEUER_NACHNAME_INVALID;
+		final String vorname = NEUER_VORNAME;
+		final String email = NEUE_EMAIL_INVALID;
+		final String username = USERNAME;
+		final String password = PASSWORD;
+
+		final JsonObject jsonObject = getJsonBuilderFactory().createObjectBuilder()
+   		                              .add("nachname", nachname)
+   		                              .add("vorname", vorname)
+   		                              .add("email", email)
+   		                              .addNull("adresse")
+   		                              .build();
+
+		// When
+		final Response response = given().contentType(APPLICATION_JSON)
+				                         .body(jsonObject.toString())
+                                         .auth()
+                                         .basic(username, password)
+                                         .post(KUNDEN_PATH);
+		
+		// Then
+		assertThat(response.getStatusCode(), is(HTTP_CONFLICT));
+		// TODO einzelne Meldungen durch Bean Validation ueberpruefen
+		assertThat(response.asString().isEmpty(), is(false));
+		
+		LOGGER.finer("ENDE");
+	}
+	/*
 	@Ignore
 	@Test
 	public void deleteKundeMitBestellung() {
@@ -370,6 +360,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 		
 		LOGGER.finer("ENDE");
 	}
+	
 	@Ignore
 	@Test
 	public void uploadDownload() throws IOException {
@@ -441,6 +432,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 		LOGGER.info("Heruntergeladene Datei abgespeichert: " + FILENAME_DOWNLOAD);
 		LOGGER.finer("ENDE");
 	}
+	
 	@Ignore
 	@Test
 	public void uploadInvalidMimeType() throws IOException {
@@ -475,4 +467,5 @@ public class KundeResourceTest extends AbstractResourceTest {
 		assertThat(response.getStatusCode(), is(HTTP_CONFLICT));
 		assertThat(response.asString(), is(NoMimeTypeException.MESSAGE));
 	}
+	*/
 }

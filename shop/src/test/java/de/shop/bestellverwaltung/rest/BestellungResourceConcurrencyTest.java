@@ -1,4 +1,4 @@
-package de.shop.kundenverwaltung.rest;
+package de.shop.bestellverwaltung.rest;
 
 import static com.jayway.restassured.RestAssured.given;
 import static de.shop.util.TestConstants.ACCEPT;
@@ -28,7 +28,6 @@ import javax.json.JsonReader;
 
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.FixMethodOrder;
-//import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -40,15 +39,15 @@ import de.shop.util.ConcurrentUpdate;
 
 @RunWith(Arquillian.class)
 @FixMethodOrder(NAME_ASCENDING)
-public class KundeResourceConcurrencyTest extends AbstractResourceTest {
+public class BestellungResourceConcurrencyTest extends AbstractResourceTest {
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 
-	private static final Long KUNDE_ID_UPDATE = Long.valueOf(3604278);
+	private static final Long KUNDE_ID_UPDATE = Long.valueOf(120);
 	private static final String NEUER_NACHNAME = "Testname";
 	private static final String NEUER_NACHNAME_2 = "Neuername";
-	private static final Long KUNDE_ID_DELETE1 = Long.valueOf(2392668);
-	private static final Long KUNDE_ID_DELETE2 = Long.valueOf(1430218);
-	
+	private static final Long KUNDE_ID_DELETE1 = Long.valueOf(122);
+	private static final Long KUNDE_ID_DELETE2 = Long.valueOf(124);
+
 	@Test
 	public void updateUpdate() throws InterruptedException, ExecutionException {
 		LOGGER.finer("BEGINN");
