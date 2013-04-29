@@ -10,9 +10,13 @@ import static de.shop.util.TestConstants.BESTELLUNGEN_PATH;
 import static de.shop.util.TestConstants.ARTIKEL_ID_PATH_PARAM;
 import static de.shop.util.TestConstants.ARTIKEL_PATH;
 import static de.shop.util.TestConstants.ARTIKEL_ID_PATH;
+import static de.shop.util.TestConstants.KUNDEN_ID_PATH;
+import static de.shop.util.TestConstants.KUNDEN_ID_PATH_PARAM;
+import static de.shop.util.TestConstants.KUNDEN_PATH;
 import static de.shop.util.TestConstants.KUNDEN_URI;
 import static de.shop.util.TestConstants.LOCATION;
 import static java.net.HttpURLConnection.HTTP_CREATED;
+import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
 import static java.net.HttpURLConnection.HTTP_OK;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.hamcrest.CoreMatchers.endsWith;
@@ -23,9 +27,11 @@ import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 
 import java.io.StringReader;
 import java.lang.invoke.MethodHandles;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
 
 import org.jboss.arquillian.junit.Arquillian;
@@ -55,8 +61,8 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 	private static final String ARTIKEL_FARBE_NEU = "schwarz";
 	private static final Long ARTIKEL_PREIS_NEU = Long.valueOf(100);
 	private static final Long ARTIKEL_LAGERBESTAND_NEU = Long.valueOf(23);
-	
-	
+	private static final Long ARTIKEL_ID_UPDATE = Long.valueOf(10004);
+	private static final String NEUE_FARBE = "rot";
 	
 	@Test
 	public void  findArtikelById() {
@@ -119,6 +125,54 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		
 		assertThat(response.getStatusCode(), is(HTTP_CREATED));
 		
+	}
+	
+	@Test
+	public void updateArtikel(){
+		LOGGER.finer("BEGINN");
+		
+		//Given
+		final Long artikelId = ARTIKEL_ID_UPDATE;
+		final String neueFarbe = NEUE_FARBE;
+		final String username = USERNAME_ADMIN;
+		final String password = PASSWORD_ADMIN;
+		
+		// When
+				Response response = given().header(ACCEPT, APPLICATION_JSON)
+						                   .pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId)
+		                                   .get(ARTIKEL_ID_PATH);
+		
+		
+				JsonObject jsonObject;
+				try (final JsonReader jsonReader =
+						              getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
+					jsonObject = jsonReader.readObject();
+				}
+				
+				assertThat(jsonObject.getJsonNumber("id").longValue(), is(artikelId.longValue()));
+				
+		    	// Aus den gelesenen JSON-Werten ein neues JSON-Objekt mit neuem Nachnamen bauen
+		    	final JsonObjectBuilder job = getJsonBuilderFactory().createObjectBuilder();
+		    	final Set<String> keys = jsonObject.keySet();
+		    	for (String k : keys) {
+		    		if ("farbe".equals(k)) {
+		    			job.add("farbe", neueFarbe);
+		    		}
+		    		else {
+		    			job.add(k, jsonObject.get(k));
+		    		}
+		    	}
+		    	jsonObject = job.build();
+		
+				response = given().contentType(APPLICATION_JSON)
+				          .body(jsonObject.toString())
+                        .auth()
+                        .basic(username, password)
+                        .put(ARTIKEL_PATH);
+		
+		// Then
+		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
+	
 	}
 	
 }
