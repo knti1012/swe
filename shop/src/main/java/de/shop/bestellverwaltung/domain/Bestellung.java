@@ -74,7 +74,7 @@ import de.shop.util.IdGroup;
 				+ Bestellung.PARAM_ID),
 		@NamedQuery(name = Bestellung.FIND_BESTELLUNG_BY_ID_FETCH_LIEFERUNGEN, query = "SELECT DISTINCT b"
 				+ " FROM   Bestellung b LEFT JOIN FETCH b.lieferungen"
-				+ " WHERE  b.id = :" + Bestellung.PARAM_ID), })
+				+ " WHERE  b.id = :" + Bestellung.PARAM_ID) })
 public class Bestellung implements Serializable {
 
 	private static final long serialVersionUID = -374175121702956649L;
@@ -104,9 +104,9 @@ public class Bestellung implements Serializable {
 	@Override
 	public String toString() {
 		return "Bestellung [id=" + id + ", version=" + version
-				+ ", aktualisiert=" + aktualisiert
-				+ ", erzeugt=" + erzeugt + ", preis=" + preis + ", status="
-				+ status + ", kunde=" + kunde + "]";
+				+ ", aktualisiert=" + aktualisiert + ", erzeugt=" + erzeugt
+				+ ", preis=" + preis + ", status=" + status + ", kunde="
+				+ kunde + "]";
 	}
 
 	@Id
@@ -118,7 +118,7 @@ public class Bestellung implements Serializable {
 	@Version
 	@Basic(optional = false)
 	private int version = ERSTE_VERSION;
-	
+
 	@Column(name = "aktualisiert", nullable = false)
 	@Temporal(TIMESTAMP)
 	@JsonIgnore
@@ -154,7 +154,7 @@ public class Bestellung implements Serializable {
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "bestellung_lieferung", joinColumns = @JoinColumn(name = "b_fk"), 
-	inverseJoinColumns = @JoinColumn(name = "l_fk"))
+							inverseJoinColumns = @JoinColumn(name = "l_fk"))
 	@JsonIgnore
 	private Set<Lieferung> lieferungen;
 
@@ -193,11 +193,11 @@ public class Bestellung implements Serializable {
 	public int getVersion() {
 		return this.version;
 	}
-	
+
 	public void setVersion(int version) {
 		this.version = version;
 	}
-	
+
 	public Date getAktualisiert() {
 		return this.aktualisiert;
 	}
@@ -331,7 +331,7 @@ public class Bestellung implements Serializable {
 			if (other.erzeugt != null) {
 				return false;
 			}
-		}
+		} 
 		else if (!erzeugt.equals(other.erzeugt)) {
 			return false;
 		}

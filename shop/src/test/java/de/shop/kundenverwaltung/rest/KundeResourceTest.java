@@ -146,7 +146,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 		final String nachname = NEUER_NACHNAME;
 		final String vorname = NEUER_VORNAME;
 		final String email = NEUE_EMAIL;
-		final String neu_password = NEUES_PASSWORT;
+		final String neupassword = NEUES_PASSWORT;
 		final String username = USERNAME;
 		final String password = PASSWORD;
 		final String geschlecht = NEUES_GESCHLECHT;
@@ -160,7 +160,7 @@ public class KundeResourceTest extends AbstractResourceTest {
 		             		          .add("email", email)
 		             		          .add("geschlecht", geschlecht)
 		             		          .add("nachname", nachname)
-		             		          .add("password", neu_password)
+		             		          .add("password", neupassword)
 		             		          .add("vorname", vorname)
 		             		          .add("adresse", getJsonBuilderFactory().createObjectBuilder()
 		                    		                .add("hausnummer", hausnr)

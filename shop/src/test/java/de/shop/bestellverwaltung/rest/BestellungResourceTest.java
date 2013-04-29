@@ -51,53 +51,50 @@ import com.jayway.restassured.response.Response;
 
 import de.shop.util.AbstractResourceTest;
 
-
 @RunWith(Arquillian.class)
 @FixMethodOrder(NAME_ASCENDING)
 public class BestellungResourceTest extends AbstractResourceTest {
-	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
-	
+	private static final Logger LOGGER = Logger.getLogger(MethodHandles
+			.lookup().lookupClass().getName());
+
 	private static final Long BESTELLUNG_ID_VORHANDEN = Long.valueOf(1001);
-	//private static final Long KUNDE_ID_VORHANDEN = Long.valueOf(2239833);
-	//private static final Long BESTELLUNG_ID_DELETE = Long.valueOf(1405357);
+	// private static final Long KUNDE_ID_VORHANDEN = Long.valueOf(2239833);
+	// private static final Long BESTELLUNG_ID_DELETE = Long.valueOf(1405357);
 	private static final Long PREIS_NEU = Long.valueOf(200);
 
 	private static final String STATUS_NEU = "in Bearbeitung";
 
-	//private static final Long ARTIKEL_ID_VORHANDEN_1 = Long.valueOf(10001);
+	// private static final Long ARTIKEL_ID_VORHANDEN_1 = Long.valueOf(10001);
 
-	//private static final Long ARTIKEL_ID_VORHANDEN_2 = Long.valueOf(10002);
-	
-	//private static final Long LIEFERUNG_ID_VORHANDEN = Long.valueOf(101);
+	// private static final Long ARTIKEL_ID_VORHANDEN_2 = Long.valueOf(10002);
+
+	// private static final Long LIEFERUNG_ID_VORHANDEN = Long.valueOf(101);
 
 	private static final Long BESTELLUNG_ID_UPDATE = Long.valueOf(1000);
 
 	private static final String NEUER_STATUS = "update";
 
-	
-
-	
-	
 	@Test
 	public void findBestellungById() {
 		LOGGER.finer("BEGINN");
-		
+
 		// Given
 		final Long bestellungId = BESTELLUNG_ID_VORHANDEN;
 		final String status = STATUS_NEU;
-		
+
 		// When
 		final Response response = given().header(ACCEPT, APPLICATION_JSON)
-				                         .pathParameter(BESTELLUNGEN_ID_PATH_PARAM, bestellungId)
-				                         .get(BESTELLUNGEN_ID_PATH);
-		
+				.pathParameter(BESTELLUNGEN_ID_PATH_PARAM, bestellungId)
+				.get(BESTELLUNGEN_ID_PATH);
+
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_OK));
-		
-		try (final JsonReader jsonReader =
-				              getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
+
+		try (final JsonReader jsonReader = getJsonReaderFactory().createReader(
+				new StringReader(response.asString()))) {
 			final JsonObject jsonObject = jsonReader.readObject();
-			assertThat(jsonObject.getJsonNumber("id").longValue(), is(bestellungId.longValue()));
+			assertThat(jsonObject.getJsonNumber("id").longValue(),
+					is(bestellungId.longValue()));
 			assertThat(jsonObject.getString("status"), is(status));
 			assertThat(jsonObject.getJsonNumber("id").longValue(),
 					is(bestellungId.longValue()));
@@ -106,78 +103,74 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		LOGGER.finer("ENDE");
 	}
 
-
-	
-
-	
-	
 	@Test
 	public void findKundeByBestellungId() {
 		LOGGER.finer("BEGINN");
-		
+
 		// Given
 		final Long bestellungId = BESTELLUNG_ID_VORHANDEN;
-		
-		
+
 		// When
 		final Response response = given().header(ACCEPT, APPLICATION_JSON)
-				                         .pathParameter(BESTELLUNGEN_ID_PATH_PARAM, bestellungId)
-                                         .get(BESTELLUNGEN_ID_KUNDE_PATH);
-		
+				.pathParameter(BESTELLUNGEN_ID_PATH_PARAM, bestellungId)
+				.get(BESTELLUNGEN_ID_KUNDE_PATH);
+
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_OK));
-		
-		try (final JsonReader jsonReader =
-				              getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
+
+		try (final JsonReader jsonReader = getJsonReaderFactory().createReader(
+				new StringReader(response.asString()))) {
 			final JsonObject jsonObject = jsonReader.readObject();
 			assertThat(jsonObject.getJsonNumber("id"), is(notNullValue()));
-					  // endsWith("/kunden/" + jsonObject.getInt("id") + "/bestellungen"));
+			// endsWith("/kunden/" + jsonObject.getInt("id") +
+			// "/bestellungen"));
 		}
 
 		LOGGER.finer("ENDE");
-	
-	}
-	
 
-	
+	}
+
 	@Test
 	public void createBestellung() {
 		LOGGER.finer("BEGINN");
-		
+
 		// Given
-		//final Long kundeId = KUNDE_ID_VORHANDEN;
-		//final Long lieferungId = LIEFERUNG_ID_VORHANDEN;
+		// final Long kundeId = KUNDE_ID_VORHANDEN;
+		// final Long lieferungId = LIEFERUNG_ID_VORHANDEN;
 		final Long preis = PREIS_NEU;
 		final String status = STATUS_NEU;
-		
-		//final Long artikelId1 = ARTIKEL_ID_VORHANDEN_1;
-		
+
+		// final Long artikelId1 = ARTIKEL_ID_VORHANDEN_1;
+
 		final String username = USERNAME_ADMIN;
 		final String password = PASSWORD_ADMIN;
-		
+
 		// Neues, client-seitiges Bestellungsobjekt als JSON-Datensatz
-		final JsonObject jsonObject = getJsonBuilderFactory().createObjectBuilder()
-				                      	
-				                      
-				            		   .add("preis", preis)
-				            		   .add("status", status)
-				            		   .add("bestellpositionen", getJsonBuilderFactory().createArrayBuilder()
-				            		                            .add(getJsonBuilderFactory().createObjectBuilder()			            	
-				            		                            	
-				            		                            	.add("anzahl", 1)
-				            		                            	.add("artikel", "http://localhost:8080/shop/rest/artikel/10006")))
-				                                   		
-				            		   .add("kunde", "http://localhost:8080/shop/rest/kunden/3604278")
-				            		   .add("lieferungen", "http://localhost:8080/shop/rest/bestellungen/1004/lieferungen")                         
-				                       .build();
+		final JsonObject jsonObject = getJsonBuilderFactory()
+				.createObjectBuilder()
+
+				.add("preis", preis)
+				.add("status", status)
+				.add("bestellpositionen",
+						getJsonBuilderFactory()
+								.createArrayBuilder()
+								.add(getJsonBuilderFactory()
+										.createObjectBuilder()
+
+										.add("anzahl", 1)
+										.add("artikel",
+												"http://localhost:8080/shop/rest/artikel/10006")))
+
+				.add("kunde", "http://localhost:8080/shop/rest/kunden/3604278")
+				.add("lieferungen",
+						"http://localhost:8080/shop/rest/bestellungen/1004/lieferungen")
+				.build();
 
 		// When
 		final Response response = given().contentType(APPLICATION_JSON)
-				                         .body(jsonObject.toString())
-				                         .auth()
-				                         .basic(username, password)
-				                         .post(BESTELLUNGEN_PATH);
-		
+				.body(jsonObject.toString()).auth().basic(username, password)
+				.post(BESTELLUNGEN_PATH);
+
 		assertThat(response.getStatusCode(), is(HTTP_CREATED));
 		final String location = response.getHeader(LOCATION);
 		final int startPos = location.lastIndexOf('/');
@@ -187,49 +180,50 @@ public class BestellungResourceTest extends AbstractResourceTest {
 
 		LOGGER.finer("ENDE");
 	}
-	
+
 	@Test
 	public void updateBestellung() {
 		LOGGER.finer("BEGINN");
-		
+
 		// Given
 		final Long bestellungId = BESTELLUNG_ID_UPDATE;
 		final String neuerStatus = NEUER_STATUS;
 		final String username = USERNAME;
 		final String password = PASSWORD;
-		
+
 		// When
 		Response response = given().header(ACCEPT, APPLICATION_JSON)
-				                   .pathParameter(BESTELLUNGEN_ID_PATH_PARAM, bestellungId)
-                                   .get(BESTELLUNGEN_ID_PATH);
-		
+				.pathParameter(BESTELLUNGEN_ID_PATH_PARAM, bestellungId)
+				.get(BESTELLUNGEN_ID_PATH);
+
 		JsonObject jsonObject;
-		try (final JsonReader jsonReader =
-				              getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
+		try (final JsonReader jsonReader = getJsonReaderFactory().createReader(
+				new StringReader(response.asString()))) {
 			jsonObject = jsonReader.readObject();
 		}
-    	assertThat(jsonObject.getJsonNumber("id").longValue(), is(bestellungId.longValue()));
-    	
-    	// Aus den gelesenen JSON-Werten ein neues JSON-Objekt mit neuem Nachnamen bauen
-    	final JsonObjectBuilder job = getJsonBuilderFactory().createObjectBuilder();
-    	final Set<String> keys = jsonObject.keySet();
-    	for (String k : keys) {
-    		if ("status".equals(k)) {
-    			job.add("status", neuerStatus);
-    		}
-    		else {
-    			job.add(k, jsonObject.get(k));
-    		}
-    	}
-    	jsonObject = job.build();
-    	
+		assertThat(jsonObject.getJsonNumber("id").longValue(),
+				is(bestellungId.longValue()));
+
+		// Aus den gelesenen JSON-Werten ein neues JSON-Objekt mit neuem
+		// Nachnamen bauen
+		final JsonObjectBuilder job = getJsonBuilderFactory()
+				.createObjectBuilder();
+		final Set<String> keys = jsonObject.keySet();
+		for (String k : keys) {
+			if ("status".equals(k)) {
+				job.add("status", neuerStatus);
+			} 
+			else {
+				job.add(k, jsonObject.get(k));
+			}
+		}
+		jsonObject = job.build();
+
 		response = given().contentType(APPLICATION_JSON)
-				          .body(jsonObject.toString())
-                          .auth()
-                          .basic(username, password)
-                          .put(BESTELLUNGEN_PATH);
-		
+				.body(jsonObject.toString()).auth().basic(username, password)
+				.put(BESTELLUNGEN_PATH);
+
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
-   	}
+	}
 }

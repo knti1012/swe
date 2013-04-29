@@ -2,9 +2,9 @@ package de.shop.artikelverwaltung.rest;
 
 import static com.jayway.restassured.RestAssured.given;
 import static de.shop.util.TestConstants.ACCEPT;
+import static de.shop.util.TestConstants.ARTIKEL_ID_PATH;
 import static de.shop.util.TestConstants.ARTIKEL_ID_PATH_PARAM;
 import static de.shop.util.TestConstants.ARTIKEL_PATH;
-import static de.shop.util.TestConstants.ARTIKEL_ID_PATH;
 import static java.net.HttpURLConnection.HTTP_CREATED;
 import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
 import static java.net.HttpURLConnection.HTTP_OK;
@@ -31,18 +31,16 @@ import com.jayway.restassured.response.Response;
 
 import de.shop.util.AbstractResourceTest;
 
-
-
-
 @RunWith(Arquillian.class)
 @FixMethodOrder(NAME_ASCENDING)
 public class ArtikelResourceTest extends AbstractResourceTest {
-	
-	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
-	
+
+	private static final Logger LOGGER = Logger.getLogger(MethodHandles
+			.lookup().lookupClass().getName());
+
 	private static final Long ARTIKEL_ID_VORHANDEN = Long.valueOf(10004);
 	private static final String ARTIKEL_NAME_NEU = "frühlings";
-	private static final String ARTIKEL__KATEGORIE_NEU = "t-shirt";
+	private static final String ARTIKEL_KATEGORIE_NEU = "t-shirt";
 	private static final String ARTIKEL_ART_NEU = "maenner";
 	private static final String ARTIKEL_GROESSE_NEU = "m";
 	private static final String ARTIKEL_FARBE_NEU = "schwarz";
@@ -50,39 +48,39 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 	private static final Long ARTIKEL_LAGERBESTAND_NEU = Long.valueOf(23);
 	private static final Long ARTIKEL_ID_UPDATE = Long.valueOf(10004);
 	private static final String NEUE_FARBE = "rot";
-	
+
 	@Test
-	public void  findArtikelById() {
+	public void findArtikelById() {
 		LOGGER.finer("BEGINN");
-		//Given
-		
+		// Given
+
 		final Long artikelId = ARTIKEL_ID_VORHANDEN;
-		
-		//When 
+
+		// When
 		final Response response = given().header(ACCEPT, APPLICATION_JSON)
-									.pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId)
-									.get(ARTIKEL_ID_PATH);
-		//Then
+				.pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId)
+				.get(ARTIKEL_ID_PATH);
+		// Then
 		assertThat(response.getStatusCode(), is(HTTP_OK));
-		
-		try (final JsonReader jsonReader =
-	              getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
+
+		try (final JsonReader jsonReader = getJsonReaderFactory().createReader(
+				new StringReader(response.asString()))) {
 			final JsonObject jsonObject = jsonReader.readObject();
-			assertThat(jsonObject.getJsonNumber("id").longValue(), is(artikelId.longValue()));
+			assertThat(jsonObject.getJsonNumber("id").longValue(),
+					is(artikelId.longValue()));
 		}
-		
+
 		LOGGER.finer("ENDE");
-	
+
 	}
-	
 
 	@Test
 	public void createArtikel() {
 		LOGGER.finer("BEGINN");
-		
-		//Given
-		final String name  = ARTIKEL_NAME_NEU;
-		final String kategorie = ARTIKEL__KATEGORIE_NEU;
+
+		// Given
+		final String name = ARTIKEL_NAME_NEU;
+		final String kategorie = ARTIKEL_KATEGORIE_NEU;
 		final String art = ARTIKEL_ART_NEU;
 		final String groesse = ARTIKEL_GROESSE_NEU;
 		final String farbe = ARTIKEL_FARBE_NEU;
@@ -90,76 +88,70 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		final Long lagerbestand = ARTIKEL_LAGERBESTAND_NEU;
 		final String username = USERNAME_ADMIN;
 		final String password = PASSWORD_ADMIN;
-		
+
 		// Neues, client-seitiges Bestellungsobjekt als JSON-Datensatz
-		final JsonObject jsonObject = getJsonBuilderFactory().createObjectBuilder()		                    
-						                      .add("art", art)
-						                      .add("farbe", farbe)
-						                      .add("groesse", groesse)
-						                      .add("kategorie", kategorie)
-						                      .add("lagerbestand", lagerbestand)
-						                      .add("name", name)
-						                      .add("preis", preis)
-						                      .build();
-		//when
+		final JsonObject jsonObject = getJsonBuilderFactory()
+				.createObjectBuilder().add("art", art).add("farbe", farbe)
+				.add("groesse", groesse).add("kategorie", kategorie)
+				.add("lagerbestand", lagerbestand).add("name", name)
+				.add("preis", preis).build();
+		// when
 		final Response response = given().contentType(APPLICATION_JSON)
-                .body(jsonObject.toString())
-                .auth()
-                .basic(username, password)
-                .post(ARTIKEL_PATH);
-		
+				.body(jsonObject.toString()).auth().basic(username, password)
+				.post(ARTIKEL_PATH);
+
 		// Then
-		
+
 		assertThat(response.getStatusCode(), is(HTTP_CREATED));
-		
+
 	}
-	
+
 	@Test
 	public void updateArtikel() {
 		LOGGER.finer("BEGINN");
-		
-		//Given
+
+		// Given
 		final Long artikelId = ARTIKEL_ID_UPDATE;
 		final String neueFarbe = NEUE_FARBE;
 		final String username = USERNAME_ADMIN;
 		final String password = PASSWORD_ADMIN;
-		
+
 		// When
-				Response response = given().header(ACCEPT, APPLICATION_JSON)
-						                   .pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId)
-		                                   .get(ARTIKEL_ID_PATH);
-		
-		
-				JsonObject jsonObject;
-				try (final JsonReader jsonReader =
-						              getJsonReaderFactory().createReader(new StringReader(response.asString()))) {
-					jsonObject = jsonReader.readObject();
-				}
-				
-				assertThat(jsonObject.getJsonNumber("id").longValue(), is(artikelId.longValue()));
-				
-		    	// Aus den gelesenen JSON-Werten ein neues JSON-Objekt mit neuem Nachnamen bauen
-		    	final JsonObjectBuilder job = getJsonBuilderFactory().createObjectBuilder();
-		    	final Set<String> keys = jsonObject.keySet();
-		    	for (String k : keys) {
-		    		if ("farbe".equals(k)) {
-		    			job.add("farbe", neueFarbe);
-		    		}
-		    		else {
-		    			job.add(k, jsonObject.get(k));
-		    		}
-		    	}
-		    	jsonObject = job.build();
-		
-				response = given().contentType(APPLICATION_JSON)
-				          .body(jsonObject.toString())
-                        .auth()
-                        .basic(username, password)
-                        .put(ARTIKEL_PATH);
-		
+		Response response = given().header(ACCEPT, APPLICATION_JSON)
+				.pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId)
+				.get(ARTIKEL_ID_PATH);
+
+		JsonObject jsonObject;
+		try (final JsonReader jsonReader = getJsonReaderFactory().createReader(
+				new StringReader(response.asString()))) {
+			jsonObject = jsonReader.readObject();
+		}
+
+		assertThat(jsonObject.getJsonNumber("id").longValue(),
+				is(artikelId.longValue()));
+
+		// Aus den gelesenen JSON-Werten ein neues JSON-Objekt mit neuem
+		// Nachnamen bauen
+		final JsonObjectBuilder job = getJsonBuilderFactory()
+				.createObjectBuilder();
+		final Set<String> keys = jsonObject.keySet();
+		for (String k : keys) {
+			if ("farbe".equals(k)) {
+				job.add("farbe", neueFarbe);
+			} 
+			else {
+				job.add(k, jsonObject.get(k));
+			}
+		}
+		jsonObject = job.build();
+
+		response = given().contentType(APPLICATION_JSON)
+				.body(jsonObject.toString()).auth().basic(username, password)
+				.put(ARTIKEL_PATH);
+
 		// Then
 		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
-	
+
 	}
-	
+
 }
