@@ -108,23 +108,6 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		LOGGER.finer("ENDE");
 	}
 	
-	@Ignore
-	@Test
-	public void deleteBestellung() {
-		LOGGER.finer("BEGINN");
-		
-		//Given
-		final Long bestellungId = BESTELLUNG_ID_DELETE;
-		
-		//When
-		Response response = given() .pathParameter(BESTELLUNGEN_ID_PATH_PARAM,bestellungId)
-									.delete( BESTELLUNGEN_ID_PATH);
-		//Then
-		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
-		LOGGER.finer("ENDE");
-	}
-	
-	
 	
 	@Test
 	public void findKundeByBestellungId() {
@@ -151,6 +134,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 
 		LOGGER.finer("ENDE");
 	}
+	
 
 	public void createBestellung() {
 		LOGGER.finer("BEGINN");
@@ -198,6 +182,22 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		final Long id = Long.valueOf(idStr);
 		assertThat(id.longValue() > 0, is(true));
 
+		LOGGER.finer("ENDE");
+	}
+	
+	@Test
+	public void deleteBestellung() {
+		LOGGER.finer("BEGINN");
+		
+		//Given
+		final Long bestellungId = BESTELLUNG_ID_DELETE;
+		
+		//When
+		final Response response = given()
+				.pathParameter(BESTELLUNGEN_ID_PATH_PARAM,bestellungId)
+				.delete( BESTELLUNGEN_ID_PATH);
+		//Then
+		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
 		LOGGER.finer("ENDE");
 	}
 }
