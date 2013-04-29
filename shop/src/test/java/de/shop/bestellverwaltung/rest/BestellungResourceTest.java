@@ -92,6 +92,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		LOGGER.finer("ENDE");
 	}
 
+
 	@Ignore
 	@Test
 	public void deleteBestellung() {
@@ -107,6 +108,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
 		LOGGER.finer("ENDE");
 	}
+
 	
 	@Ignore
 	@Test
@@ -135,6 +137,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		LOGGER.finer("ENDE");
 	
 	}
+	
 
 
 	@Test
@@ -185,4 +188,22 @@ public class BestellungResourceTest extends AbstractResourceTest {
 
 		LOGGER.finer("ENDE");
 	}
+	
+	/*@Test
+	public void deleteBestellung() {
+		LOGGER.finer("BEGINN");
+		
+		//Given
+		final Long bestellungId = BESTELLUNG_ID_DELETE;
+		
+		//When
+		final Response response = given()
+				.pathParameter(BESTELLUNGEN_ID_PATH_PARAM,bestellungId)
+				.delete( BESTELLUNGEN_ID_PATH);
+		//Then
+		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
+		LOGGER.finer("ENDE");
+	}*/
+	
+	
 }
