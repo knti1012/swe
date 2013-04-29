@@ -3,6 +3,7 @@ package de.shop.artikelverwaltung.rest;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 
+
 import java.lang.invoke.MethodHandles;
 import java.net.URI;
 import java.util.List;
@@ -15,6 +16,7 @@ import javax.annotation.PreDestroy;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -28,6 +30,8 @@ import javax.ws.rs.core.UriInfo;
 
 import de.shop.artikelverwaltung.domain.Artikel;
 import de.shop.artikelverwaltung.service.ArtikelService;
+import de.shop.kundenverwaltung.domain.Kunde;
+import de.shop.kundenverwaltung.service.KundeService.FetchType;
 import de.shop.util.Log;
 import de.shop.util.NotFoundException;
 import de.shop.util.Transactional;
@@ -105,4 +109,16 @@ public class ArtikelResource {
 			throw new NotFoundException(msg);
 		}
 	}
+	
+//	@Path("{id:[0-9]+}")
+//	@DELETE
+//	@Produces
+//	public void deleteArtikel(@PathParam("id") Long artikelId,
+//			@Context HttpHeaders headers) {
+//		//final List<Locale> locales = headers.getAcceptableLanguages();
+//		//final Locale locale = locales.isEmpty() ? Locale.getDefault() : locales
+//		//		.get(0);
+//		final Artikel artikel = as.findArtikelById(artikelId);
+//		as.deleteArtikel(artikel);
+//	}
 }
