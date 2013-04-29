@@ -105,8 +105,8 @@ public class BestellungServiceImpl implements Serializable, BestellungService {
 		}
 		em.detach(bestellung);		
 
-		Bestellung tmp = findBestellungById(bestellung.getId());
-		if(tmp == null){
+		final Bestellung tmp = findBestellungById(bestellung.getId());
+		if (tmp == null) {
 			throw new ConcurrentDeletedException(bestellung.getId());
 		}
 		em.detach(tmp);
@@ -196,7 +196,7 @@ public class BestellungServiceImpl implements Serializable, BestellungService {
 		}
 		
 		if (!em.contains(kunde)) {
-			kunde = ks.findKundeById(kunde.getId(), FetchType.MIT_BESTELLUNGEN,locale);
+			kunde = ks.findKundeById(kunde.getId(), FetchType.MIT_BESTELLUNGEN, locale);
 		}
 		kunde.addBestellung(bestellung);
 		bestellung.setKunde(kunde);

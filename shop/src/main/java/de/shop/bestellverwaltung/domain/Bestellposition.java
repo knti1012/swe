@@ -98,11 +98,11 @@ public class Bestellposition implements Serializable {
 		this.id = id;
 	}
 	
-	public int getVersion(){
+	public int getVersion() {
 		return this.version;
 	}
 	
-	public void setVersion(int version){
+	public void setVersion(int version) {
 		this.version = version;
 	}
 	
@@ -165,7 +165,7 @@ public class Bestellposition implements Serializable {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		Bestellposition other = (Bestellposition) obj;
+		final Bestellposition other = (Bestellposition) obj;
 		
 		if (id == null) {
 			if (other.id != null) {

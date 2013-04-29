@@ -32,7 +32,7 @@ public class LogInterceptor implements Serializable {
 			return ctx.proceed();
 		}
 
-		String methodName = ctx.getMethod().getName();
+		final String methodName = ctx.getMethod().getName();
 
 		if ((methodName.startsWith("get") || methodName.startsWith("set"))
 				&& Character.isUpperCase(methodName

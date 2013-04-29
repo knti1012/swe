@@ -39,7 +39,7 @@ public final class TestConstants {
 	public static final String LIEFERUNG_URI = BASEURI + ":" + PORT + BASEPATH + LIEFERUNG_PATH;
 	
 	// Testklassen fuer Service- und Domain-Tests
-	public static final Class<?>[] TEST_CLASSES = { };
+	public static final Class<?>[] TEST_CLASSES = {};
 	
 	private TestConstants() {
 	}

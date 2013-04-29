@@ -172,7 +172,8 @@ public class BestellungResourceConcurencyTest extends AbstractResourceTest {
 //		
 //		// Konkurrierendes Delete
 //		final ConcurrentDelete concurrentDelete = new ConcurrentDelete("artikel/10007", username2, password2);
-//		//final ConcurrentDelete concurrentDelete = new ConcurrentDelete(ARTIKEL_PATH + '/' + artikelId, username2, password2);
+//		//final ConcurrentDelete concurrentDelete = new ConcurrentDelete(ARTIKEL_PATH + '/' + 
+//		artikelId, username2, password2);
 //    	final ExecutorService executorService = Executors.newSingleThreadExecutor();
 //		final Future<Response> future = executorService.submit(concurrentDelete);
 //		response = future.get();   // Warten bis der "parallele" Thread fertig ist

@@ -4,12 +4,10 @@ import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 import static de.shop.util.TestConstants.ACCEPT;
 import static com.jayway.restassured.RestAssured.given;
 import static java.net.HttpURLConnection.HTTP_CONFLICT;
-import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
 import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 import static de.shop.util.TestConstants.ARTIKEL_ID_PATH_PARAM;
 import static de.shop.util.TestConstants.ARTIKEL_ID_PATH;
 import static de.shop.util.TestConstants.ARTIKEL_PATH;
@@ -34,28 +32,8 @@ import org.junit.runner.RunWith;
 
 import com.jayway.restassured.response.Response;
 
-import de.shop.util.ConcurrentDelete;
 import de.shop.util.AbstractResourceTest;
 import de.shop.util.ConcurrentUpdate;
-
-
-
-
-
-
-
-
-import java.lang.invoke.MethodHandles;
-import java.util.concurrent.ExecutionException;
-import java.util.logging.Logger;
-
-import org.jboss.arquillian.junit.Arquillian;
-import org.junit.FixMethodOrder;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import de.shop.util.AbstractResourceTest;
 
 
 @RunWith(Arquillian.class)
@@ -172,7 +150,8 @@ public class ArtikelResourceConcurencyTest extends AbstractResourceTest {
 //		
 //		// Konkurrierendes Delete
 //		final ConcurrentDelete concurrentDelete = new ConcurrentDelete("artikel/10007", username2, password2);
-//		//final ConcurrentDelete concurrentDelete = new ConcurrentDelete(ARTIKEL_PATH + '/' + artikelId, username2, password2);
+//		//final ConcurrentDelete concurrentDelete = new ConcurrentDelete(ARTIKEL_PATH + '/' + artikelId, 
+//		username2, password2);
 //    	final ExecutorService executorService = Executors.newSingleThreadExecutor();
 //		final Future<Response> future = executorService.submit(concurrentDelete);
 //		response = future.get();   // Warten bis der "parallele" Thread fertig ist

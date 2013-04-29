@@ -149,8 +149,8 @@ public class ArtikelService implements Serializable {
 		//artikel vom EntityManager trenne
 		em.detach(artikel);
 
-		Artikel tmp = findArtikelById(artikel.getId());
-		if(tmp == null){
+		final Artikel tmp = findArtikelById(artikel.getId());
+		if (tmp == null) {
 			throw new ConcurrentDeletedException(artikel.getId());
 		}
 		em.detach(tmp);

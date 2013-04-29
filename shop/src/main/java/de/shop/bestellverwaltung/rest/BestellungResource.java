@@ -123,7 +123,7 @@ public class BestellungResource {
 	public void updateBestellung(Bestellung bestellung, @Context UriInfo uriInfo, @Context HttpHeaders headers) {
 		//final List<Locale> locales = headers.getAcceptableLanguages();
 		//final Locale locale = locales.isEmpty() ? Locale.getDefault() : locales.get(0);
-		Bestellung origBestellung = bs.findBestellungById(bestellung.getId());
+		final Bestellung origBestellung = bs.findBestellungById(bestellung.getId());
 		if (origBestellung == null) {
 			final String msg = "Kein Bestellung gefunden mit der ID " + bestellung.getId();
 			throw new NotFoundException(msg);
@@ -161,8 +161,8 @@ public class BestellungResource {
 			throw new NotFoundException("Kein Kunde vorhanden mit der ID " + kundeId);
 		}
 		
-		Collection<Bestellposition> bestellpositionen = bestellung.getBestellpositionen();
-		List<Long> artikelIds = new ArrayList<>(bestellpositionen.size());
+		final Collection<Bestellposition> bestellpositionen = bestellung.getBestellpositionen();
+		final List<Long> artikelIds = new ArrayList<>(bestellpositionen.size());
 		for (Bestellposition bp : bestellpositionen) {
 			final String artikelUriStr = bp.getArtikelUri().toString();
 			startPos = artikelUriStr.lastIndexOf('/') + 1;
@@ -188,7 +188,7 @@ public class BestellungResource {
 			throw new NotFoundException(sb.toString());
 		}
 
-		Collection<Artikel> gefundeneArtikel = as.findArtikelByIds(artikelIds);
+		final Collection<Artikel> gefundeneArtikel = as.findArtikelByIds(artikelIds);
 		if (gefundeneArtikel.isEmpty()) {
 			throw new NotFoundException("Keine Artikel vorhanden mit den IDs: " + artikelIds);
 		}
@@ -212,7 +212,7 @@ public class BestellungResource {
 
 		final URI bestellungUri = uriHelperBestellung.getUriBestellung(bestellung, uriInfo);
 		final Response response = Response.created(bestellungUri).build();
-		LOGGER.fatalf (bestellungUri.toString());
+		LOGGER.fatalf(bestellungUri.toString());
 		
 		return response;
 	}

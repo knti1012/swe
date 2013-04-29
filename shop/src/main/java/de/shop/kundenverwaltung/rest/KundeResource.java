@@ -20,14 +20,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
-import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
@@ -72,12 +70,12 @@ public class KundeResource {
 
 	@PostConstruct
 	private void postConstruct() {
-		LOGGER.debugf ("CDI-faehiges Bean {0} wurde erzeugt", this);
+		LOGGER.debugf("CDI-faehiges Bean {0} wurde erzeugt", this);
 	}
 
 	@PreDestroy
 	private void preDestroy() {
-		LOGGER.debugf ("CDI-faehiges Bean {0} wird geloescht", this);
+		LOGGER.debugf("CDI-faehiges Bean {0} wird geloescht", this);
 	}
 
 	@GET
@@ -133,7 +131,7 @@ public class KundeResource {
 		final Locale locale = locales.isEmpty() ? Locale.getDefault() : locales
 				.get(0);
 		kunde = ks.createKunde(kunde, locale);
-		LOGGER.debugf ("Kunde: {0}", kunde);
+		LOGGER.debugf("Kunde: {0}", kunde);
 		final URI kundeUri = uriHelperKunde.getUriKunde(kunde, uriInfo);
 		return Response.created(kundeUri).build();
 	}
@@ -146,7 +144,7 @@ public class KundeResource {
 		final List<Locale> locales = headers.getAcceptableLanguages();
 		final Locale locale = locales.isEmpty() ? Locale.getDefault() : locales
 				.get(0);
-		Kunde origKunde = ks.findKundeById(kunde.getId(), FetchType.NUR_KUNDE,
+		final Kunde origKunde = ks.findKundeById(kunde.getId(), FetchType.NUR_KUNDE,
 				locale);
 		if (origKunde == null) {
 			final String msg = "Kein Kunde gefunden mit der ID "
@@ -155,7 +153,7 @@ public class KundeResource {
 		}
 		LOGGER.debugf("Kunde vorher: %s", origKunde);
 
-		Adresse adresseAlt = em.find(Adresse.class, kunde.getAdresse().getId());
+		final Adresse adresseAlt = em.find(Adresse.class, kunde.getAdresse().getId());
 		adresseAlt.setValues(kunde.getAdresse());
 		kunde.setAdresse(adresseAlt);
 		

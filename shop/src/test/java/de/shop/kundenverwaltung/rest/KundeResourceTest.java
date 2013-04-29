@@ -70,8 +70,8 @@ public class KundeResourceTest extends AbstractResourceTest {
 	private static final String NEUES_PASSWORT = "abcde";
 	private static final String NEUES_GESCHLECHT = "M";
 	private static final String NEUE_PLZ = "76133";
-	private static final String NEUE_STADT ="Teststadt";
-	private static final String NEUES_LAND ="Deutschland";
+	private static final String NEUE_STADT = "Teststadt";
+	private static final String NEUES_LAND = "Deutschland";
 	private static final String NEUE_STRASSE = "Testweg";
 	private static final Integer NEUE_HAUSNR = 1;
 	
@@ -88,7 +88,8 @@ public class KundeResourceTest extends AbstractResourceTest {
 //	private static final Long KUNDE_ID_UPLOAD = Long.valueOf(2239833);
 
 //	private static final String FILENAME_INVALID_MIMETYPE = "image.bmp";
-//	private static final String FILENAME_UPLOAD_INVALID_MIMETYPE = "src/test/resources/rest/" + FILENAME_INVALID_MIMETYPE;
+//	private static final String FILENAME_UPLOAD_INVALID_MIMETYPE = 
+//	"src/test/resources/rest/" + FILENAME_INVALID_MIMETYPE;
 	
 	
 	@Test

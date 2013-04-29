@@ -190,11 +190,11 @@ public class Bestellung implements Serializable {
 		this.id = id;
 	}
 
-	public int getVersion(){
+	public int getVersion() {
 		return this.version;
 	}
 	
-	public void setVersion(int version){
+	public void setVersion(int version) {
 		this.version = version;
 	}
 	

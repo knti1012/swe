@@ -87,7 +87,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		final String status = STATUS_NEU;
 		
 		// When
-		Response response = given().header(ACCEPT, APPLICATION_JSON)
+		final Response response = given().header(ACCEPT, APPLICATION_JSON)
 				                         .pathParameter(BESTELLUNGEN_ID_PATH_PARAM, bestellungId)
 				                         .get(BESTELLUNGEN_ID_PATH);
 		

@@ -156,11 +156,11 @@ public class Artikel implements Serializable {
 		this.id = id;
 	}
 
-	public int getVersion(){
+	public int getVersion() {
 		return this.version;
 	}
 	
-	public void setVersion(int version){
+	public void setVersion(int version) {
 		this.version = version;
 	}
 	
@@ -265,7 +265,7 @@ public class Artikel implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Artikel other = (Artikel) obj;
+		final Artikel other = (Artikel) obj;
 		if (art == null) {
 			if (other.art != null)
 				return false;

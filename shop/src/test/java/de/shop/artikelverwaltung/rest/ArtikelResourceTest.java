@@ -2,26 +2,14 @@ package de.shop.artikelverwaltung.rest;
 
 import static com.jayway.restassured.RestAssured.given;
 import static de.shop.util.TestConstants.ACCEPT;
-import static de.shop.util.TestConstants.ARTIKEL_URI;
-import static de.shop.util.TestConstants.BESTELLUNGEN_ID_KUNDE_PATH;
-import static de.shop.util.TestConstants.BESTELLUNGEN_ID_PATH;
-import static de.shop.util.TestConstants.BESTELLUNGEN_ID_PATH_PARAM;
-import static de.shop.util.TestConstants.BESTELLUNGEN_PATH;
 import static de.shop.util.TestConstants.ARTIKEL_ID_PATH_PARAM;
 import static de.shop.util.TestConstants.ARTIKEL_PATH;
 import static de.shop.util.TestConstants.ARTIKEL_ID_PATH;
-import static de.shop.util.TestConstants.KUNDEN_ID_PATH;
-import static de.shop.util.TestConstants.KUNDEN_ID_PATH_PARAM;
-import static de.shop.util.TestConstants.KUNDEN_PATH;
-import static de.shop.util.TestConstants.KUNDEN_URI;
-import static de.shop.util.TestConstants.LOCATION;
 import static java.net.HttpURLConnection.HTTP_CREATED;
 import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
 import static java.net.HttpURLConnection.HTTP_OK;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-import static org.hamcrest.CoreMatchers.endsWith;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 
@@ -36,7 +24,6 @@ import javax.json.JsonReader;
 
 import org.jboss.arquillian.junit.Arquillian;
 import org.junit.FixMethodOrder;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -72,7 +59,7 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 		final Long artikelId = ARTIKEL_ID_VORHANDEN;
 		
 		//When 
-		Response response = given().header(ACCEPT, APPLICATION_JSON)
+		final Response response = given().header(ACCEPT, APPLICATION_JSON)
 									.pathParameter(ARTIKEL_ID_PATH_PARAM, artikelId)
 									.get(ARTIKEL_ID_PATH);
 		//Then
@@ -128,7 +115,7 @@ public class ArtikelResourceTest extends AbstractResourceTest {
 	}
 	
 	@Test
-	public void updateArtikel(){
+	public void updateArtikel() {
 		LOGGER.finer("BEGINN");
 		
 		//Given

@@ -32,7 +32,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
-import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -202,7 +201,7 @@ public class Kunde implements Serializable {
 	@JsonIgnore
 	private List<Bestellung> bestellungen;
 
-	@OneToOne(optional = false, fetch = FetchType.EAGER, cascade = {PERSIST, MERGE, REMOVE})
+	@OneToOne(optional = false, fetch = FetchType.EAGER, cascade = {PERSIST, MERGE, REMOVE })
 	@JoinColumn(name = "add_fk")
 	@NotNull(message = "{kundenverwaltung.kunde.adresse.notNull}")
 	private Adresse adresse; 

@@ -273,7 +273,7 @@ public class KundeService implements Serializable {
 		em.detach(kunde);
 
 		// Wurde das Objekt konkurrierend geloescht?
-		Kunde tmp = findKundeById(kunde.getId(), FetchType.NUR_KUNDE, locale);
+		final Kunde tmp = findKundeById(kunde.getId(), FetchType.NUR_KUNDE, locale);
 		if (tmp == null) {
 			throw new ConcurrentDeletedException(kunde.getId());
 		}
@@ -369,7 +369,7 @@ public class KundeService implements Serializable {
 		final Join<Bestellung, Bestellposition> bp = b
 				.join(Bestellung_.bestellpositionen);
 		criteriaQuery
-				.where(builder.gt(bp.<Integer> get(Bestellposition_.anzahl),
+				.where(builder.gt(bp.<Integer>get(Bestellposition_.anzahl),
 						minMenge)).distinct(true);
 
 		final List<Kunde> kunden = em.createQuery(criteriaQuery)
