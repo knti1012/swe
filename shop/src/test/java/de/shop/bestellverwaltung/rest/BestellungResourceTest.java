@@ -7,6 +7,9 @@ import static de.shop.util.TestConstants.BESTELLUNGEN_ID_KUNDE_PATH;
 import static de.shop.util.TestConstants.BESTELLUNGEN_ID_PATH;
 import static de.shop.util.TestConstants.BESTELLUNGEN_ID_PATH_PARAM;
 import static de.shop.util.TestConstants.BESTELLUNGEN_PATH;
+import static de.shop.util.TestConstants.KUNDEN_ID_PATH;
+import static de.shop.util.TestConstants.KUNDEN_ID_PATH_PARAM;
+import static de.shop.util.TestConstants.KUNDEN_PATH;
 //import static de.shop.util.TestConstants.KUNDEN_ID_PATH;
 //import static de.shop.util.TestConstants.KUNDEN_ID_PATH_PARAM;
 //import static de.shop.util.TestConstants.KUNDEN_ID_PATH;
@@ -29,10 +32,12 @@ import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 
 import java.io.StringReader;
 import java.lang.invoke.MethodHandles;
+import java.util.Set;
 //import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
 //import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
 
@@ -53,7 +58,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass().getName());
 	
 	private static final Long BESTELLUNG_ID_VORHANDEN = Long.valueOf(1001);
-	//private static final Long KUNDE_ID_VORHANDEN = Long.valueOf(2239833);
+	private static final Long KUNDE_ID_VORHANDEN = Long.valueOf(2239833);
 	private static final Long BESTELLUNG_ID_DELETE = Long.valueOf(1405357);
 	private static final Long PREIS_NEU = Long.valueOf(200);
 
@@ -62,7 +67,12 @@ public class BestellungResourceTest extends AbstractResourceTest {
 	private static final Long ARTIKEL_ID_VORHANDEN_1 = Long.valueOf(10001);
 
 	private static final Long ARTIKEL_ID_VORHANDEN_2 = Long.valueOf(10002);
+	
+	private static final Long LIEFERUNG_ID_VORHANDEN = Long.valueOf(101);
 
+	
+
+	
 	@Ignore
 	@Test
 	public void findBestellungById() {
@@ -145,12 +155,12 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		LOGGER.finer("BEGINN");
 		
 		// Given
-		//final Long kunde_Id = KUNDE_ID_VORHANDEN;
+		final Long kundeId = KUNDE_ID_VORHANDEN;
+		final Long lieferungId = LIEFERUNG_ID_VORHANDEN;
 		final Long preis = PREIS_NEU;
 		final String status = STATUS_NEU;
 		
 		final Long artikelId1 = ARTIKEL_ID_VORHANDEN_1;
-		final Long artikelId2 = ARTIKEL_ID_VORHANDEN_2;
 		
 		final String username = USERNAME_ADMIN;
 		final String password = PASSWORD_ADMIN;
@@ -158,18 +168,17 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		// Neues, client-seitiges Bestellungsobjekt als JSON-Datensatz
 		final JsonObject jsonObject = getJsonBuilderFactory().createObjectBuilder()
 				                      	
-				                      	
-				            		   .add("preis",preis)
-				            		   .add("status",status)
-				            		   .add("kundeUri", KUNDEN_URI + "/" )
-				            		   .add("bestellposition", getJsonBuilderFactory().createArrayBuilder()
+				                      
+				            		   .add("preis", preis)
+				            		   .add("status", status)
+				            		   .add("bestellpositionen", getJsonBuilderFactory().createArrayBuilder()
 				            		                            .add(getJsonBuilderFactory().createObjectBuilder()			            	
-				            		                                 .add("artikelUri", ARTIKEL_URI + "/" + artikelId1 )
-				            		                                 .add("anzahl", "2"))
-				            		                             .add(getJsonBuilderFactory().createObjectBuilder()
-				            		                            		.add("artikelUri", ARTIKEL_URI + "/" + artikelId2)
-				            		                            		.add("anzahl",2)))
-				            		   .add("lieferungUri", LIEFERUNG_URI + "/")                         
+				            		                            	
+				            		                            	.add("anzahl", 1)
+				            		                            	.add("artikel", "http://localhost:8080/shop/rest/artikel/10006")))
+				                                   		
+				            		   .add("kunde", "http://localhost:8080/shop/rest/kunden/3604278")
+				            		   .add("lieferungen", "http://localhost:8080/shop/rest/bestellungen/1004/lieferungen")                         
 				                       .build();
 
 		// When
@@ -188,22 +197,6 @@ public class BestellungResourceTest extends AbstractResourceTest {
 
 		LOGGER.finer("ENDE");
 	}
-	
-	/*@Test
-	public void deleteBestellung() {
-		LOGGER.finer("BEGINN");
-		
-		//Given
-		final Long bestellungId = BESTELLUNG_ID_DELETE;
-		
-		//When
-		final Response response = given()
-				.pathParameter(BESTELLUNGEN_ID_PATH_PARAM,bestellungId)
-				.delete( BESTELLUNGEN_ID_PATH);
-		//Then
-		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
-		LOGGER.finer("ENDE");
-	}*/
 	
 	
 }
