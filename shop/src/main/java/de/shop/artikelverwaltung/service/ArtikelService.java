@@ -1,6 +1,8 @@
 package de.shop.artikelverwaltung.service;
 
 import static java.util.logging.Level.FINER;
+import de.shop.util.ConcurrentDeletedException;
+
 
 import java.io.Serializable;
 import java.lang.invoke.MethodHandles;
@@ -143,8 +145,17 @@ public class ArtikelService implements Serializable {
 		if (artikel == null) {
 			return null;
 		}
+		
+		//artikel vom EntityManager trenne
+		em.detach(artikel);
 
-		em.merge(artikel);
+		Artikel tmp = findArtikelById(artikel.getId());
+		if(tmp == null){
+			throw new ConcurrentDeletedException(artikel.getId());
+		}
+		em.detach(tmp);
+		
+		em.merge(artikel); //OptiisticLockException
 		return artikel;
 	}
 }
