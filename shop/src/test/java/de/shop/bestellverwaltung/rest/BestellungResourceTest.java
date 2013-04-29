@@ -21,7 +21,7 @@ import static java.net.HttpURLConnection.HTTP_CREATED;
 import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
 import static java.net.HttpURLConnection.HTTP_OK;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-import static org.hamcrest.CoreMatchers.endsWith;
+//import static org.hamcrest.CoreMatchers.endsWith;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
@@ -29,11 +29,11 @@ import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 
 import java.io.StringReader;
 import java.lang.invoke.MethodHandles;
-import java.util.Set;
+//import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
+//import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
 
 import org.jboss.arquillian.junit.Arquillian;
@@ -54,10 +54,14 @@ public class BestellungResourceTest extends AbstractResourceTest {
 	
 	private static final Long BESTELLUNG_ID_VORHANDEN = Long.valueOf(1001);
 	//private static final Long KUNDE_ID_VORHANDEN = Long.valueOf(2239833);
-	
+	private static final Long BESTELLUNG_ID_DELETE = Long.valueOf(1405357);
 	private static final Long PREIS_NEU = Long.valueOf(200);
 
 	private static final String STATUS_NEU = "in Bearbeitung";
+
+	private static final Long ARTIKEL_ID_VORHANDEN_1 = Long.valueOf(10001);
+
+	private static final Long ARTIKEL_ID_VORHANDEN_2 = Long.valueOf(10002);
 
 	@Ignore
 	@Test
@@ -88,7 +92,23 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		LOGGER.finer("ENDE");
 	}
 
+	@Ignore
+	@Test
+	public void deleteBestellung() {
+		LOGGER.finer("BEGINN");
+		
+		//Given
+		final Long bestellungId = BESTELLUNG_ID_DELETE;
+		
+		//When
+		Response response = given() .pathParameter(BESTELLUNGEN_ID_PATH_PARAM,bestellungId)
+									.delete( BESTELLUNGEN_ID_PATH);
+		//Then
+		assertThat(response.getStatusCode(), is(HTTP_NO_CONTENT));
+		LOGGER.finer("ENDE");
+	}
 	
+	@Ignore
 	@Test
 	public void findKundeByBestellungId() {
 		LOGGER.finer("BEGINN");
@@ -116,7 +136,7 @@ public class BestellungResourceTest extends AbstractResourceTest {
 	
 	}
 
-	@Ignore
+
 	@Test
 	public void createBestellung() {
 		LOGGER.finer("BEGINN");
@@ -125,28 +145,29 @@ public class BestellungResourceTest extends AbstractResourceTest {
 		//final Long kunde_Id = KUNDE_ID_VORHANDEN;
 		final Long preis = PREIS_NEU;
 		final String status = STATUS_NEU;
-		final Long bestellungId = BESTELLUNG_ID_VORHANDEN;
 		
+		final Long artikelId1 = ARTIKEL_ID_VORHANDEN_1;
+		final Long artikelId2 = ARTIKEL_ID_VORHANDEN_2;
 		
 		final String username = USERNAME_ADMIN;
 		final String password = PASSWORD_ADMIN;
 		
 		// Neues, client-seitiges Bestellungsobjekt als JSON-Datensatz
 		final JsonObject jsonObject = getJsonBuilderFactory().createObjectBuilder()
-				                      	.add("lieferungUri", LIEFERUNG_URI + "/" + bestellungId)
+				                      	
 				                      	
 				            		   .add("preis",preis)
 				            		   .add("status",status)
-				            		   .add("bestellposition", getJsonBuilderFactory().createArrayBuilder()
-				            		                            .add(getJsonBuilderFactory().createObjectBuilder()
-				            		                               
-				            		                                 .add("anzahl", "2")
-				            		                                 .add("artikelUri", ARTIKEL_URI + "/" )))
 				            		   .add("kundeUri", KUNDEN_URI + "/" )
-				            		   .add("lieferungUri", LIEFERUNG_URI + "/" )
-				            		   
-				            		                            
-				                      .build();
+				            		   .add("bestellposition", getJsonBuilderFactory().createArrayBuilder()
+				            		                            .add(getJsonBuilderFactory().createObjectBuilder()			            	
+				            		                                 .add("artikelUri", ARTIKEL_URI + "/" + artikelId1 )
+				            		                                 .add("anzahl", "2"))
+				            		                             .add(getJsonBuilderFactory().createObjectBuilder()
+				            		                            		.add("artikelUri", ARTIKEL_URI + "/" + artikelId2)
+				            		                            		.add("anzahl",2)))
+				            		   .add("lieferungUri", LIEFERUNG_URI + "/")                         
+				                       .build();
 
 		// When
 		final Response response = given().contentType(APPLICATION_JSON)
