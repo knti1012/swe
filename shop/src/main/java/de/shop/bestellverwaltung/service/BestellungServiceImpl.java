@@ -3,12 +3,14 @@ package de.shop.bestellverwaltung.service;
 import static de.shop.util.Constants.KEINE_ID;
 
 
+
 import java.io.Serializable;
 import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+
 import org.jboss.logging.Logger;
 
 import javax.annotation.PostConstruct;
@@ -36,6 +38,7 @@ import de.shop.bestellverwaltung.domain.Lieferung;
 import de.shop.kundenverwaltung.domain.Kunde;
 import de.shop.kundenverwaltung.service.KundeService;
 import de.shop.kundenverwaltung.service.KundeService.FetchType;
+import de.shop.util.ConcurrentDeletedException;
 import de.shop.util.Log;
 import de.shop.util.ValidatorProvider;
 
@@ -100,6 +103,15 @@ public class BestellungServiceImpl implements Serializable, BestellungService {
 		if (bestellung == null) {
 			return null;
 		}
+		em.detach(bestellung);		
+
+		Bestellung tmp = findBestellungById(bestellung.getId());
+		if(tmp == null){
+			throw new ConcurrentDeletedException(bestellung.getId());
+		}
+		em.detach(tmp);
+		
+		
 
 		em.merge(bestellung);
 		return bestellung;
