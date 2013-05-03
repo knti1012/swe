@@ -1,0 +1,4 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets">
+	<b>MADE BY: Vassil, Alvin, Dilbara, Timo, Tobias</b>
+</ui:composition>
