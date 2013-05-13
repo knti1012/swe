@@ -2,7 +2,7 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html">
 	<p id="index">
-		<h:outputLink id="menuIndex" value="#{request.contextPath}">
+		<h:outputLink id="menuIndex" value="#{request.contextPath}/index.html">
 			#{msg['nav.index']}
 		</h:outputLink>
 	</p>
@@ -10,6 +10,18 @@
 		<h:outputLink id="menuViewKunde"
 		              value="#{request.contextPath}/kundenverwaltung/viewKunde.jsf">
 			#{msg['nav.viewKunde']}
+		</h:outputLink>
+	</p>
+	<p id="viewBestellung">
+		<h:outputLink id="menuViewBestellung"
+		              value="#{request.contextPath}/bestellwaltung/viewBestellung.jsf">
+			#{msg['nav.viewBestellung']}
+		</h:outputLink>
+	</p>
+	<p id="viewArtikel">
+		<h:outputLink id="menuViewArtikel"
+		              value="#{request.contextPath}/artikelwaltung/viewArtikel.jsf">
+			#{msg['nav.viewArtikel']}
 		</h:outputLink>
 	</p>
 </ui:composition>
