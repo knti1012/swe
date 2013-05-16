@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:c="http://java.sun.com/jsp/jstl/core"
+	  xmlns:rich="http://richfaces.org/rich"
+	  xmlns:a4j="http://richfaces.org/a4j"
+	  xmlns:f="http://java.sun.com/jsf/core">
+
+	<ui:composition template="/WEB-INF/templates/desktop/main.xml">
+		<ui:param name="pageTitle" value="#{msgKv['createKunde.title']}"/>
+		
+		<ui:define name="metadata">
+			<f:event type="preRenderView" listener="#{kc.createEmptyKunde}"/>
+		</ui:define>
+		
+		<ui:define name="article">
+			<h:form id="createKundeForm">
+				<h:panelGrid id="createPanelGrid" columns="2">
+					<h:outputLabel id="nachnameInputLabel"
+									for="nachname"
+									value="Nachname"/>
+					<h:inputText id="nachname"
+								value="#{kc.neuerKunde.nachname}" />
+								
+					<h:outputLabel id="vornameInputLabel"
+									for="vorname"
+									value="Vorname"/>
+					<h:inputText id="vorname"
+								value="#{kc.neuerKunde.vorname}" />
+					
+					<h:outputLabel id="emailInputLabel"
+									for="email"
+									value="E-Mail"/>
+					<h:inputText id="email"
+								value="#{kc.neuerKunde.email}" />
+								
+					<h:outputLabel id="passwortInputLabel"
+									for="passwort"
+									value="Kennwort"/>
+					<h:inputText id="passwort"
+								value="#{kc.neuerKunde.password}" />
+											
+<!-- 					<h:outputLabel id="passwortWdhInputLabel" -->
+<!-- 									for="passwortWdh" -->
+<!-- 									value="Kennwort (Wdh.)"/> -->
+<!-- 					<h:inputText id="passwortWdh" -->
+<!-- 								value="#{kc.neuerKunde.passwordWdh}" /> -->
+				</h:panelGrid>
+				<h:commandButton id="createButton" 
+								value="OK" 
+								action="#{kc.createKunde}" />
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</html>

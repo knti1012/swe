@@ -25,14 +25,20 @@ public class KundeController implements Serializable {
 	
 	private static final String FLASH_KUNDE = "kunde";
 	private static final String JSF_VIEW_KUNDE = "/kundenverwaltung/viewKunde";
+
 	
 	@Inject
 	private KundeService ks;
+	private Kunde kunde;
 	
-//	@Inject
-//	private Flash flash;
+	private Kunde neuerKunde;
+	
+	@Inject
+	private Flash flash;
 	
 	private Long kundeId;
+
+	private String nachname;
 
 	@Override
 	public String toString() {
@@ -47,6 +53,17 @@ public class KundeController implements Serializable {
 		return kundeId;
 	}
 
+	public void setNachname(String nachname) {
+		this.nachname = nachname;
+	}
+	
+	public String getNachname() {
+		return nachname;
+	}
+	
+	public Kunde getNeuerKunde() {
+		return neuerKunde;
+	}
 	/**
 	 * Action Methode, um einen Kunden zu gegebener ID zu suchen
 	 * @return URL fuer Anzeige des gefundenen Kunden; sonst null
@@ -55,11 +72,35 @@ public class KundeController implements Serializable {
 	public String findKundeById() {
 		final Kunde kunde = ks.findKundeById(kundeId, FetchType.NUR_KUNDE, null);
 		if (kunde == null) {
-//			flash.remove(FLASH_KUNDE);
+			flash.remove(FLASH_KUNDE);
 			return null;
 		}
 		
-//		flash.put(FLASH_KUNDE, kunde);
+		flash.put(FLASH_KUNDE, kunde);
+		return JSF_VIEW_KUNDE;
+	}
+	
+	public void createEmptyKunde() {
+		if (neuerKunde!= null)
+			return;
+		neuerKunde = new Kunde();
+	}
+	
+	public String createKunde() {
+		try {
+			neuerKunde = (Kunde) ks.createKunde(neuerKunde, null);
+		}
+		catch (Exception e) {
+			final String outcome = "Fehler";
+			return outcome;
+		}
+
+		// Aufbereitung fuer viewKunde.xhtml
+		kundeId = neuerKunde.getId();
+		kunde = neuerKunde;
+		neuerKunde = null;  // zuruecksetzen
+		
+		
 		return JSF_VIEW_KUNDE;
 	}
 }

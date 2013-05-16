@@ -12,6 +12,12 @@
 			#{msg['nav.viewKunde']}
 		</h:outputLink>
 	</p>
+	<p id="createKunde">
+		<h:outputLink id="menuCreateKunde"
+		              value="#{request.contextPath}/kundenverwaltung/createKunde.jsf">
+			#{msg['nav.createKunde']}
+		</h:outputLink>
+	</p>
 	<p id="viewBestellung">
 		<h:outputLink id="menuViewBestellung"
 		              value="#{request.contextPath}/bestellwaltung/viewBestellung.jsf">

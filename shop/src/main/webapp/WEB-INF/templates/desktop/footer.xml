@@ -1,4 +1,4 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets">
-	<b>MADE BY: Vassil, Alvin, Dilbara, Timo, Tobias</b>
+	<b>&#169; Vassil Dimov - Alvin Chandra - Dilbara Urkunchieva - Timo Knapp - Tobias Merz</b>
 </ui:composition>
