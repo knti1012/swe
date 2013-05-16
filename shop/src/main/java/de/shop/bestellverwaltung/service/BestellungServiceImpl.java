@@ -48,6 +48,7 @@ public class BestellungServiceImpl implements Serializable, BestellungService {
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles
 			.lookup().lookupClass().getName());
 
+	
 	@PersistenceContext
 	private transient EntityManager em;
 
