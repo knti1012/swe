@@ -19,5 +19,13 @@
    <base-name>de.shop.kundenverwaltung.controller.messages</base-name>
    <var>msgKv</var>
   </resource-bundle>
+  
+  <resource-bundle>
+   <base-name>de.shop.artikelverwaltung.controller.messages</base-name>
+   <var>msgAv</var>
+  </resource-bundle>
+  
  </application>
 </faces-config>
+
+
