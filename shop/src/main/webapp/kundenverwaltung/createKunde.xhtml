@@ -21,36 +21,36 @@
 				<h:panelGrid id="createPanelGrid" columns="2">
 					<h:outputLabel id="nachnameInputLabel"
 									for="nachname"
-									value="Nachname"/>
+									value="#{msgKv['viewKunde.nachname']}"/>
 					<h:inputText id="nachname"
 								value="#{kc.neuerKunde.nachname}" />
 								
 					<h:outputLabel id="vornameInputLabel"
 									for="vorname"
-									value="Vorname"/>
+									value="#{msgKv['viewKunde.vorname']}"/>
 					<h:inputText id="vorname"
 								value="#{kc.neuerKunde.vorname}" />
 					
 					<h:outputLabel id="emailInputLabel"
 									for="email"
-									value="E-Mail"/>
+									value="#{msgKv['createKunde.email']}"/>
 					<h:inputText id="email"
 								value="#{kc.neuerKunde.email}" />
 								
 					<h:outputLabel id="passwortInputLabel"
 									for="passwort"
-									value="Kennwort"/>
+									value="#{msgKv['createKunde.password']}"/>
 					<h:inputText id="passwort"
 								value="#{kc.neuerKunde.password}" />
 											
 <!-- 					<h:outputLabel id="passwortWdhInputLabel" -->
 <!-- 									for="passwortWdh" -->
-<!-- 									value="Kennwort (Wdh.)"/> -->
+<!-- 									value="#{msgKv['createKunde.passwordWdh']}"/> -->
 <!-- 					<h:inputText id="passwortWdh" -->
 <!-- 								value="#{kc.neuerKunde.passwordWdh}" /> -->
 				</h:panelGrid>
 				<h:commandButton id="createButton" 
-								value="OK" 
+								value="#{msgKv['createKunde.submit']}" 
 								action="#{kc.createKunde}" />
 			</h:form>
 		</ui:define>
