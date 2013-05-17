@@ -14,7 +14,7 @@ import de.shop.util.Transactional;
 
 
 /**
- * Dialogsteuerung fuer die Kundenverwaltung
+ * Dialogsteuerung fuer die Bestellverwaltung
  */
 @Named("bc")
 @RequestScoped
@@ -28,23 +28,17 @@ public class BestellungController implements Serializable {
 	
 	@Inject
 	private BestellungService bs;
-	private Bestellung bestellung;
-	
-	private Bestellung neueBestellung;
 	
 	@Inject
-	private Flash flash;
-	
+	private Flash flash;	
 	private Long bestellId;
-
-	private String bestellposition;
-
+	
 	@Override
 	public String toString() {
 		return "BestellungController [bestellungId=" + bestellId + "]";
 	}
 
-	public void setBestellId(Long kundeId) {
+	public void setBestellId(Long bestellId) {
 		this.bestellId = bestellId;
 	}
 
@@ -52,54 +46,19 @@ public class BestellungController implements Serializable {
 		return bestellId;
 	}
 
-	public void setBestellposition(String bestellpoisiton) {
-		this.bestellposition = bestellposition;
-	}
-	
-	public String getBestellposition() {
-		return bestellposition;
-	}
-	
-	public Bestellung getNeueBestellung() {
-		return neueBestellung;
-	}
 	/**
 	 * Action Methode, um einen Kunden zu gegebener ID zu suchen
 	 * @return URL fuer Anzeige des gefundenen Kunden; sonst null
 	 */
 	@Transactional
 	public String findBestellungById() {
-		final Bestellung bestellung = bs.findBestellungById(bestellId/*, FetchType.NUR_KUNDE, null*/);
+		final Bestellung bestellung = bs.findBestellungById(bestellId);
 		if (bestellung == null) {
 			flash.remove(FLASH_BESTELLUNG);
 			return null;
 		}
 		
 		flash.put(FLASH_BESTELLUNG, bestellung);
-		return JSF_VIEW_BESTELLUNG;
-	}
-	
-	public void createEmptyKunde() {
-		if (neueBestellung != null)
-			return;
-		neueBestellung = new Bestellung();
-	}
-	
-	public String createKunde() {
-		try {
-			neueBestellung = (Bestellung) bs.createBestellung(neueBestellung,bestellId, null);
-		}
-		catch (Exception e) {
-			final String outcome = "Fehler";
-			return outcome;
-		}
-
-		// Aufbereitung fuer viewBestellung.xhtml
-		bestellId = neueBestellung.getId();
-		bestellung = neueBestellung;
-		neueBestellung = null;  // zuruecksetzen
-		
-		
 		return JSF_VIEW_BESTELLUNG;
 	}
 }

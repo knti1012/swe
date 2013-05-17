@@ -25,6 +25,11 @@
    <var>msgAv</var>
   </resource-bundle>
   
+  <resource-bundle>
+   <base-name>de.shop.bestellverwaltung.controller.messages</base-name>
+   <var>msgBv</var>
+  </resource-bundle>
+  
  </application>
 </faces-config>
 

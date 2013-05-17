@@ -1,4 +1,3 @@
-
 <?xml version="1.0"?>
 <!DOCTYPE html>
 
@@ -26,29 +25,23 @@
 						<a4j:commandButton id="sucheButton"
 										   action="#{bc.findBestellungById}"
 										   value="#{msgBv['viewBestellung.submit']}"
-										   render="gesuchterBestellungPanel"/>
+										   render="gesuchteBestellungPanel"/>
 					</h:panelGrid>
 				</rich:panel>
 			
 				<p id="abstand"/>
 			
-				<a4j:outputPanel id="gesuchterBestellungPanel">
+				<a4j:outputPanel id="gesuchteBestellungPanel">
 					<c:if test="#{not empty flash.bestellung}">
 						<c:set var="bestellung" value="#{flash.bestellung}" scope="view"/>
 						<!-- Fuer den naechsten Request puffern, falls z.B. ein Update-Button angeklickt WUERDE -->
 						<c:set target="#{flash}" property="bestellung" value="#{bestellung}"/>
 						
-						<h:panelGrid id="gesuchterBestellung"
+						<h:panelGrid id="gesuchteBestellung"
 									 columns="2"
 									 border="1">
 							<h:outputText id="bestellIdLabel" value="#{msgBv['viewBestellung.bestellnr']}"/>
 							<h:outputText id="bestellId" value="#{bestellung.id}"/>
-				
-							<h:outputText id="BestellpositionLabel" value="#{msgBv['viewBestellung.bestellposition']}"/>
-							<h:outputText id="bestellposition" value="#{bestellung.bestellposition}"/>
-				
-							<h:outputText id="kundeLabel" value="#{msgBv['viewBestellung.kunde']}"/>
-							<h:outputText id="kunde" value="#{bestellung.kunde}"/>
 						</h:panelGrid>
 					</c:if>
 					
