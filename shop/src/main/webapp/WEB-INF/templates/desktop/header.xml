@@ -9,7 +9,7 @@
 	    
 		<h:outputLink id="hsLink" value="#{request.contextPath}/index.html">
 			<h:graphicImage id="hsLogoImage"
-			                name="hs-logo.gif"
+			                name="logo_hska.png"
 			                library="images"
 							alt="#{msg['header.logo.alt']}"/>
 		</h:outputLink>
