@@ -145,13 +145,13 @@ public class Bestellung implements Serializable {
 	@JsonProperty("kunde")
 	private URI kundeUri;
 
-	@OneToMany
+	@OneToMany(fetch = FetchType.EAGER)
 	@JoinColumn(name = "b_fk", nullable = false, updatable = false)
 	@NotEmpty(message = "{bestellverwaltung.bestellung.bestellpositionen.notEmpty}")
 	@Valid
 	@JsonProperty("bestellpositionen")
 	private List<Bestellposition> bestellpositionen;
-
+	
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "bestellung_lieferung", joinColumns = @JoinColumn(name = "b_fk"), 
 							inverseJoinColumns = @JoinColumn(name = "l_fk"))
@@ -171,6 +171,13 @@ public class Bestellung implements Serializable {
 		this.bestellpositionen = bestellpositionen;
 	}
 
+	public String bestellpositionenToString() {
+		String bpn = "";
+		for (Bestellposition bp : bestellpositionen ){
+		bpn = bpn + bp.toString() + " ";}
+		return bpn;
+	}
+	
 	@PrePersist
 	private void prePersist() {
 		erzeugt = new Date();
