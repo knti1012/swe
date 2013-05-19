@@ -16,43 +16,120 @@
 			<f:event type="preRenderView" listener="#{kc.createEmptyKunde}"/>
 		</ui:define>
 		
+		<ui:param name="pageTitle" value="#{msgKv['createKunde.title']}"/>
+		
 		<ui:define name="article">
+			<h1>
+				#{msgKv['createKunde.heading']}
+			</h1>
+			
 			<h:form id="createKundeForm">
-				<h:panelGrid id="createPanelGrid" columns="2">
-					<h:outputLabel id="nachnameInputLabel"
-									for="nachname"
-									value="#{msgKv['viewKunde.nachname']}"/>
-					<h:inputText id="nachname"
-								value="#{kc.neuerKunde.nachname}" />
-								
-					<h:outputLabel id="vornameInputLabel"
-									for="vorname"
-									value="#{msgKv['viewKunde.vorname']}"/>
-					<h:inputText id="vorname"
-								value="#{kc.neuerKunde.vorname}" />
+				<rich:jQuery id="nachnameFocus" selector="#nachname" query="focus()"/>
+				
+				<rich:graphValidator id="kundeValidator"
+				                     value="#{kc.neuerKunde}"
+				                     groups="#{kc.passwordGroup}">
+					<rich:messages for="kundeValidator"/>
+					<rich:messages id="fehlermeldungPassword" globalOnly="true"/>
 					
-					<h:outputLabel id="emailInputLabel"
-									for="email"
-									value="#{msgKv['createKunde.email']}"/>
-					<h:inputText id="email"
-								value="#{kc.neuerKunde.email}" />
-								
-					<h:outputLabel id="passwortInputLabel"
-									for="passwort"
-									value="#{msgKv['createKunde.password']}"/>
-					<h:inputText id="passwort"
-								value="#{kc.neuerKunde.password}" />
-											
-<!-- 					<h:outputLabel id="passwortWdhInputLabel" -->
-<!-- 									for="passwortWdh" -->
-<!-- 									value="#{msgKv['createKunde.passwordWdh']}"/> -->
-<!-- 					<h:inputText id="passwortWdh" -->
-<!-- 								value="#{kc.neuerKunde.passwordWdh}" /> -->
-				</h:panelGrid>
-				<h:commandButton id="createButton" 
-								value="#{msgKv['createKunde.submit']}" 
-								action="#{kc.createKunde}" />
+					<h:panelGrid id="createPanelGrid" columns="3">
+					
+						<h:outputLabel id="nachnameLabel" for="nachname" 
+												value="#{msgKv['createKunde.nachname']}"/>
+						<h:inputText id="nachname" value="#{kc.neuerKunde.nachname}">
+							<rich:validator oninvalid="$(#{rich:element('nachname')}).addClass('invalid')"
+	                                           onvalid="$(#{rich:element('nachname')}).removeClass('invalid')"/>
+						</h:inputText>
+						<rich:messages id="fehlermeldungenNachname" for="nachname"/>
+									
+						<h:outputLabel id="vornameLabel" for="vorname" 
+										value="#{msgKv['createKunde.vorname']}"/>
+						<h:inputText id="vorname" value="#{kc.neuerKunde.vorname}"/>
+						<f:verbatim/>
+						
+						<h:outputLabel id="seitLabel"
+							               for="seit"
+							               value="#{msgKv['createKunde.seit']}"/>
+						<rich:calendar id="seit"
+						               datePattern="#{msgKv['createKunde.calendar.pattern']}"
+						               value="#{kc.neuerKunde.erzeugt}"
+						               timezone="CET">
+						    
+							<rich:placeholder id="seitPlaceholder" value="#{msgKv['createKunde.seit.placeholder']}" />
+						</rich:calendar>
+						<rich:messages id="fehlermeldungenSeit" for="seit"/>
+						
+						<h:outputText id="geschlechtLabel" value="#{msgKv['createKunde.geschlecht']}"/>
+						<h:selectOneRadio id="geschlecht" value="#{kc.neuerKunde.geschlecht}">
+							<f:selectItem id="weiblich" itemValue="WEIBLICH" itemLabel="#{msgKv['createKunde.geschlecht.weiblich']}"/>
+							<f:selectItem id="maennlich" itemValue="MAENNLICH" itemLabel="#{msgKv['createKunde.geschlecht.maennlich']}"/>
+						</h:selectOneRadio>
+						<f:verbatim/>
+						
+						<h:outputLabel id="emailLabel" for="email" value="#{msgKv['createKunde.email']}"/>
+						<h:inputText id="email" value="#{kc.neuerKunde.email}">
+							<rich:validator oninvalid="$(#{rich:element('email')}).addClass('invalid')"
+	                                           onvalid="$(#{rich:element('email')}).removeClass('invalid')"/>
+						</h:inputText>
+						<rich:messages id="fehlermeldungEmail" for="email"/>
+		
+						<h:outputLabel id="passwordLabel"
+						               for="password"
+						               value="#{msgKv['createKunde.password']}"/>
+						<h:inputSecret id="password"
+						               value="#{kc.neuerKunde.password}"
+						               redisplay="true"/>
+						<f:verbatim/>
+												
+	<!-- 					<h:outputLabel id="passwortWdhInputLabel" -->
+	<!-- 									for="passwortWdh" -->
+	<!-- 									value="#{msgKv['createKunde.passwordWdh']}"/> -->
+	<!-- 					<h:inputText id="passwortWdh" -->
+	<!-- 								value="#{kc.neuerKunde.passwordWdh}" /> -->
+						
+						<h:outputLabel id="plzLabel" for="plz" value="#{msgKv['createKunde.plz']}"/>
+						<h:inputText id="plz"
+						             value="#{kc.neuerKunde.adresse.plz}">
+							<rich:validator oninvalid="$(#{rich:element('plz')}).addClass('invalid')"
+	                                           onvalid="$(#{rich:element('plz')}).removeClass('invalid')"/>
+						</h:inputText>
+						<rich:messages id="fehlermeldungPlz" for="plz"/>
+						
+						<h:outputLabel id="ortLabel" for="ort" value="#{msgKv['createKunde.ort']}"/>
+						<h:inputText id="ort"
+						             value="#{kc.neuerKunde.adresse.stadt}">
+							<rich:validator oninvalid="$(#{rich:element('ort')}).addClass('invalid')"
+	                                           onvalid="$(#{rich:element('ort')}).removeClass('invalid')"/>
+						</h:inputText>
+						<rich:messages id="fehlermeldungOrt" for="ort"/>
+						
+						<h:outputLabel id="strasseLabel" for="strasse" value="#{msgKv['createKunde.strasse']}"/>
+						<h:inputText id="strasse"
+						             value="#{kc.neuerKunde.adresse.strasse}">
+							<rich:validator oninvalid="$(#{rich:element('strasse')}).addClass('invalid')"
+	                                           onvalid="$(#{rich:element('strasse')}).removeClass('invalid')"/>
+						</h:inputText>
+						<rich:messages id="fehlermeldungStrasse" for="strasse"/>
+						
+						<h:outputLabel id="hausnrLabel" for="hausnr" value="#{msgKv['createKunde.hausnr']}"/>
+						<h:inputText id="hausnr" value="#{kc.neuerKunde.adresse.hausnummer}"/>
+						<f:verbatim/>
+						
+					</h:panelGrid>
+					
+					<p id="buttons">
+						<h:commandButton id="createButton" 
+										value="#{msgKv['createKunde.submit']}" 
+										action="#{kc.createKunde}" />
+						#{' '}
+						<h:commandButton id="reset" type="reset" value="#{msgKv['createKunde.reset']}"/>
+					</p>
+				</rich:graphValidator>
 			</h:form>
+			
+			<p id="hinweisPflichtfelder">
+				#{msgKv['createKunde.required']}
+			</p>
 		</ui:define>
 	</ui:composition>
 </html>
