@@ -30,6 +30,10 @@
    <var>msgBv</var>
   </resource-bundle>
   
+  <resource-bundle>
+   <base-name>de.shop.auth.controller.messages</base-name>
+   <var>msgAuth</var>
+  </resource-bundle>
  </application>
 </faces-config>
 

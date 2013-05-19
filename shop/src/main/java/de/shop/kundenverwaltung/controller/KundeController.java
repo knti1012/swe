@@ -10,12 +10,15 @@ import org.jboss.logging.Logger;
 
 import javax.ejb.TransactionAttribute;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Event;
 import javax.faces.context.Flash;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
 import javax.persistence.OptimisticLockException;
+import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 
@@ -35,6 +38,8 @@ import de.shop.util.Log;
 import de.shop.util.Transactional;
 import static de.shop.util.Constants.JSF_REDIRECT_SUFFIX;
 import static javax.ejb.TransactionAttributeType.REQUIRED;
+import static javax.ejb.TransactionAttributeType.SUPPORTS;
+import static javax.persistence.PersistenceContextType.EXTENDED;
 import de.shop.util.Messages;
 import static de.shop.util.Constants.JSF_INDEX;
 import static de.shop.util.Messages.MessagesType.KUNDENVERWALTUNG;
@@ -44,7 +49,8 @@ import static de.shop.util.Messages.MessagesType.KUNDENVERWALTUNG;
  * Dialogsteuerung fuer die Kundenverwaltung
  */
 @Named("kc")
-@RequestScoped
+@SessionScoped
+@TransactionAttribute(SUPPORTS)
 @Log
 public class KundeController implements Serializable {
 	private static final long serialVersionUID = -8817180909526894740L;
@@ -60,6 +66,9 @@ public class KundeController implements Serializable {
 	private static final String MSG_KEY_UPDATE_KUNDE_DUPLIKAT = "updateKunde.duplikat";
 	private static final String MSG_KEY_UPDATE_KUNDE_CONCURRENT_UPDATE = "updateKunde.concurrentUpdate";
 	private static final String MSG_KEY_UPDATE_KUNDE_CONCURRENT_DELETE = "updateKunde.concurrentDelete";
+	
+	@PersistenceContext(type = EXTENDED)
+	private transient EntityManager em;
 	
 	@Inject
 	private KundeService ks;
@@ -125,7 +134,7 @@ public class KundeController implements Serializable {
 	 * Action Methode, um einen Kunden zu gegebener ID zu suchen
 	 * @return URL fuer Anzeige des gefundenen Kunden; sonst null
 	 */
-	@Transactional
+	@TransactionAttribute(REQUIRED)
 	public String findKundeById() {
 		kunde = ks.findKundeById(kundeId, FetchType.NUR_KUNDE, null);
 		if (kunde == null) {
