@@ -10,6 +10,11 @@
 		                topGroupExpandedLeftIcon="chevronDown"
 		                topGroupCollapsedLeftIcon="chevron"
 		                itemLeftIcon="grid">
+		    <rich:panelMenuItem id="indexView">
+		        <h:outputLink id="menuIndex" value="#{request.contextPath}/index.jsf">
+					#{msg['nav.index']}
+				</h:outputLink>
+		    </rich:panelMenuItem>            
 			<rich:panelMenuGroup id="kundenverwaltung"
 			                     label="#{msg['nav.kundenverwaltung']}"
 			                     expanded="true">

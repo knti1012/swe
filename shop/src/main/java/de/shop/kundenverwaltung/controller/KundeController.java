@@ -72,8 +72,11 @@ public class KundeController implements Serializable {
 	
 	@Inject
 	private KundeService ks;
+	
 	private Kunde kunde;
+	
 	private boolean geaendertKunde; 
+	
 	private Adresse adresse;
 	
 	@Inject
