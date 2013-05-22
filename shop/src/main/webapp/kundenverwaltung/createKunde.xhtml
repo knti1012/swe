@@ -47,6 +47,7 @@
 						<h:inputText id="vorname" value="#{kc.neuerKunde.vorname}"/>
 						<f:verbatim/>
 						
+						<!--  
 						<h:outputLabel id="seitLabel"
 							               for="seit"
 							               value="#{msgKv['createKunde.seit']}"/>
@@ -58,11 +59,11 @@
 							<rich:placeholder id="seitPlaceholder" value="#{msgKv['createKunde.seit.placeholder']}" />
 						</rich:calendar>
 						<rich:messages id="fehlermeldungenSeit" for="seit"/>
-						
+						-->
 						<h:outputText id="geschlechtLabel" value="#{msgKv['createKunde.geschlecht']}"/>
 						<h:selectOneRadio id="geschlecht" value="#{kc.neuerKunde.geschlecht}">
-							<f:selectItem id="weiblich" itemValue="WEIBLICH" itemLabel="#{msgKv['createKunde.geschlecht.weiblich']}"/>
-							<f:selectItem id="maennlich" itemValue="MAENNLICH" itemLabel="#{msgKv['createKunde.geschlecht.maennlich']}"/>
+							<f:selectItem id="weiblich" itemValue="W" itemLabel="#{msgKv['createKunde.geschlecht.weiblich']}"/>
+							<f:selectItem id="maennlich" itemValue="M" itemLabel="#{msgKv['createKunde.geschlecht.maennlich']}"/>
 						</h:selectOneRadio>
 						<f:verbatim/>
 						
@@ -114,6 +115,14 @@
 						<h:outputLabel id="hausnrLabel" for="hausnr" value="#{msgKv['createKunde.hausnr']}"/>
 						<h:inputText id="hausnr" value="#{kc.neuerKunde.adresse.hausnummer}"/>
 						<f:verbatim/>
+						
+						<h:outputLabel id="landLabel" for="land" value="#{msgKv['createKunde.land']}"/>
+						<h:inputText id="land"
+						             value="#{kc.neuerKunde.adresse.land}">
+							<rich:validator oninvalid="$(#{rich:element('land')}).addClass('invalid')"
+	                                           onvalid="$(#{rich:element('land')}).removeClass('invalid')"/>
+						</h:inputText>
+						<rich:messages id="fehlermeldungland" for="land"/>
 						
 					</h:panelGrid>
 					

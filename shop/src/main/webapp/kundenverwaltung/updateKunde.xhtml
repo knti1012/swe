@@ -49,25 +49,64 @@
 					<h:outputLabel id="vornameLabel" for="vorname" value="#{msgKv['updateKunde.vorname']}"/>
 					<h:inputText id="vorname" value="#{kc.kunde.vorname}" valueChangeListener="#{kc.geaendert}"/>
 					<f:verbatim/>
-					<h:outputLabel id="seitLabel"
-					               for="seit"
-					               value="#{msgKv['updateKunde.seit']}"
-					               escape="false"/>
-					<rich:calendar id="seit"
-					               datePattern="#{msgKv['updateKunde.calendar.pattern']}"
-					               value="#{kc.kunde.erzeugt}"
-					               timezone="CET">
-						<!--
-						<rich:validator/>
-						-->
-					</rich:calendar>
-					<rich:messages id="fehlermeldungSeit" for="seit"/>
+					
 					<h:outputLabel id="emailLabel" for="email" value="#{msgKv['updateKunde.email']}"/>
 					<h:inputText id="email" value="#{kc.kunde.email}" valueChangeListener="#{kc.geaendert}">
 						<rich:validator oninvalid="$(#{rich:element('email')}).addClass('invalid')"
                                         onvalid="$(#{rich:element('email')}).removeClass('invalid')"/>
 					</h:inputText>
 					<rich:messages id="fehlermeldungenEmail" for="email"/>
+					
+					<h:outputLabel id="passwordLabel"
+						               for="password"
+						               value="#{msgKv['createKunde.password']}"/>
+						<h:inputSecret id="password"
+						               value="#{kc.kunde.password}"
+						               redisplay="true"/>
+						<f:verbatim/>
+												
+	<!-- 					<h:outputLabel id="passwortWdhInputLabel" -->
+	<!-- 									for="passwortWdh" -->
+	<!-- 									value="#{msgKv['createKunde.passwordWdh']}"/> -->
+	<!-- 					<h:inputText id="passwortWdh" -->
+	<!-- 								value="#{kc.kunde.passwordWdh}" /> -->
+						
+						<h:outputLabel id="plzLabel" for="plz" value="#{msgKv['createKunde.plz']}"/>
+						<h:inputText id="plz"
+						             value="#{kc.kunde.adresse.plz}">
+							<rich:validator oninvalid="$(#{rich:element('plz')}).addClass('invalid')"
+	                                           onvalid="$(#{rich:element('plz')}).removeClass('invalid')"/>
+						</h:inputText>
+						<rich:messages id="fehlermeldungPlz" for="plz"/>
+						
+						<h:outputLabel id="ortLabel" for="ort" value="#{msgKv['createKunde.ort']}"/>
+						<h:inputText id="ort"
+						             value="#{kc.kunde.adresse.stadt}">
+							<rich:validator oninvalid="$(#{rich:element('ort')}).addClass('invalid')"
+	                                           onvalid="$(#{rich:element('ort')}).removeClass('invalid')"/>
+						</h:inputText>
+						<rich:messages id="fehlermeldungOrt" for="ort"/>
+						
+						<h:outputLabel id="strasseLabel" for="strasse" value="#{msgKv['createKunde.strasse']}"/>
+						<h:inputText id="strasse"
+						             value="#{kc.kunde.adresse.strasse}">
+							<rich:validator oninvalid="$(#{rich:element('strasse')}).addClass('invalid')"
+	                                           onvalid="$(#{rich:element('strasse')}).removeClass('invalid')"/>
+						</h:inputText>
+						<rich:messages id="fehlermeldungStrasse" for="strasse"/>
+						
+						<h:outputLabel id="hausnrLabel" for="hausnr" value="#{msgKv['createKunde.hausnr']}"/>
+						<h:inputText id="hausnr" value="#{kc.kunde.adresse.hausnummer}"/>
+						<f:verbatim/>
+						
+						<h:outputLabel id="landLabel" for="land" value="#{msgKv['createKunde.land']}"/>
+						<h:inputText id="land"
+						             value="#{kc.kunde.adresse.land}">
+							<rich:validator oninvalid="$(#{rich:element('land')}).addClass('invalid')"
+	                                           onvalid="$(#{rich:element('land')}).removeClass('invalid')"/>
+						</h:inputText>
+						<rich:messages id="fehlermeldungland" for="land"/>
+						
 				</h:panelGrid>
 	
 				<p id="buttons">

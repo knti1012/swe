@@ -8,6 +8,7 @@ import java.util.Locale;
 
 import org.jboss.logging.Logger;
 
+import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
@@ -29,9 +30,11 @@ import de.shop.kundenverwaltung.domain.Adresse;
 import de.shop.kundenverwaltung.domain.PasswordGroup;
 import de.shop.kundenverwaltung.domain.Kunde;
 import de.shop.kundenverwaltung.service.EmailExistsException;
+import de.shop.kundenverwaltung.service.InvalidKundeException;
 import de.shop.kundenverwaltung.service.InvalidKundeIdException;
 import de.shop.kundenverwaltung.service.KundeService;
 import de.shop.kundenverwaltung.service.KundeService.FetchType;
+import de.shop.util.AbstractShopException;
 import de.shop.util.Client;
 import de.shop.util.ConcurrentDeletedException;
 import de.shop.util.Log;
@@ -50,6 +53,7 @@ import static de.shop.util.Messages.MessagesType.KUNDENVERWALTUNG;
  */
 @Named("kc")
 @SessionScoped
+@Stateful
 @TransactionAttribute(SUPPORTS)
 @Log
 public class KundeController implements Serializable {
@@ -59,6 +63,10 @@ public class KundeController implements Serializable {
 	
 	private static final String FLASH_KUNDE = "kunde";
 	private static final String JSF_VIEW_KUNDE = "/kundenverwaltung/viewKunde";
+	
+	private static final String CLIENT_ID_CREATE_EMAIL = "createKundeForm:email";
+	private static final String MSG_KEY_CREATE_KUNDE_EMAIL_EXISTS = "createKunde.emailExists";
+	
 	private static final Class<?>[] PASSWORD_GROUP = { PasswordGroup.class };
 	
 	private static final String CLIENT_ID_UPDATE_PASSWORD = "updateKundeForm:password";
@@ -114,6 +122,10 @@ public class KundeController implements Serializable {
 		return "KundeController [kundeId=" + kundeId + "]";
 	}
 
+	public Kunde getKunde() {
+		return kunde;
+	}
+	
 	public void setKundeId(Long kundeId) {
 		this.kundeId = kundeId;
 	}
@@ -139,7 +151,7 @@ public class KundeController implements Serializable {
 	 */
 	@TransactionAttribute(REQUIRED)
 	public String findKundeById() {
-		kunde = ks.findKundeById(kundeId, FetchType.NUR_KUNDE, null);
+		kunde = ks.findKundeById(kundeId, FetchType.NUR_KUNDE, locale);
 		if (kunde == null) {
 			flash.remove(FLASH_KUNDE);
 			return null;
@@ -200,13 +212,12 @@ public class KundeController implements Serializable {
 	@TransactionAttribute(REQUIRED)
 	public String createKunde() {
 		try {
-			neuerKunde = (Kunde) ks.createKunde(neuerKunde, null);
-			
+			neuerKunde = (Kunde) ks.createKunde(neuerKunde, locale);
 		}
-		catch (Exception e) {
-			final String outcome = "Fehler";
+		catch (EmailExistsException e) {
+			final String outcome = createKundeErrorMsg(e);
 			return outcome;
-		}
+		}	
 
 		// Push-Event fuer Webbrowser
 		neuerKundeEvent.fire(String.valueOf(neuerKunde.getId()));
@@ -218,6 +229,19 @@ public class KundeController implements Serializable {
 		
 		
 		return JSF_VIEW_KUNDE + JSF_REDIRECT_SUFFIX;
+	}
+	
+	private String createKundeErrorMsg(AbstractShopException e) {
+		final Class<? extends AbstractShopException> exceptionClass = e.getClass();
+		if (exceptionClass.equals(EmailExistsException.class)) {
+			messages.error(KUNDENVERWALTUNG, MSG_KEY_CREATE_KUNDE_EMAIL_EXISTS, CLIENT_ID_CREATE_EMAIL);
+		}
+//		else if (exceptionClass.equals(InvalidKundeException.class)) {
+//			final InvalidKundeException orig = (InvalidKundeException) e;
+//			messages.error(orig.getViolations(), null);
+//		}
+		
+		return null;
 	}
 	
 	public Class<?>[] getPasswordGroup() {
@@ -244,7 +268,7 @@ public class KundeController implements Serializable {
 
 	@TransactionAttribute(REQUIRED)
 	public String update() {
-		auth.preserveLogin();
+		// auth.preserveLogin();
 		
 		if (!geaendertKunde || kunde == null) {
 			return JSF_INDEX;
@@ -296,4 +320,6 @@ public class KundeController implements Serializable {
 		}
 		return null;
 	}
+
+	
 }

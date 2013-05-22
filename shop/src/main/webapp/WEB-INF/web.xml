@@ -258,15 +258,12 @@
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>shopMitarbeiterTaetigkeiten</web-resource-name>
-      <url-pattern>/kundenverwaltung/createPrivatkunde.jsf</url-pattern>
-      <url-pattern>/kundenverwaltung/createPrivatkunde.faces</url-pattern>
-      <url-pattern>/faces/kundenverwaltung/createPrivatkunde.xhtml</url-pattern>
-      <url-pattern>/kundenverwaltung/updatePrivatkunde.jsf</url-pattern>
-      <url-pattern>/kundenverwaltung/updatePrivatkunde.faces</url-pattern>
-      <url-pattern>/faces/kundenverwaltung/updatePrivatkunde.xhtml</url-pattern>
-      <url-pattern>/kundenverwaltung/updateFirmenkunde.jsf</url-pattern>
-      <url-pattern>/kundenverwaltung/updateFirmenkunde.faces</url-pattern>
-      <url-pattern>/faces/kundenverwaltung/updateFirmenkunde.xhtml</url-pattern>
+      <url-pattern>/kundenverwaltung/createKunde.jsf</url-pattern>
+      <url-pattern>/kundenverwaltung/createKunde.faces</url-pattern>
+      <url-pattern>/faces/kundenverwaltung/createKunde.xhtml</url-pattern>
+      <url-pattern>/kundenverwaltung/updateKunde.jsf</url-pattern>
+      <url-pattern>/kundenverwaltung/updateKunde.faces</url-pattern>
+      <url-pattern>/faces/kundenverwaltung/updateKunde.xhtml</url-pattern>
       <http-method>POST</http-method>
       <http-method>GET</http-method>
     </web-resource-collection>

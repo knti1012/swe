@@ -7,7 +7,7 @@
                 
 	<rich:toolbar id="headerToolbar" height="65px">
 	    
-		<h:outputLink id="hsLink" value="#{request.contextPath}/index.html">
+		<h:outputLink id="hsLink" value="#{request.contextPath}/index.jsf">
 			<h:graphicImage id="hsLogoImage"
 			                name="logo_hska.png"
 			                library="images"

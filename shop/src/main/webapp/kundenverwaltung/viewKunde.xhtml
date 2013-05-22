@@ -26,7 +26,12 @@
 									   value="#{msgKv['viewKunde.kundenr']}"
 									   for="idInput"/>
 		
-						<h:inputText id="idInput" value="#{kc.kundeId}"/>
+						<h:inputText id="idInput" 
+									value="#{kc.kundeId}"/>
+									<!-- converterMessage="#{msgKv['viewKunde.kundennr.convert']}"
+									size="7"
+									maxlength="7"/>
+									-->
 						
 						<a4j:commandButton id="sucheButton"
 										   action="#{kc.findKundeById}"
@@ -101,6 +106,10 @@
 							<h:outputText id="adresseVersionLabel" value="#{msgKv['viewKunde.adresse.version']}"/>
 							<h:outputText id="adresseVersion" value="#{kunde.adresse.version}"/>
 							
+							<h:commandButton id="updateButtonKunde"
+							                 image="#{resource['images:edit.gif']}"
+							                 action="/kundenverwaltung/updateKunde"
+							                 alt="#{msgKv['viewKunde.update.alt']}"/>
 						</h:panelGrid>
 					</c:if>
 					
