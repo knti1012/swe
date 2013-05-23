@@ -17,22 +17,22 @@
 		
 		<rich:toolbarGroup id="rightGroup" location="right">
 			
-			<h:form id="loginFormHeader" rendered="#{not auth.loggedIn}">
-				<h:panelGrid id="loginGrid" columns="3">
-					<h:outputLabel id="usernameLabel"
-					               value="#{msg['login.kundeId']}"
-					               for="username"/>
-					<h:inputText id="username" value="#{auth.username}"/>
-					<f:verbatim/>
+<!-- 			<h:form id="loginFormHeader" rendered="#{not auth.loggedIn}"> -->
+<!-- 				<h:panelGrid id="loginGrid" columns="3"> -->
+<!-- 					<h:outputLabel id="usernameLabel" -->
+<!-- 					               value="#{msg['login.kundeId']}" -->
+<!-- 					               for="username"/> -->
+<!-- 					<h:inputText id="username" value="#{auth.username}"/> -->
+<!-- 					<f:verbatim/> -->
 							
-					<h:outputLabel id="passwordLabel"
-					               value="#{msg['login.password']}"
-					               for="password"/>
-					<h:inputSecret id="password" value="#{auth.password}"/>
-					<h:commandButton id="loginButton" action="#{auth.login}" value="#{msg['login.submit']}"/>
-				</h:panelGrid>
-				<rich:message id="fehlermeldungLogin" for="username"/>
-			</h:form>
+<!-- 					<h:outputLabel id="passwordLabel" -->
+<!-- 					               value="#{msg['login.password']}" -->
+<!-- 					               for="password"/> -->
+<!-- 					<h:inputSecret id="password" value="#{auth.password}"/> -->
+<!-- 					<h:commandButton id="loginButton" action="#{auth.login}" value="#{msg['login.submit']}"/> -->
+<!-- 				</h:panelGrid> -->
+<!-- 				<rich:message id="fehlermeldungLogin" for="username"/> -->
+<!-- 			</h:form> -->
 
 			<h:form id="spracheForm">
 				<rich:dropDownMenu id="sprache">

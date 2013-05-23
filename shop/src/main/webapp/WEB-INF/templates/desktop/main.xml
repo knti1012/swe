@@ -44,6 +44,12 @@
 				<ui:insert name="article"/>
 			</article>
 			
+			<aside id="aside">
+				<ui:insert name="aside">
+					<ui:include src="aside.xml"/>
+				</ui:insert>
+			</aside>
+			
 			<footer id="footer">
 				<ui:insert name="footer">
 					<ui:include src="footer.xml"/>

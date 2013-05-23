@@ -16,8 +16,20 @@
 	background-color: #98FB98; 
 }
 
+#aside {
+	float: right;
+	width: 20%;
+	height: 500px;
+	padding: 5px;
+	/*background-color: #FFEBCD;*/ 
+	background-color: #98FB98; 
+}
+
 #article {
-	/* margin-left: 16%; */
+	margin-left: 5%;
+ 	margin-right: 20%;
+ 	position: relative;
+ 	float: left;
 	overflow: auto;
 	padding: 5px;
 }
@@ -27,6 +39,7 @@
 	padding: 10px;
 	background-color: #98FB98;
 }
+
 
 img {
 	border: None;

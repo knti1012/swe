@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:c="http://java.sun.com/jsp/jstl/core"
+	  xmlns:rich="http://richfaces.org/rich"
+	  xmlns:a4j="http://richfaces.org/a4j"
+	  xmlns:f="http://java.sun.com/jsf/core">
+
+	<ui:composition template="/WEB-INF/templates/desktop/main.xml">
+		<ui:param name="pageTitle" value="#{msgAv['createArtikel.title']}"/>
+		
+		<ui:define name="metadata">
+			<f:event type="preRenderView" listener="#{ac.createEmptyArtikel}"/>
+		</ui:define>
+		
+		<ui:define name="article">
+			<h:form id="createArtikelForm">
+				<h:panelGrid id="createPanelGrid" columns="3">
+					
+						<h:outputText id="artikelNameLabel" for="name" value="#{msgAv['createArtikel.name']}"/>
+						<h:inputText id="artikelName" value="#{ac.neuerArtikel.name}"/>
+						<f:verbatim/>
+						
+						<h:outputText id="artikelKategorieLabel" for="kategorie" value="#{msgAv['createArtikel.kategorie']}"/>
+						<h:inputText id="artikelKategoriet" value="#{ac.neuerArtikel.kategorie}"/>
+						<f:verbatim/>
+							
+						<h:outputText id="artikelArtLabel" for="art" value="#{msgAv['createArtikel.art']}"/>
+						<h:inputText id="artikelArt" value="#{ac.neuerArtikel.art}"/>
+						<f:verbatim/>
+							
+						<h:outputText id="artikelFarbeLabel" for="farbe" value="#{msgAv['createArtikel.farbe']}"/>
+						<h:inputText id="artikelFarbe" value="#{ac.neuerArtikel.farbe}"/>
+						<f:verbatim/>
+						
+						<h:outputText id="artikelGroesseLabel" for="groesse" value="#{msgAv['createArtikel.groesse']}"/>
+						<h:inputText id="artikelGroesse" value="#{ac.neuerArtikel.groesse}"/>
+						<f:verbatim/>
+					
+						<h:outputText id="artikelLagerbestandLabel" for="lagerbestand" value="#{msgAv['createArtikel.lagerbestand']}"/>
+						<h:inputText id="artikelLagerbestand" value="#{ac.neuerArtikel.lagerbestand}"/>
+						<f:verbatim/>
+											
+				</h:panelGrid>
+				<h:commandButton id="createButton" 
+								value="#{msgAv['createArtikel.submit']}" 
+								action="#{ac.createArtikel}" />
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</html>

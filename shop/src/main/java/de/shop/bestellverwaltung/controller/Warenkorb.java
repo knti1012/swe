@@ -76,8 +76,8 @@ public class Warenkorb implements Serializable {
 		for (Bestellposition bp : positionen) {
 			if (bp.getArtikel().equals(artikel)) {
 				// bereits im Warenkorb
-				final short vorhandeneAnzahl = bp.getAnzahl();
-				bp.setAnzahl((short) (vorhandeneAnzahl + 1));
+				final int vorhandeneAnzahl = bp.getAnzahl();
+				bp.setAnzahl((vorhandeneAnzahl + 1));
 				return JSF_VIEW_WARENKORB;
 			}
 		}

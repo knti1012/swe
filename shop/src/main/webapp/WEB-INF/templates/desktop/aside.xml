@@ -1,0 +1,20 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j">
+	<h:form id="asideForm">
+				<h:panelGrid id="loginGrid" columns="3">
+					<h:outputLabel id="usernameLabel" value="#{msg['login.kundeId']}"
+						for="username" />
+					<h:inputText id="username" value="#{auth.username}" />
+					<f:verbatim />
+
+					<h:outputLabel id="passwordLabel" value="#{msg['login.password']}"
+						for="password" />
+					<h:inputSecret id="password" value="#{auth.password}" />
+					<h:commandButton id="loginButton" action="#{auth.login}"
+						value="#{msg['login.submit']}" />
+				</h:panelGrid>
+				<rich:message id="fehlermeldungLogin" for="username" />
+			</h:form>
+</ui:composition>
