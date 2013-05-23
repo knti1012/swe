@@ -31,6 +31,7 @@ import de.shop.auth.service.jboss.AuthService;
 import de.shop.auth.service.jboss.AuthService.RolleType;
 import de.shop.kundenverwaltung.domain.Kunde;
 import de.shop.kundenverwaltung.service.KundeService;
+import de.shop.kundenverwaltung.service.KundeService.FetchType;
 import de.shop.util.Client;
 import de.shop.util.InternalError;
 import de.shop.util.Log;
@@ -55,10 +56,10 @@ public class AuthController implements Serializable {
 	private static final String MSG_KEY_UPDATE_ROLLEN_KEIN_USER = "updateRollen.keinUser";
 	private static final String CLIENT_ID_USERNAME_INPUT = "rollenForm:usernameInput";
 	
-	private String username;
+	private Long username;
 	private String password;
 	
-	private String usernameUpdateRollen;
+	private Long usernameUpdateRollen;
 	private Long kundeId;
 
 	@Produces
@@ -108,11 +109,13 @@ public class AuthController implements Serializable {
 		return "AuthController [username=" + username + ", password=" + password + ", user=" + user + "]";
 	}
 	
-	public String getUsername() {
+	public Long getUsername() {
+//		String u = String.valueOf(username);
 		return username;
 	}
 
-	public void setUsername(String username) {
+	public void setUsername(Long username) {
+//		String u = String.valueOf(username);
 		this.username = username;
 	}
 
@@ -124,11 +127,11 @@ public class AuthController implements Serializable {
 		this.password = password;
 	}
 	
-	public String getUsernameUpdateRollen() {
+	public Long getUsernameUpdateRollen() {
 		return usernameUpdateRollen;
 	}
 
-	public void setUsernameUpdateRollen(String usernameUpdateRollen) {
+	public void setUsernameUpdateRollen(Long usernameUpdateRollen) {
 		this.usernameUpdateRollen = usernameUpdateRollen;
 	}
 
@@ -153,6 +156,8 @@ public class AuthController implements Serializable {
 	 */
 	@Transactional
 	public String login() {
+		// Konvertiere Username(ID) von Long zu String
+		String u = String.valueOf(username);
 		if (username == null || "".equals(username)) {
 			reset();
 			messages.error(SHOP, MSG_KEY_LOGIN_ERROR, CLIENT_ID_USERNAME);
@@ -160,7 +165,7 @@ public class AuthController implements Serializable {
 		}
 		
 		try {
-			request.login(username, password);
+			request.login(u, password);
 		}
 		catch (ServletException e) {
 			LOGGER.tracef("username=%s, password=%s", username, password);
@@ -169,10 +174,10 @@ public class AuthController implements Serializable {
 			return null;   // Gleiche Seite nochmals aufrufen: mit den fehlerhaften Werten
 		}
 		
-		user = ks.findKundeByEmail(username, locale);
+		user = ks.findKundeById(username, FetchType.NUR_KUNDE, locale);
 		if (user == null) {
 			logout();
-			throw new InternalError("Kein Kunde mit der E-Mail \"" + username + "\" gefunden");
+			throw new InternalError("Kein Kunde mit der Kundennummer \"" + username + "\" gefunden");
 		}
 		
 		// Gleiche JSF-Seite erneut aufrufen: Re-Render fuer das Navigationsmenue stattfindet
@@ -190,13 +195,13 @@ public class AuthController implements Serializable {
 		}
 		
 		// Benutzername beim Login ermitteln
-		username = request.getRemoteUser();
+		username = Long.valueOf(request.getRemoteUser());
 
-		user = ks.findKundeByEmail(username, locale);
+		user = ks.findKundeById(username, FetchType.NUR_KUNDE, locale);
 		if (user == null) {
 			// Darf nicht passieren, wenn unmittelbar zuvor das Login erfolgreich war
 			logout();
-			throw new InternalError("Kein Kunde mit der E-Mail \"" + username + "\" gefunden");
+			throw new InternalError("Kein Kunde mit der Kundennummer \"" + username + "\" gefunden");
 		}
 	}
 
@@ -245,7 +250,7 @@ public class AuthController implements Serializable {
 	@Transactional
 	public String findRollenByUsername() {
 		// Gibt es den Usernamen ueberhaupt?
-		final Kunde kunde = ks.findKundeByEmail(usernameUpdateRollen, locale);
+		final Kunde kunde = ks.findKundeById(usernameUpdateRollen, FetchType.NUR_KUNDE, locale);
 		if (kunde == null) {
 			kundeId = null;
 			ausgewaehlteRollenOrig = null;

@@ -1,6 +1,5 @@
 package de.shop.kundenverwaltung.controller;
 
-import java.io.Console;
 import java.io.Serializable;
 import java.lang.invoke.MethodHandles;
 import java.util.Collection;
@@ -10,7 +9,6 @@ import org.jboss.logging.Logger;
 
 import javax.ejb.Stateful;
 import javax.ejb.TransactionAttribute;
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Event;
 import javax.faces.context.Flash;
@@ -30,7 +28,6 @@ import de.shop.kundenverwaltung.domain.Adresse;
 import de.shop.kundenverwaltung.domain.PasswordGroup;
 import de.shop.kundenverwaltung.domain.Kunde;
 import de.shop.kundenverwaltung.service.EmailExistsException;
-import de.shop.kundenverwaltung.service.InvalidKundeException;
 import de.shop.kundenverwaltung.service.InvalidKundeIdException;
 import de.shop.kundenverwaltung.service.KundeService;
 import de.shop.kundenverwaltung.service.KundeService.FetchType;
@@ -38,7 +35,6 @@ import de.shop.util.AbstractShopException;
 import de.shop.util.Client;
 import de.shop.util.ConcurrentDeletedException;
 import de.shop.util.Log;
-import de.shop.util.Transactional;
 import static de.shop.util.Constants.JSF_REDIRECT_SUFFIX;
 import static javax.ejb.TransactionAttributeType.REQUIRED;
 import static javax.ejb.TransactionAttributeType.SUPPORTS;

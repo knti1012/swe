@@ -294,6 +294,8 @@ public class KundeService implements Serializable {
 		}
 
 		kunde = em.merge(kunde); // OptimisticLockException
+//		kunde.setPasswordWdh(kunde.getPassword());
+		
 		return kunde;
 	}
 

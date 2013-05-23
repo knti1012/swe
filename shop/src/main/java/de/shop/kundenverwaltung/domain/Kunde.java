@@ -13,7 +13,9 @@ import javax.persistence.ElementCollection;
 import javax.persistence.JoinColumn;
 
 import java.util.Set;
+
 import de.shop.auth.service.jboss.AuthService.RolleType;
+
 import javax.persistence.UniqueConstraint;
 
 import java.io.Serializable;
@@ -36,6 +38,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PostLoad;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -146,7 +149,8 @@ public class Kunde implements Serializable {
 				+ ", aktualisiert=" + aktualisiert
 				+ ", email=" + email + ", erzeugt=" + erzeugt + ", geschlecht="
 				+ geschlecht + ", nachname=" + nachname + ", password="
-				+ password + ", vorname=" + vorname + "]";
+				+ password + ", passwordWdh=" + passwordWdh
+				+  ", vorname=" + vorname + "]";
 	}
 
 	@Id
@@ -176,6 +180,10 @@ public class Kunde implements Serializable {
 	@Column(name = "password", length = PASSWORD_LENGTH_MAX)
 	@NotNull(message = "{kundenverwaltung.kunde.password.notNull}")
 	private String password;
+
+	@Transient
+	@JsonIgnore
+	private String passwordWdh;
 
 	@Column(name = "vorname")
 	@NotNull(message = "{kundenverwaltung.kunde.nachname.notNull}")
@@ -287,6 +295,14 @@ public class Kunde implements Serializable {
 		this.password = password;
 	}
 
+	public String getPasswordWdh() {
+		return passwordWdh;
+	}
+
+	public void setPasswordWdh(String passwordWdh) {
+		this.passwordWdh = passwordWdh;
+	}
+	
 	public String getVorname() {
 		return this.vorname;
 	}
@@ -335,6 +351,11 @@ public class Kunde implements Serializable {
 		this.rollen = rollen;
 	}
 
+	@PostLoad
+	protected void postLoad() {
+		passwordWdh = password;
+	}
+	
 	public void setValues(Kunde kunde) {
 		this.version = kunde.version;
 		this.adresse = kunde.adresse;
@@ -343,6 +364,7 @@ public class Kunde implements Serializable {
 		this.geschlecht = kunde.geschlecht;
 		this.nachname = kunde.nachname;
 		this.password = kunde.password;
+		this.passwordWdh = kunde.password;
 		this.vorname = kunde.vorname;
 	}
 
