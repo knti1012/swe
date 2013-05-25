@@ -54,6 +54,9 @@ h1 {
 	font-style: bold;
 	list-style-type: none;
 }
+.invalid {
+	border-color: #D91C0D !important;
+}
 
 .tabelleMitZebrastil {
 }

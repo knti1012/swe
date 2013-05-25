@@ -2,120 +2,228 @@
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-	  xmlns:ui="http://java.sun.com/jsf/facelets"
-	  xmlns:h="http://java.sun.com/jsf/html"
-	  xmlns:f="http://java.sun.com/jsf/core"
-	  xmlns:c="http://java.sun.com/jsp/jstl/core"
-	  xmlns:rich="http://richfaces.org/rich"
-	  xmlns:a4j="http://richfaces.org/a4j">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j">
 
-	<ui:composition template="/WEB-INF/templates/desktop/main.xml">
-		
-		<ui:define name="metadata">
-			<f:viewParam id="kundeIdMeta" name="kundeId"/>
-			<f:event type="preRenderView" listener="#{kc.loadKunde}"/>
-		</ui:define>
-	
-		<ui:param name="pageTitle" value="#{msgKv['viewKunde.title']}"/>
+<ui:composition template="/WEB-INF/templates/desktop/main.xml">
 
-		<ui:define name="article">
-			<h:form id="sucheForm">
-				<rich:panel id="suchePanel" header="#{msgKv['viewKunde.sucheNeu']}">
-					<h:panelGrid id="suchePanelGrid" columns="3">
-						<h:outputLabel id="idInputLabel"
-									   value="#{msgKv['viewKunde.kundenr']}"
-									   for="idInput"/>
-		
-						<h:inputText id="idInput" 
-									value="#{kc.kundeId}"/>
-									<!-- converterMessage="#{msgKv['viewKunde.kundennr.convert']}"
-									size="7"
-									maxlength="7"/>
-									-->
-						
-						<a4j:commandButton id="sucheButton"
-										   action="#{kc.findKundeById}"
-										   value="#{msgKv['viewKunde.submit']}"
-										   render="gesuchterKundePanel"/>
-					</h:panelGrid>
-				</rich:panel>
-			
-				<p id="abstand"/>
-			
-				<a4j:outputPanel id="gesuchterKundePanel">
-					<c:if test="#{not empty flash.kunde}">
-						<c:set var="kunde" value="#{flash.kunde}" scope="view"/>
-						<!-- Fuer den naechsten Request puffern, falls z.B. ein Update-Button angeklickt WUERDE -->
-						<c:set target="#{flash}" property="kunde" value="#{kunde}"/>
-						
-						<h:panelGrid id="gesuchterKunde"
-									 columns="2"
-									 border="1">
-							<h:outputText id="kundeIdLabel" value="#{msgKv['viewKunde.kundenr']}"/>
-							<h:outputText id="kundeId" value="#{kunde.id}"/>
-				
-							<h:outputText id="nachnameLabel" value="#{msgKv['viewKunde.nachname']}"/>
-							<h:outputText id="nachname" value="#{kunde.nachname}"/>
-				
-							<h:outputText id="vornameLabel" value="#{msgKv['viewKunde.vorname']}"/>
-							<h:outputText id="vorname" value="#{kunde.vorname}"/>
-							
-							<h:outputText id="emailLabel" value="#{msgKv['viewKunde.email']}"/>
-							<h:outputText id="email" value="#{kunde.email}"/>
-							
-							<h:outputText id="erzeugtLabel" value="#{msgKv['viewKunde.seit']}"/>
-							<h:outputText id="erzeugt" value="#{kunde.erzeugt}">
-										<f:convertDateTime type="date" dateStyle="long"/>
-							</h:outputText>
-							
-							<h:outputText id="aktualisiertLabel" value="#{msgKv['viewKunde.aktualisiert']}"/>
-							<h:outputText id="aktualisiert" value="#{kunde.aktualisiert}">
-										<f:convertDateTime type="date" dateStyle="long"/>
-							</h:outputText>
-							
-							<h:outputText id="geschlechtLabel" value="#{msgKv['viewKunde.geschlecht']}"/>
-							<h:outputText id="geschlecht" value="#{kunde.geschlecht}"/>
-							
-<!-- 							<h:outputText id="weiblichLabel" value="#{msgKv['viewKunde.geschlecht']}" rendered="#{kc.kunde.class.simpleName eq 'Kunde' and kc.kunde.geschlecht eq 'W'}"/> -->
-<!-- 							<h:outputText id="weiblich" value="#{msgKv['viewKunde.geschlecht.weiblich']}" rendered="#{kc.kunde.class.simpleName eq 'Kunde' and kc.kunde.geschlecht eq 'W'}"/> -->
-						
-<!-- 							<h:outputText id="maennlichLabel" value="#{msgKv['viewKunde.geschlecht']}" rendered="#{kc.kunde.class.simpleName eq 'Kunde' and kc.kunde.geschlecht eq 'M'}"/> -->
-<!-- 							<h:outputText id="maennlich" value="#{msgKv['viewKunde.geschlecht.maennlich']}" rendered="#{kc.kunde.class.simpleName eq 'Kunde' and kc.kunde.geschlecht eq 'M'}"/> -->
-	
-							<h:outputText id="versionLabel" value="#{msgKv['viewKunde.version']}"/>
-							<h:outputText id="version" value="#{kunde.version}"/>
-							
-							<h:outputText id="adresseLabel" value="#{msgKv['viewKunde.adresse']}"/>
-							<h:outputText id="adresse" value="#{kunde.adresse.id}"/>
-							
-							<h:outputText id="strasseLabel" value="#{msgKv['viewKunde.strasse']}"/>
-							<h:outputText id="strasse" value="#{kunde.adresse.strasse}"/>
-							
-							<h:outputText id="hausnummerLabel" value="#{msgKv['viewKunde.hausnummer']}"/>
-							<h:outputText id="hausnummer" value="#{kunde.adresse.hausnummer}"/>
-							
-							<h:outputText id="postleitzahlLabel" value="#{msgKv['viewKunde.plz']}"/>
-							<h:outputText id="postleitzahl" value="#{kunde.adresse.plz}"/>
-							
-							<h:outputText id="stadtLabel" value="#{msgKv['viewKunde.stadt']}"/>
-							<h:outputText id="stadt" value="#{kunde.adresse.stadt}"/>
-							
-							<h:outputText id="landLabel" value="#{msgKv['viewKunde.land']}"/>
-							<h:outputText id="land" value="#{kunde.adresse.land}"/>
-							
-							<h:outputText id="adresseVersionLabel" value="#{msgKv['viewKunde.adresse.version']}"/>
-							<h:outputText id="adresseVersion" value="#{kunde.adresse.version}"/>
-							
+	<ui:define name="metadata">
+		<f:viewParam id="kundeIdMeta" name="kundeId" />
+		<f:event type="preRenderView" listener="#{kc.loadKunde}" />
+	</ui:define>
+
+	<ui:param name="pageTitle" value="#{msgKv['viewKunde.title']}" />
+
+	<ui:define name="article">
+		<h:form id="sucheForm">
+			<rich:panel id="suchePanel" header="#{msgKv['viewKunde.sucheNeu']}">
+				<h:panelGrid id="suchePanelGrid" columns="3">
+					<h:outputLabel id="idInputLabel"
+						value="#{msgKv['viewKunde.kundenr']}" for="idInput" />
+
+					<rich:autocomplete id="idInput" value="#{kc.kundeId}" mode="ajax"
+						minChars="1" autocompleteMethod="#{kc.findKundenByIdPrefix}"
+						var="kunde" fetchValue="#{kunde.id}"
+						converter="javax.faces.Number"
+						converterMessage="#{msgKv['viewKunde.kundenr.converterError']}">
+							#{kunde.id} : #{kunde.nachname}, #{kunde.vorname}
+						</rich:autocomplete>
+
+					<!-- 						<h:inputText id="idInput"  -->
+					<!-- 									value="#{kc.kundeId}"/> -->
+					<!-- 									converterMessage="#{msgKv['viewKunde.kundennr.convert']}" -->
+					<!-- 									size="7" -->
+					<!-- 									maxlength="7"/> -->
+					<!-- 									-->
+
+					<a4j:commandButton id="sucheButton" action="#{kc.findKundeById}"
+						value="#{msgKv['viewKunde.submit']}" render="gesuchterKundePanel" />
+				</h:panelGrid>
+			</rich:panel>
+
+			<p id="abstand" />
+
+			<a4j:outputPanel id="gesuchterKundePanel">
+				<c:if test="#{not empty flash.kunde}">
+					<c:set var="kunde" value="#{flash.kunde}" scope="view" />
+					<!-- Fuer den naechsten Request puffern, falls z.B. ein Update-Button angeklickt WUERDE -->
+					<c:set target="#{flash}" property="kunde" value="#{kunde}" />
+					<rich:tabPanel id="tabPanel" switchType="client"
+						rendered="#{not empty kc.kunde}">
+						<rich:tab id="stammdatenTab">
+							<f:facet name="header">
+								<h:panelGroup id="stammdatenLabel">
+									<h:graphicImage id="stammdatenGif" name="stammdaten.gif"
+										library="images" />
+									#{' '}
+									#{msgKv['viewKunde.kunde.stammdaten']}
+								</h:panelGroup>
+							</f:facet>
+
+							<rich:panel id="stammdatenPanel">
+								<h:panelGrid id="gesuchterKundeStammdaten" columns="2"
+									border="0">
+									<h:outputText id="kundeIdLabel"
+										value="#{msgKv['viewKunde.kundenr']}" />
+									<h:outputText id="kundeId" value="#{kunde.id}" />
+
+									<h:outputText id="nachnameLabel"
+										value="#{msgKv['viewKunde.nachname']}" />
+									<h:outputText id="nachname" value="#{kunde.nachname}" />
+
+									<h:outputText id="vornameLabel"
+										value="#{msgKv['viewKunde.vorname']}" />
+									<h:outputText id="vorname" value="#{kunde.vorname}" />
+
+									<h:outputText id="emailLabel"
+										value="#{msgKv['viewKunde.email']}" />
+									<h:outputText id="email" value="#{kunde.email}" />
+
+									<h:outputText id="erzeugtLabel"
+										value="#{msgKv['viewKunde.seit']}" />
+									<h:outputText id="erzeugt" value="#{kunde.erzeugt}">
+										<f:convertDateTime type="date" dateStyle="long" />
+									</h:outputText>
+
+									<h:outputText id="aktualisiertLabel"
+										value="#{msgKv['viewKunde.aktualisiert']}" />
+									<h:outputText id="aktualisiert" value="#{kunde.aktualisiert}">
+										<f:convertDateTime type="date" dateStyle="long" />
+									</h:outputText>
+
+									<h:outputText id="geschlechtLabel"
+										value="#{msgKv['viewKunde.geschlecht']}" />
+									<h:outputText id="geschlecht" value="#{kunde.geschlecht}" />
+
+									<!-- 							<h:outputText id="weiblichLabel" value="#{msgKv['viewKunde.geschlecht']}" rendered="#{kc.kunde.class.simpleName eq 'Kunde' and kc.kunde.geschlecht eq 'W'}"/> -->
+									<!-- 							<h:outputText id="weiblich" value="#{msgKv['viewKunde.geschlecht.weiblich']}" rendered="#{kc.kunde.class.simpleName eq 'Kunde' and kc.kunde.geschlecht eq 'W'}"/> -->
+
+									<!-- 							<h:outputText id="maennlichLabel" value="#{msgKv['viewKunde.geschlecht']}" rendered="#{kc.kunde.class.simpleName eq 'Kunde' and kc.kunde.geschlecht eq 'M'}"/> -->
+									<!-- 							<h:outputText id="maennlich" value="#{msgKv['viewKunde.geschlecht.maennlich']}" rendered="#{kc.kunde.class.simpleName eq 'Kunde' and kc.kunde.geschlecht eq 'M'}"/> -->
+
+									<h:outputText id="versionLabel"
+										value="#{msgKv['viewKunde.version']}" />
+									<h:outputText id="version" value="#{kunde.version}" />
+
+									<h:outputText id="adresseLabel"
+										value="#{msgKv['viewKunde.adresse']}" />
+									<h:outputText id="adresse" value="#{kunde.adresse.id}" />
+
+									<h:outputText id="strasseLabel"
+										value="#{msgKv['viewKunde.strasse']}" />
+									<h:outputText id="strasse" value="#{kunde.adresse.strasse}" />
+
+									<h:outputText id="hausnummerLabel"
+										value="#{msgKv['viewKunde.hausnummer']}" />
+									<h:outputText id="hausnummer"
+										value="#{kunde.adresse.hausnummer}" />
+
+									<h:outputText id="postleitzahlLabel"
+										value="#{msgKv['viewKunde.plz']}" />
+									<h:outputText id="postleitzahl" value="#{kunde.adresse.plz}" />
+
+									<h:outputText id="stadtLabel"
+										value="#{msgKv['viewKunde.stadt']}" />
+									<h:outputText id="stadt" value="#{kunde.adresse.stadt}" />
+
+									<h:outputText id="landLabel" value="#{msgKv['viewKunde.land']}" />
+									<h:outputText id="land" value="#{kunde.adresse.land}" />
+
+									<h:outputText id="adresseVersionLabel"
+										value="#{msgKv['viewKunde.adresse.version']}" />
+									<h:outputText id="adresseVersion"
+										value="#{kunde.adresse.version}" />
+
+								</h:panelGrid>
+							</rich:panel>
+						</rich:tab>
+
+						<rich:tab id="bestellungenTab"
+							rendered="#{not empty kc.kunde.bestellungen}">
+							<f:facet name="header">
+								<h:panelGroup id="bestellungenLabel">
+									<h:graphicImage id="bestellungenGif" name="bestellungen.gif"
+										library="images" />
+									#{' '}
+									#{msgKv['viewKunde.kunde.bestellungen']}
+								</h:panelGroup>
+							</f:facet>
+
+							<rich:dataTable id="bestellungenTabelle"
+								value="#{kc.kunde.bestellungen}" var="bestellung">
+								<f:facet name="header">
+									<rich:columnGroup id="positionenSpalten">
+										<rich:column id="artikelIdSpalte">
+											#{msgKv['viewKunde.artikel.id']}
+										</rich:column>
+										<rich:column id="bezeichnungSpalte">
+											#{msgKv['viewKunde.artikel.bezeichnung']}
+										</rich:column>
+										<rich:column id="anzahlSpalte">
+											#{msgKv['viewKunde.artikel.anzahl']}
+										</rich:column>
+									</rich:columnGroup>
+								</f:facet>
+
+								<rich:column id="togglerSpalte" colspan="3">
+									<rich:collapsibleSubTableToggler id="subTableToggler"
+										for="positionenSubtable"
+										collapsedLabel="#{msgKv['viewKunde.bestellung']} #{bestellung.id} : #{bestellung.getErzeugt('yyyy-MM-dd')}"
+										expandedLabel="#{msgKv['viewKunde.bestellung']} #{bestellung.id} : #{bestellung.getErzeugt('yyyy-MM-dd')}" />
+								</rich:column>
+
+								<rich:collapsibleSubTable id="positionenSubtable"
+									value="#{bestellung.bestellpositionen}" var="pos"
+									rowClasses="odd-row, even-row" styleClass="tabelleMitZebrastil"
+									expandMode="client" expanded="#{false}">
+									<!-- https://issues.jboss.org/browse/RF-10715 -->
+									<rich:column id="artikelIdSpalteSub">
+										#{pos.artikel.id}
+									</rich:column>
+
+									<rich:column id="bezeichnungSpalteSub">
+										#{pos.artikel.name}
+									</rich:column>
+
+									<rich:column id="anzahlSpalteSub">
+										#{pos.anzahl}
+									</rich:column>
+								</rich:collapsibleSubTable>
+
+								<a4j:outputPanel id="outputPanelZebra" ajaxRendered="true">
+									<rich:jQuery id="odd" selector=".tabelleMitZebrastil tr:odd"
+										query="addClass('odd-row')" timing="domready" />
+									<rich:jQuery id="even" selector=".tabelleMitZebrastil tr:even"
+										query="addClass('even-row')" timing="domready" />
+									<rich:jQuery id="mouseover" selector=".tabelleMitZebrastil tr"
+										event="mouseover" query="jQuery(this).addClass('active-row')"
+										timing="domready" />
+									<rich:jQuery id="mouseout" selector=".tabelleMitZebrastil tr"
+										event="mouseout"
+										query="jQuery(this).removeClass('active-row')"
+										timing="domready" />
+								</a4j:outputPanel>
+							</rich:dataTable>
+						</rich:tab>
+
+					</rich:tabPanel>
+					<p id="buttons">
+						<h:panelGroup id="buttonsGroup" rendered="#{not empty kc.kunde}">
 							<h:commandButton id="updateButtonKunde"
-							                 image="#{resource['images:edit.gif']}"
-							                 action="/kundenverwaltung/updateKunde"
-							                 alt="#{msgKv['viewKunde.update.alt']}"/>
-						</h:panelGrid>
-					</c:if>
-					
-					
-				</a4j:outputPanel>
-			</h:form>
-		</ui:define>
-	</ui:composition>
+								image="#{resource['images:edit.gif']}"
+								action="/kundenverwaltung/updateKunde"
+								alt="#{msgKv['viewKunde.update.alt']}" />
+						</h:panelGroup>
+					</p>
+				</c:if>
+
+
+			</a4j:outputPanel>
+		</h:form>
+	</ui:define>
+</ui:composition>
 </html>

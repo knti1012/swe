@@ -7,11 +7,14 @@ import static javax.persistence.TemporalType.TIMESTAMP;
 
 import java.io.Serializable;
 import java.net.URI;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.persistence.Basic;
@@ -212,9 +215,15 @@ public class Bestellung implements Serializable {
 	public void setAktualisiert(Date aktualisiert) {
 		this.aktualisiert = aktualisiert;
 	}
-
+	
+	@JsonProperty("datum")
 	public Date getErzeugt() {
 		return this.erzeugt;
+	}
+	
+	public String getErzeugt(String format) {
+		final Format formatter = new SimpleDateFormat(format, Locale.getDefault());
+		return formatter.format(erzeugt);
 	}
 
 	public void setErzeugt(Date erzeugt) {

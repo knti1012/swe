@@ -3,6 +3,7 @@ package de.shop.kundenverwaltung.controller;
 import java.io.Serializable;
 import java.lang.invoke.MethodHandles;
 import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
 
 import org.jboss.logging.Logger;
@@ -56,7 +57,7 @@ public class KundeController implements Serializable {
 	private static final long serialVersionUID = -8817180909526894740L;
 	
 	private static final Logger LOGGER = Logger.getLogger(MethodHandles.lookup().lookupClass());
-	
+	private static final int MAX_AUTOCOMPLETE = 10;
 	private static final String FLASH_KUNDE = "kunde";
 	private static final String JSF_VIEW_KUNDE = "/kundenverwaltung/viewKunde";
 	
@@ -64,6 +65,9 @@ public class KundeController implements Serializable {
 	private static final String MSG_KEY_CREATE_KUNDE_EMAIL_EXISTS = "createKunde.emailExists";
 	
 	private static final Class<?>[] PASSWORD_GROUP = { PasswordGroup.class };
+	
+	private static final String CLIENT_ID_KUNDEID = "form:kundeIdInput";
+	private static final String MSG_KEY_KUNDE_NOT_FOUND_BY_ID = "viewKunde.notFound";
 	
 	private static final String CLIENT_ID_UPDATE_PASSWORD = "updateKundeForm:password";
 	private static final String CLIENT_ID_UPDATE_EMAIL = "updateKundeForm:email";
@@ -156,6 +160,36 @@ public class KundeController implements Serializable {
 		flash.put(FLASH_KUNDE, kunde);
 
 		return JSF_VIEW_KUNDE + JSF_REDIRECT_SUFFIX;
+	}
+	
+	private String findKundeByIdErrorMsg(String id) {
+		messages.error(KUNDENVERWALTUNG, MSG_KEY_KUNDE_NOT_FOUND_BY_ID, CLIENT_ID_KUNDEID, id);
+		return null;
+	}
+	
+	@TransactionAttribute(REQUIRED)
+	public List<Kunde> findKundenByIdPrefix(String idPrefix) {
+		List<Kunde> kundenPrefix = null;
+		Long id = null; 
+		try {
+			id = Long.valueOf(idPrefix);
+		}
+		catch (NumberFormatException e) {
+			findKundeByIdErrorMsg(idPrefix);
+			return null;
+		}
+		
+		kundenPrefix = ks.findKundenByIdPrefix(id);
+		if (kundenPrefix == null || kundenPrefix.isEmpty()) {
+			// Kein Kunde zu gegebenem ID-Praefix vorhanden
+			findKundeByIdErrorMsg(idPrefix);
+			return null;
+		}
+		
+		if (kundenPrefix.size() > MAX_AUTOCOMPLETE) {
+			return kundenPrefix.subList(0, MAX_AUTOCOMPLETE);
+		}
+		return kundenPrefix;
 	}
 	
 	@TransactionAttribute(REQUIRED)

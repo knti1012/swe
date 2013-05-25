@@ -5,12 +5,15 @@ import javax.enterprise.event.Event;
 
 
 
+
 import static de.shop.util.Constants.KEINE_ID;
+
 
 
 
 import java.io.Serializable;
 import java.lang.invoke.MethodHandles;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -329,7 +332,18 @@ public class KundeService implements Serializable {
 		
 		em.remove(kunde);
 	}
-
+	
+	public List<Kunde> findKundenByIdPrefix(Long id) {
+		if (id == null) {
+			return Collections.emptyList();
+		}
+		
+		final List<Kunde> kunden = em.createNamedQuery(Kunde.FIND_KUNDEN_BY_ID_PREFIX,
+				                                               Kunde.class)
+				                             .setParameter(Kunde.PARAM_KUNDE_ID_PREFIX, id.toString() + '%')
+				                             .getResultList();
+		return kunden;
+	}
 	public List<Kunde> findKundenByPLZ(String plz) {
 		final List<Kunde> kunden = em
 				.createNamedQuery(Kunde.FIND_KUNDEN_BY_PLZ, Kunde.class)
