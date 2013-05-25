@@ -2,19 +2,32 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core" xmlns:rich="http://richfaces.org/rich"
 	xmlns:a4j="http://richfaces.org/a4j">
-	<h:form id="asideForm">
+			
+    <rich:toolbar id="sideToolbar" width="140px">
+    	<rich:toolbarGroup id="asideGroup" location="right">
+			<h:form id="loginFormHeader" rendered="#{not auth.loggedIn}">
 				<h:panelGrid id="loginGrid" columns="3">
-					<h:outputLabel id="usernameLabel" value="#{msg['login.kundeId']}"
-						for="username" />
-					<h:inputText id="username" value="#{auth.username}" />
-					<f:verbatim />
-
-					<h:outputLabel id="passwordLabel" value="#{msg['login.password']}"
-						for="password" />
-					<h:inputSecret id="password" value="#{auth.password}" />
-					<h:commandButton id="loginButton" action="#{auth.login}"
-						value="#{msg['login.submit']}" />
+					<h:outputLabel id="usernameLabel"
+					               value="#{msg['login.kundeId']}"
+					               for="username"/>
+					<h:inputText id="username" value="#{auth.username}"/>
+					<f:verbatim/>
+							
+					<h:outputLabel id="passwordLabel"
+					               value="#{msg['login.password']}"
+					               for="password"/>
+					<h:inputSecret id="password" value="#{auth.password}"/>
+					<h:commandButton id="loginButton" action="#{auth.login}" value="#{msg['login.submit']}"/>
 				</h:panelGrid>
-				<rich:message id="fehlermeldungLogin" for="username" />
+				<rich:message id="fehlermeldungLogin" for="username"/>
 			</h:form>
+			
+			<h:form id="logoutForm">
+				<h:commandLink id="logout" action="#{auth.logout}" rendered="#{auth.loggedIn}">
+					#{msg['header.logout']}
+				</h:commandLink>
+			</h:form>
+		</rich:toolbarGroup>
+	</rich:toolbar>
+			
 </ui:composition>

@@ -85,7 +85,7 @@
 						<h:outputLabel id="passwortWdhInputLabel"
 										for="passwortWdh"
 										value="#{msgKv['createKunde.passwordWdh']}"/>
-						<h:inputText id="passwortWdh"
+						<h:inputSecret id="passwortWdh"
 									value="#{kc.neuerKunde.passwordWdh}"
 									redisplay="true"/>		
 						<f:verbatim/>
@@ -125,6 +125,12 @@
 	                                           onvalid="$(#{rich:element('land')}).removeClass('invalid')"/>
 						</h:inputText>
 						<rich:messages id="fehlermeldungland" for="land"/>
+						
+						<h:outputLabel id="agbLabel" for="agb" value="#{msgKv['createKunde.agb']}"/>
+						<h:selectBooleanCheckbox id="agb" value="#{kc.neuerKunde.agbAkzeptiert}">
+							<rich:validator/>
+						</h:selectBooleanCheckbox>
+						<rich:message id="fehlermeldungAgb" for="agb"/>
 						
 					</h:panelGrid>
 					

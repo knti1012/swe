@@ -137,11 +137,11 @@
 				</rich:dropDownMenu>
 			</h:form>
 -->
-			<h:form id="logoutForm">
-				<h:commandLink id="logout" action="#{auth.logout}" rendered="#{auth.loggedIn}">
-					#{msg['header.logout']}
-				</h:commandLink>
-			</h:form>
+<!-- 			<h:form id="logoutForm"> -->
+<!-- 				<h:commandLink id="logout" action="#{auth.logout}" rendered="#{auth.loggedIn}"> -->
+<!-- 					#{msg['header.logout']} -->
+<!-- 				</h:commandLink> -->
+<!-- 			</h:form> -->
 			
 		</rich:toolbarGroup>
 	</rich:toolbar>		

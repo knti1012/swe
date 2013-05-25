@@ -45,6 +45,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
 import javax.persistence.Version;
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -53,6 +54,7 @@ import javax.validation.constraints.Size;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.ScriptAssert;
 
 import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.util.IdGroup;
@@ -96,6 +98,8 @@ import de.shop.util.IdGroup;
 		@NamedQuery(name = Kunde.FIND_KUNDEN_BY_DATE, query = "SELECT k"
 				+ " FROM  Kunde k" + " WHERE k.erzeugt = :"
 				+ Kunde.PARAM_KUNDE_ERZEUGT) })
+@ScriptAssert(lang = "javascript", script = "(_this.password == null && _this.passwordWdh == null)"
+		+ "|| (_this.password != null && _this.password.equals(_this.passwordWdh))", message = "{kundenverwaltung.kunde.password.notEqual}", groups = PasswordGroup.class)
 public class Kunde implements Serializable {
 
 	private static final long serialVersionUID = -9003409977721553025L;
@@ -214,6 +218,10 @@ public class Kunde implements Serializable {
 	@NotNull(message = "{kundenverwaltung.kunde.adresse.notNull}")
 	private Adresse adresse; 
 	
+	@Transient
+	@AssertTrue(message = "{kundenverwaltung.kunde.agb}")
+	private boolean agbAkzeptiert;
+	
 	@ElementCollection(fetch = EAGER)
 	@CollectionTable(name = "kunde_rolle",
 	                 joinColumns = @JoinColumn(name = "kunde_fk", nullable = false),
@@ -303,6 +311,14 @@ public class Kunde implements Serializable {
 		this.passwordWdh = passwordWdh;
 	}
 	
+	public void setAgbAkzeptiert(boolean agbAkzeptiert) {
+		this.agbAkzeptiert = agbAkzeptiert;
+	}
+
+	public boolean isAgbAkzeptiert() {
+		return agbAkzeptiert;
+	}
+	
 	public String getVorname() {
 		return this.vorname;
 	}
@@ -354,6 +370,7 @@ public class Kunde implements Serializable {
 	@PostLoad
 	protected void postLoad() {
 		passwordWdh = password;
+		agbAkzeptiert = true;
 	}
 	
 	public void setValues(Kunde kunde) {
@@ -365,6 +382,7 @@ public class Kunde implements Serializable {
 		this.nachname = kunde.nachname;
 		this.password = kunde.password;
 		this.passwordWdh = kunde.password;
+		this.agbAkzeptiert = kunde.agbAkzeptiert;
 		this.vorname = kunde.vorname;
 	}
 

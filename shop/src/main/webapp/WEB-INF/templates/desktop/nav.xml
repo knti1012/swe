@@ -37,7 +37,7 @@
 						</c:if>
 					</h:outputLink>
 				</rich:panelMenuItem>
- 				<rich:panelMenuItem id="kundenverwaltungCreateKundeItem"> <!--rendered="#{rich:isUserInRole('admin')}"> -->
+ 				<rich:panelMenuItem id="kundenverwaltungCreateKundeItem" rendered="#{rich:isUserInRole('admin')}">
 					<h:outputLink id="kundenverwaltungCreateKunde"
 					              value="#{request.contextPath}/kundenverwaltung/createKunde.jsf">
 						#{msg['nav.kundenverwaltung.createKunde']}
@@ -46,7 +46,7 @@
 						</c:if>
 					</h:outputLink>
 				</rich:panelMenuItem>
-				<rich:panelMenuItem id="kundenverwaltungUpdateKundeItem"> <!--rendered="#{rich:isUserInRole('admin')}"> -->
+				<rich:panelMenuItem id="kundenverwaltungUpdateKundeItem" rendered="#{rich:isUserInRole('admin')}">
 					<h:outputLink id="kundenverwaltungUpdateKunde"
 					              value="#{request.contextPath}/kundenverwaltung/updateKunde.jsf">
 						#{msg['nav.kundenverwaltung.updateKunde']}
@@ -55,7 +55,7 @@
 						</c:if>
 					</h:outputLink>
 				</rich:panelMenuItem>
-				<rich:panelMenuItem id="kundenverwaltungUploadItem"> <!-- rendered="#{rich:isUserInRole('admin')}"> -->
+				<rich:panelMenuItem id="kundenverwaltungUploadItem" rendered="#{rich:isUserInRole('admin')}">
 					<h:outputLink id="kundenverwaltungUpload"
 					              value="#{request.contextPath}/kundenverwaltung/upload.jsf">
 					              <!-- rendered="#{auth.loggedIn}"> -->
@@ -99,7 +99,7 @@
 						#{msg['nav.artikelverwaltung.selectArtikel']}
 					</h:commandLink>
 				</rich:panelMenuItem>
-				<rich:panelMenuItem id="artikelverwaltungCreateArtikelItem"> <!--rendered="#{rich:isUserInRole('admin')}"> -->
+				<rich:panelMenuItem id="artikelverwaltungCreateArtikelItem" rendered="#{rich:isUserInRole('admin')}">
 					<h:outputLink id="artikelverwaltungCreateArtikel"
 					              value="#{request.contextPath}/artikelverwaltung/createArtikel.jsf">
 						#{msg['nav.artikelverwaltung.createArtikel']}
@@ -108,7 +108,7 @@
 						</c:if>
 					</h:outputLink>
 				</rich:panelMenuItem>	
-				<rich:panelMenuItem id="artikelverwaltungUpdateArtikelItem"> <!--rendered="#{rich:isUserInRole('admin')}"> -->
+				<rich:panelMenuItem id="artikelverwaltungUpdateArtikelItem" rendered="#{rich:isUserInRole('admin')}">
 					<h:outputLink id="artikelverwaltungUpdateArtikel"
 					              value="#{request.contextPath}/artikelverwaltung/updateArtikel.jsf">
 						#{msg['nav.artikelverwaltung.updateArtikel']}
@@ -132,7 +132,7 @@
 						</c:if>
 					</h:outputLink>
 				</rich:panelMenuItem>
-				<rich:panelMenuItem id="bestellverwaltungCreateBestellungItem"> <!--rendered="#{rich:isUserInRole('admin')}"> -->
+				<rich:panelMenuItem id="bestellverwaltungCreateBestellungItem" rendered="#{rich:isUserInRole('admin')}">
 					<h:outputLink id="bestellverwaltungCreateBestellung"
 					              value="#{request.contextPath}/bestellverwaltung/createBestellung.jsf">
 						#{msg['nav.bestellverwaltung.createBestellung']}
