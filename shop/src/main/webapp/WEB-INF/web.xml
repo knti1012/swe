@@ -128,7 +128,7 @@
   <env-entry>
     <env-entry-name>locales</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>de,en</env-entry-value>
+    <env-entry-value>de,en,ru</env-entry-value>
   </env-entry>
   <session-config>
     <session-timeout>15</session-timeout>

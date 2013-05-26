@@ -46,6 +46,9 @@
 					<rich:menuItem id="deutsch"
 					               label="#{msg['header.sprache.deutsch']}"
 					               actionListener="#{sprache.change('de')}"/>
+					<rich:menuItem id="russisch"
+					               label="#{msg['header.sprache.russisch']}"
+					               actionListener="#{sprache.change('ru')}"/>
 				</rich:dropDownMenu>
 			</h:form>
 		<!--
