@@ -25,6 +25,7 @@ import javax.validation.ConstraintViolation;
 import org.richfaces.cdi.push.Push;
 
 import de.shop.auth.controller.AuthController;
+import de.shop.bestellverwaltung.domain.Bestellung;
 import de.shop.kundenverwaltung.domain.Adresse;
 import de.shop.kundenverwaltung.domain.PasswordGroup;
 import de.shop.kundenverwaltung.domain.Kunde;
