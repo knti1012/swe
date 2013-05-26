@@ -212,10 +212,10 @@ public class Kunde implements Serializable {
 	@JsonProperty("bestellungen")
 	private URI bestellungenUri;
 
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.LAZY, cascade = { PERSIST, REMOVE })
 	@JoinColumn(name = "k_fk", nullable = false)
 	@JsonIgnore
-	private List<Bestellung> bestellungen;
+	private List<Bestellung> bestellungen = new ArrayList<Bestellung>();
 
 	@OneToOne(optional = false, fetch = FetchType.EAGER, cascade = {PERSIST, MERGE, REMOVE })
 	@JoinColumn(name = "add_fk")
