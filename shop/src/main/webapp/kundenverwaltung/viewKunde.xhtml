@@ -205,12 +205,14 @@
 						</rich:tab>
 
 					</rich:tabPanel>
+					
 					<p id="buttons">
 						<h:panelGroup id="buttonsGroup" rendered="#{not empty kc.kunde}">
 							<h:commandButton id="updateButtonKunde"
 								image="#{resource['images:edit.gif']}"
 								action="/kundenverwaltung/updateKunde"
-								alt="#{msgKv['viewKunde.update.alt']}" />
+								alt="#{msgKv['viewKunde.update.alt']}"
+								rendered="#{rich:isUserInRole('admin') or rich:isUserInRole('abteilungsleiter') or rich:isUserInRole('mitarbeiter')}" />
 						</h:panelGroup>
 					</p>
 				</c:if>
