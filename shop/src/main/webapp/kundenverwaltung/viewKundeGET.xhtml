@@ -2,66 +2,90 @@
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-	  xmlns:ui="http://java.sun.com/jsf/facelets"
-	  xmlns:h="http://java.sun.com/jsf/html"
-	  xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
 
-	<ui:composition template="/WEB-INF/templates/desktop/main.xml">
-		<ui:define name="metadata">
-			<f:viewParam id="kundeIdMeta" name="kundeId"/>
-			<f:event type="preRenderView" listener="#{kc.loadKundeById}"/>
-		</ui:define>
-		
-		<ui:param name="pageTitle" value="#{msgKv['viewKundeGET.title']}"/>
-	
-		<ui:define name="article">
-			<h:outputFormat id="fehlerKundeId"
-			                value="#{msgKv['viewKundeGET.notFound']}"
-			                class="rf-msg-err"
-			                rendered="#{empty kunde}">
-				<f:param id="idParam" value="#{param.kundeId}"/>
-			</h:outputFormat>
-				
-			<h:panelGrid id="ausgewaehlterKunde"
-			             columns="2"
-			             rendered="#{not empty kunde}">
-				<h:outputText id="idLabel" value="#{msgKv['viewKundeGET.kundenr']}"/>
-				<h:outputText id="id" value="#{kunde.id}"/>
-				
-				<h:outputText id="nachnameLabel" value="#{msgKv['viewKundeGET.nachname']}"/>
-				<h:outputText id="nachname" value="#{kunde.nachname}"/>
-				
-				<h:outputText id="vornameLabel" value="#{msgKv['viewKundeGET.vorname']}"/>
-				<h:outputText id="vorname" value="#{kunde.vorname}"/>
-							
-				<h:outputText id="seitLabel" value="#{msgKv['viewKundeGET.seit']}"/>
-				<h:outputText id="seit" value="#{kunde.erzeugt}">
-					<f:convertDateTime type="date" dateStyle="long"/>
-				</h:outputText>
-				
-				<h:outputText id="emailLabel" value="#{msgKv['viewKundeGET.email']}"/>
-				<h:outputText id="email" value="#{kunde.email}"/>
-				
-				<h:outputText id="geschlechtLabel" value="#{msgKv['viewKundeGET.geschlecht']}"/>
-				<h:outputText id="geschlecht" value="#{kunde.geschlecht}"/>
-			
-<!-- 				<h:outputText id="weiblichLabel" value="#{msgKv['viewKundeGET.geschlecht']}" rendered="#{kunde.class.simpleName eq 'Privatkunde' and kunde.geschlecht eq 'WEIBLICH'}"/> -->
-<!-- 				<h:outputText id="weiblich" value="#{msgKv['viewKundeGET.geschlecht.weiblich']}" rendered="#{kunde.class.simpleName eq 'Privatkunde' and kunde.geschlecht eq 'WEIBLICH'}"/> -->
-			
-<!-- 				<h:outputText id="maennlichLabel" value="#{msgKv['viewKundeGET.geschlecht']}" rendered="#{kunde.class.simpleName eq 'Privatkunde' and kunde.geschlecht eq 'MAENNLICH'}"/> -->
-<!-- 				<h:outputText id="maennlich" value="#{msgKv['viewKundeGET.geschlecht.maennlich']}" rendered="#{kunde.class.simpleName eq 'Privatkunde' and kunde.geschlecht eq 'MAENNLICH'}"/> -->
-	
-	
-			</h:panelGrid>
-						
-			<h:form id="buttons" rendered="#{not empty kunde}">
-				<h:commandButton id="updateButtonKunde"
-				                 image="#{resource['images/edit.gif']}"
-				                 action="/kundenverwaltung/updateKunde"
-				                 alt="#{msgKv['viewKundeGET.update.alt']}"
-				                 rendered="#{kunde.class.simpleName eq 'Kunde'}"/>
-				
-			</h:form>
-		</ui:define>
-	</ui:composition>
+<ui:composition template="/WEB-INF/templates/desktop/main.xml">
+	<ui:define name="metadata">
+		<f:viewParam id="kundeIdMeta" name="kundeId" />
+		<f:event type="preRenderView" listener="#{kc.loadKundeById}" />
+	</ui:define>
+
+	<ui:param name="pageTitle" value="#{msgKv['viewKundeGET.title']}" />
+
+	<ui:define name="article">
+		<h:outputFormat id="fehlerKundeId"
+			value="#{msgKv['viewKundeGET.notFound']}" class="rf-msg-err"
+			rendered="#{empty kunde}">
+			<f:param id="idParam" value="#{param.kundeId}" />
+		</h:outputFormat>
+
+		<h:panelGrid id="ausgewaehlterKunde" columns="2" border="0" rendered="#{not empty kc.kunde}">
+			<h:outputText id="kundeIdLabel" value="#{msgKv['viewKundeGET.kundenr']}" />
+			<h:outputText id="kundeId" value="#{kunde.id}" />
+
+			<h:outputText id="nachnameLabel"
+				value="#{msgKv['viewKundeGET.nachname']}" />
+			<h:outputText id="nachname" value="#{kunde.nachname}" />
+
+			<h:outputText id="vornameLabel" value="#{msgKv['viewKundeGET.vorname']}" />
+			<h:outputText id="vorname" value="#{kunde.vorname}" />
+
+			<h:outputText id="emailLabel" value="#{msgKv['viewKundeGET.email']}" />
+			<h:outputText id="email" value="#{kunde.email}" />
+
+			<h:outputText id="erzeugtLabel" value="#{msgKv['viewKundeGET.seit']}" />
+			<h:outputText id="erzeugt" value="#{kunde.erzeugt}">
+				<f:convertDateTime type="date" dateStyle="long" />
+			</h:outputText>
+
+			<h:outputText id="aktualisiertLabel"
+				value="#{msgKv['viewKunde.aktualisiert']}" />
+			<h:outputText id="aktualisiert" value="#{kunde.aktualisiert}">
+				<f:convertDateTime type="date" dateStyle="long" />
+			</h:outputText>
+
+			<h:outputText id="geschlechtLabel"
+				value="#{msgKv['viewKundeGET.geschlecht']}" />
+			<h:outputText id="geschlecht" value="#{kunde.geschlecht}" />
+
+			<h:outputText id="versionLabel" value="#{msgKv['viewKunde.version']}" />
+			<h:outputText id="version" value="#{kunde.version}" />
+
+			<h:outputText id="adresseLabel" value="#{msgKv['viewKunde.adresse']}" />
+			<h:outputText id="adresse" value="#{kunde.adresse.id}" />
+
+			<h:outputText id="strasseLabel" value="#{msgKv['viewKunde.strasse']}" />
+			<h:outputText id="strasse" value="#{kunde.adresse.strasse}" />
+
+			<h:outputText id="hausnummerLabel"
+				value="#{msgKv['viewKunde.hausnummer']}" />
+			<h:outputText id="hausnummer" value="#{kunde.adresse.hausnummer}" />
+
+			<h:outputText id="postleitzahlLabel"
+				value="#{msgKv['viewKunde.plz']}" />
+			<h:outputText id="postleitzahl" value="#{kunde.adresse.plz}" />
+
+			<h:outputText id="stadtLabel" value="#{msgKv['viewKunde.stadt']}" />
+			<h:outputText id="stadt" value="#{kunde.adresse.stadt}" />
+
+			<h:outputText id="landLabel" value="#{msgKv['viewKunde.land']}" />
+			<h:outputText id="land" value="#{kunde.adresse.land}" />
+
+			<h:outputText id="adresseVersionLabel"
+				value="#{msgKv['viewKunde.adresse.version']}" />
+			<h:outputText id="adresseVersion" value="#{kunde.adresse.version}" />
+
+		</h:panelGrid>
+
+		<h:form id="buttons" rendered="#{not empty kunde}">
+			<h:commandButton id="updateButtonKunde"
+				image="#{resource['images/edit.gif']}"
+				action="/kundenverwaltung/updateKunde"
+				alt="#{msgKv['viewKundeGET.update.alt']}" />
+
+		</h:form>
+	</ui:define>
+</ui:composition>
 </html>
