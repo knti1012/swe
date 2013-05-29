@@ -1,4 +1,5 @@
 package de.shop.artikelverwaltung.controller;
+import static de.shop.util.Constants.JSF_INDEX;
 import static de.shop.util.Constants.JSF_REDIRECT_SUFFIX;
 
 import org.jboss.logging.Logger;
@@ -6,6 +7,10 @@ import org.jboss.logging.Logger;
 
 
 
+
+
+
+import org.richfaces.cdi.push.Push;
 
 import static javax.ejb.TransactionAttributeType.REQUIRED;
 import static javax.ejb.TransactionAttributeType.SUPPORTS;
@@ -22,7 +27,9 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.TransactionAttribute;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.event.Event;
 import javax.faces.context.Flash;
+import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -68,14 +75,19 @@ public class ArtikelController implements Serializable {
 	
 	private Artikel artikel;
 	
+	private boolean geaendertArtikel;
+	
 	private Long artikelId;
 	
-	private List<Artikel> artikels = Collections.emptyList();
+//	private List<Artikel> artikels = Collections.emptyList();
 	
 	
 	
-	private Artikel neuerArtikel; // "Leeres Objekt" fuer Eingabe
+	private Artikel neuerArtikel; //  = new Artikel(); // "Leeres Objekt" fuer Eingabe
 
+	@Inject
+	@Push(topic = "updateArtikel")
+	private transient Event<String> updateArtikelEvent;
 	
 //	@Inject
 //	@Push(topic = "test")
@@ -121,17 +133,20 @@ public class ArtikelController implements Serializable {
 	}
 	
 	
+	
 	public void createEmptyArtikel() {
 		if (neuerArtikel != null) // Seite nach Fehler erneut anzeigen
 			return;
 		neuerArtikel = new Artikel();
+		System.out.println("Leerer Artikel erstellt");
 	}
 	
 	@TransactionAttribute(REQUIRED)
 	public String createArtikel(){
 		
 			neuerArtikel = as.createArtikel(neuerArtikel, locale);
-			
+			System.out.println("Neuer Artikel erstellt");
+
 //			neuerArtikelEvent.fire(String.valueOf(neuerArtikel.getId()));
 
 
@@ -145,6 +160,55 @@ public class ArtikelController implements Serializable {
 		
 			return JSF_VIEW_ARTIKEL + JSF_REDIRECT_SUFFIX;
 	}
+	
+	@TransactionAttribute(REQUIRED)
+	public String update() {
+		// auth.preserveLogin();
+		
+		if (!geaendertArtikel || artikel == null) {
+			return JSF_INDEX;
+		}
+		
+		LOGGER.tracef("Aktualisierter Artikel: %s", artikel);
+//		try {
+			artikel = as.updateArtikel(artikel);
+//		}
+//		catch (RuntimeException e) {
+//			final String outcome = updateErrorMsg(e, artikel.getClass());
+//			return outcome;
+//		}
+
+		// Push-Event fuer Webbrowser
+		updateArtikelEvent.fire(String.valueOf(artikel.getId()));
+		
+		// ValueChangeListener zuruecksetzen
+		geaendertArtikel = false;
+		
+		// Aufbereitung fuer viewKunde.xhtml
+		artikelId = artikel.getId();
+		
+		return JSF_VIEW_ARTIKEL + JSF_REDIRECT_SUFFIX;
+	}
+	
+	
+	
+	public void geaendert(ValueChangeEvent e) {
+		if (geaendertArtikel) {
+			return;
+		}
+		
+		if (e.getOldValue() == null) {
+			if (e.getNewValue() != null) {
+				geaendertArtikel = true;
+			}
+			return;
+		}
+
+		if (!e.getOldValue().equals(e.getNewValue())) {
+			geaendertArtikel = true;				
+		}
+	}
+
 
 	public Artikel getNeuerArtikel() {
 		return neuerArtikel;
@@ -155,4 +219,11 @@ public class ArtikelController implements Serializable {
 	public Artikel getArtikel() {
 		return artikel;
 	}
+	
+
+//	public ArtikelController(){
+//		neuerArtikel = new Artikel();
+//	}
+
+
 }

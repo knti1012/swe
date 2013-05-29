@@ -16,6 +16,7 @@ public abstract class Lieferung_ {
 	public static volatile SingularAttribute<Lieferung, TransportType> transportArt;
 	public static volatile SingularAttribute<Lieferung, Date> aktualisiert;
 	public static volatile SingularAttribute<Lieferung, Date> erzeugt;
+	public static volatile SingularAttribute<Lieferung, Integer> version;
 
 }
 

@@ -129,12 +129,15 @@ public class Artikel implements Serializable {
 
 	public Artikel() {
 		super();
+//		this.name = "";
 	}
+	
 
 	public Artikel(String art, double preis) {
 		super();
 		this.art = art;
 		this.preis = preis;
+		this.name = "";
 	}
 
 	@PrePersist
@@ -316,4 +319,6 @@ public class Artikel implements Serializable {
 			return false;
 		return true;
 	}
+	
+	
 }

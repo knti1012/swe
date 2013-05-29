@@ -20,6 +20,7 @@ public abstract class Bestellung_ {
 	public static volatile SingularAttribute<Bestellung, Kunde> kunde;
 	public static volatile SingularAttribute<Bestellung, Date> erzeugt;
 	public static volatile SetAttribute<Bestellung, Lieferung> lieferungen;
+	public static volatile SingularAttribute<Bestellung, Integer> version;
 
 }
 
