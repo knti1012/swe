@@ -209,6 +209,7 @@ public class KundeController implements Serializable {
 		
 		kunde = ks.findKundeById(id, FetchType.NUR_KUNDE, locale);
 		request.setAttribute("kunde", kunde);
+		System.out.println("LoadKunde durchgeführt");
 	}
 	
 	@TransactionAttribute(REQUIRED)
@@ -221,13 +222,16 @@ public class KundeController implements Serializable {
 		}
 		catch (NumberFormatException e) {
 			return;
+			
 		}
 		
 		// Suche durch den Anwendungskern
 		kunde = ks.findKundeById(id, FetchType.NUR_KUNDE, locale);
+		System.out.println("LoadKundeById druchgeführt");
 		if (kunde == null) {
 			return;
 		}
+		
 	}
 	
 	public void createEmptyKunde() {
@@ -238,12 +242,14 @@ public class KundeController implements Serializable {
 		
 		final Adresse adresse = new Adresse();
 		neuerKunde.setAdresse(adresse);
+		System.out.println("Leerer Kunde erstellt");
 	}
 	
 	@TransactionAttribute(REQUIRED)
 	public String createKunde() {
 		try {
 			neuerKunde = (Kunde) ks.createKunde(neuerKunde, locale);
+			System.out.println("Neuer Kunde erstellt");
 		}
 		catch (EmailExistsException e) {
 			final String outcome = createKundeErrorMsg(e);

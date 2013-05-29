@@ -52,6 +52,11 @@
 					value="#{ac.neuerArtikel.lagerbestand}" />
 				<f:verbatim />
 
+				<h:outputText id="artikelPreisLabel" for="preis"
+					value="#{msgAv['createArtikel.preis']}" />
+				<h:inputText id="artikelPreis"
+					value="#{ac.neuerArtikel.preis}" />
+				<f:verbatim />
 			</h:panelGrid>
 			<h:commandButton id="createButton"
 				value="#{msgAv['createArtikel.submit']}"
