@@ -2,152 +2,61 @@
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-	  xmlns:ui="http://java.sun.com/jsf/facelets"
-	  xmlns:h="http://java.sun.com/jsf/html"
-	  xmlns:c="http://java.sun.com/jsp/jstl/core"
-	  xmlns:rich="http://richfaces.org/rich"
-	  xmlns:a4j="http://richfaces.org/a4j"
-	  xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:ui="http://jBva.sun.com/jsf/fbcelets"
+	xmlns:h="http://jBva.sun.com/jsf/html"
+	xmlns:c="http://jBva.sun.com/jsp/jstl/core"
+	xmlns:rich="http://richfbces.org/rich"
+	xmlns:a4j="http://richfbces.org/a4j"
+	xmlns:f="http://jBva.sun.com/jsf/core">
 
-	<ui:composition template="/WEB-INF/templates/desktop/main.xml">
-		<ui:param name="pageTitle" value="#{msgBv['createBestellung.title']}"/>
-		
-		<ui:define name="metadata">
-			<f:event type="preRenderView" listener="#{bc.createEmptyBestellung}"/>
-		</ui:define>
-		
-		<ui:param name="pageTitle" value="#{msgBv['createBestellung.title']}"/>
-		
-		<ui:define name="article">
-			<h1>
-				#{msgBv['createBestellung.heading']}
-			</h1>
-			
-			<h:form id="createBestellungForm">
-				<rich:jQuery id="bestellpositionFocus" selector="#bestellposition" query="focus()"/>
-				
-				<rich:graphValidator id="BestellungValidator"
-				                     value="#{bc.neueBestellung}"
-				                     > 
-					<rich:messages for="BestellungValidator"/>
-					<rich:messages id="fehlermeldungPassword" globalOnly="true"/>
-					
-					<h:panelGrid id="createPanelGrid" columns="3">
-					
-						<h:outputLabel id="bestellpositionLabel" for="bestellposition" 
-												value="#{msgBv['createBestellung.bestellposition']}"/>
-						<h:inputText id="bestellposition" value="#{bc.neueBestellung.bestellposition}">
-							<rich:validator oninvalid="$(#{rich:element('bestellposition')}).addClass('invalid')"
-	                                           onvalid="$(#{rich:element('bestellposition')}).removeClass('invalid')"/>
-						</h:inputText>
-						<rich:messages id="fehlermeldungenbestellposition" for="bestellposition"/>
-					<!--  				
-						<h:outputLabel id="vornameLabel" for="vorname" 
-										value="#{msgBv['createBestellung.vorname']}"/>
-						<h:inputText id="vorname" value="#{bc.neueBestellung.vorname}"/>
-						<f:verbatim/>
-						-->
-						<!--  
-						<h:outputLabel id="seitLabel"
-							               for="seit"
-							               value="#{msgBv['createBestellung.seit']}"/>
-						<rich:calendar id="seit"
-						               datePattern="#{msgBv['createBestellung.calendar.pattern']}"
-						               value="#{bc.neueBestellung.erzeugt}"
-						               timezone="CET">
-						    
-							<rich:placeholder id="seitPlaceholder" value="#{msgBv['createBestellung.seit.placeholder']}" />
-						</rich:calendar>
-						<rich:messages id="fehlermeldungenSeit" for="seit"/>
-						-->
-						<!--  
-						<h:outputText id="geschlechtLabel" value="#{msgBv['createBestellung.geschlecht']}"/>
-						<h:selectOneRadio id="geschlecht" value="#{bc.neueBestellung.geschlecht}">
-							<f:selectItem id="weiblich" itemValue="W" itemLabel="#{msgBv['createBestellung.geschlecht.weiblich']}"/>
-							<f:selectItem id="maennlich" itemValue="M" itemLabel="#{msgBv['createBestellung.geschlecht.maennlich']}"/>
-						</h:selectOneRadio>
-						<f:verbatim/>
-						
-						<h:outputLabel id="emailLabel" for="email" value="#{msgBv['createBestellung.email']}"/>
-						<h:inputText id="email" value="#{bc.neueBestellung.email}">
-							<rich:validator oninvalid="$(#{rich:element('email')}).addClass('invalid')"
-	                                           onvalid="$(#{rich:element('email')}).removeClass('invalid')"/>
-						</h:inputText>
-						<rich:messages id="fehlermeldungEmail" for="email"/>
-		
-						<h:outputLabel id="passwordLabel"
-						               for="password"
-						               value="#{msgBv['createBestellung.password']}"/>
-						<h:inputSecret id="password"
-						               value="#{bc.neueBestellung.password}"
-						               redisplay="true"/>
-						<f:verbatim/>
-												
-						<h:outputLabel id="passwortWdhInputLabel"
-										for="passwortWdh"
-										value="#{msgBv['createBestellung.passwordWdh']}"/>
-						<h:inputSecret id="passwortWdh"
-									value="#{bc.neueBestellung.passwordWdh}"
-									redisplay="true"/>		
-						<f:verbatim/>
-						
-						<h:outputLabel id="plzLabel" for="plz" value="#{msgBv['createBestellung.plz']}"/>
-						<h:inputText id="plz"
-						             value="#{bc.neueBestellung.adresse.plz}">
-							<rich:validator oninvalid="$(#{rich:element('plz')}).addClass('invalid')"
-	                                           onvalid="$(#{rich:element('plz')}).removeClass('invalid')"/>
-						</h:inputText>
-						<rich:messages id="fehlermeldungPlz" for="plz"/>
-						
-						<h:outputLabel id="ortLabel" for="ort" value="#{msgBv['createBestellung.ort']}"/>
-						<h:inputText id="ort"
-						             value="#{bc.neueBestellung.adresse.stadt}">
-							<rich:validator oninvalid="$(#{rich:element('ort')}).addClass('invalid')"
-	                                           onvalid="$(#{rich:element('ort')}).removeClass('invalid')"/>
-						</h:inputText>
-						<rich:messages id="fehlermeldungOrt" for="ort"/>
-						
-						<h:outputLabel id="strasseLabel" for="strasse" value="#{msgBv['createBestellung.strasse']}"/>
-						<h:inputText id="strasse"
-						             value="#{bc.neueBestellung.adresse.strasse}">
-							<rich:validator oninvalid="$(#{rich:element('strasse')}).addClass('invalid')"
-	                                           onvalid="$(#{rich:element('strasse')}).removeClass('invalid')"/>
-						</h:inputText>
-						<rich:messages id="fehlermeldungStrasse" for="strasse"/>
-						
-						<h:outputLabel id="hausnrLabel" for="hausnr" value="#{msgBv['createBestellung.hausnr']}"/>
-						<h:inputText id="hausnr" value="#{bc.neueBestellung.adresse.hausnummer}"/>
-						<f:verbatim/>
-						
-						<h:outputLabel id="landLabel" for="land" value="#{msgBv['createBestellung.land']}"/>
-						<h:inputText id="land"
-						             value="#{bc.neueBestellung.adresse.land}">
-							<rich:validator oninvalid="$(#{rich:element('land')}).addClass('invalid')"
-	                                           onvalid="$(#{rich:element('land')}).removeClass('invalid')"/>
-						</h:inputText>
-						<rich:messages id="fehlermeldungland" for="land"/>
-						
-						<h:outputLabel id="agbLabel" for="agb" value="#{msgBv['createBestellung.agb']}"/>
-						<h:selectBooleanCheckbox id="agb" value="#{bc.neueBestellung.agbAkzeptiert}">
-							<rich:validator/>
-						</h:selectBooleanCheckbox>
-						<rich:message id="fehlermeldungAgb" for="agb"/>
-						-->
-					</h:panelGrid>
-					
-					<p id="buttons">
-						<h:commandButton id="createButton" 
-										value="#{msgBv['createBestellung.submit']}" 
-										action="#{bc.createBestellung}" />
-						#{' '}
-						<h:commandButton id="reset" type="reset" value="#{msgBv['createBestellung.reset']}"/>
-					</p>
-				</rich:graphValidator>
-			</h:form>
-			
-			<p id="hinweisPflichtfelder">
-				#{msgBv['createBestellung.required']}
-			</p>
-		</ui:define>
-	</ui:composition>
+<ui:composition template="/WEB-INF/templates/desktop/main.xml">
+	<ui:param name="pageTitle" value="#{msgBv['createBestellung.title']}" />
+
+	<ui:define name="metadata">
+		<f:event type="preRenderView" listener="#{bc.createEmptyBestellung}" />
+	</ui:define>
+
+	<ui:define name="article">
+		<h:form id="createBestellungForm">
+			<h:panelGrid id="createPanelGrid" columns="3">
+
+				<h:outputText id="bestellungKundeLabel" for="kunde"
+					value="#{msgBv['createBestellung.bestellposition']}" />
+				<h:inputText id="bestellungKunde" value="#{bc.neueBestellung.kunde}" />
+				<f:verbatim />
+<!--  
+				<h:outputText id="BestellungKategorieLabel" for="kategorie"
+					value="#{msgBv['createArtikel.kategorie']}" />
+				<h:inputText id="artikelKategoriet"
+					value="#{bc.neuerArtikel.kategorie}" />
+				<f:verbatim />
+
+				<h:outputText id="artikelArtLabel" for="art"
+					value="#{msgBv['createArtikel.art']}" />
+				<h:inputText id="artikelArt" value="#{bc.neuerArtikel.art}" />
+				<f:verbatim />
+
+				<h:outputText id="artikelFarbeLabel" for="farbe"
+					value="#{msgBv['createArtikel.farbe']}" />
+				<h:inputText id="artikelFarbe" value="#{bc.neuerArtikel.farbe}" />
+				<f:verbatim />
+
+				<h:outputText id="artikelGroesseLabel" for="groesse"
+					value="#{msgBv['createArtikel.groesse']}" />
+				<h:inputText id="artikelGroesse" value="#{bc.neuerArtikel.groesse}" />
+				<f:verbatim />
+
+				<h:outputText id="artikelLagerbestandLabel" for="lagerbestand"
+					value="#{msgBv['createArtikel.lagerbestand']}" />
+				<h:inputText id="artikelLagerbestand"
+					value="#{bc.neuerArtikel.lagerbestand}" />
+				<f:verbatim />
+-->
+			</h:panelGrid>
+			<h:commandButton id="createButton"
+				value="#{msgBv['createBestellung.submit']}"
+				bction="#{bc.createBestellung}" />
+		</h:form>
+	</ui:define>
+</ui:composition>
 </html>

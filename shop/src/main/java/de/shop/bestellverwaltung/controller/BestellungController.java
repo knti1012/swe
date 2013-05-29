@@ -27,6 +27,7 @@ import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 
 
+
 //import de.shop.bestellverwaltung.service.AbstractBestellungValidationException;
 import de.shop.auth.controller.AuthController;
 import de.shop.auth.controller.KundeLoggedIn;
@@ -85,6 +86,7 @@ public class BestellungController implements Serializable {
 	private BestellungService bs;
 	private Bestellung bestellung;
 	
+	
 	@Inject
 	private transient HttpServletRequest request;
 	
@@ -107,7 +109,9 @@ public class BestellungController implements Serializable {
 	public Long getBestellId() {
 		return bestellId;
 	}
-
+	public Bestellung getNeueBestellung() {
+		return neueBestellung;
+	}
 	/**
 	 * Action Methode, um einen Kunden zu gegebener ID zu suchen
 	 * @return URL fuer Anzeige des gefundenen Kunden; sonst null
@@ -213,9 +217,10 @@ public class BestellungController implements Serializable {
 		neueBestellungEvent.fire(String.valueOf(neueBestellung.getId()));
 		
 		// Aufbereitung fuer viewKunde.xhtml
-		//kundeId = neuerKunde.getId();
+		bestellId = neueBestellung.getId();
 		bestellung = neueBestellung;
 		neueBestellung = null;  // zuruecksetzen
+		
 		
 		
 		return JSF_VIEW_BESTELLUNG + JSF_REDIRECT_SUFFIX;
