@@ -51,7 +51,7 @@
 					               actionListener="#{sprache.change('ru')}"/>
 				</rich:dropDownMenu>
 			</h:form>
-<!--		
+		
 			<h:form id="warenkorbFormHeader">
 				<rich:dropDownMenu id="warenkorb">
 					<f:facet name="label">
@@ -124,10 +124,10 @@
 						</a4j:outputPanel>
 						
 						<p id="buttonsWarenkorb">
-							<h:commandButton id="updateButton"
+						<!--	<h:commandButton id="updateButton"
 				                             action="#"
 				                             value="#{msgBv['viewWarenkorb.update']}"/>
-							<h:commandButton type="reset" value="#{msgBv['viewWarenkorb.reset']}"/>
+							<h:commandButton type="reset" value="#{msgBv['viewWarenkorb.reset']}"/> -->
 							#{' '}
 							<h:commandButton id="bestellButton"
 											 action="#{bc.bestellen}"
@@ -139,13 +139,6 @@
 					</rich:menuItem>
 				</rich:dropDownMenu>
 			</h:form>
--->
-<!-- 			<h:form id="logoutForm"> -->
-<!-- 				<h:commandLink id="logout" action="#{auth.logout}" rendered="#{auth.loggedIn}"> -->
-<!-- 					#{msg['header.logout']} -->
-<!-- 				</h:commandLink> -->
-<!-- 			</h:form> -->
-			
 		</rich:toolbarGroup>
 	</rich:toolbar>		
 </ui:composition>
