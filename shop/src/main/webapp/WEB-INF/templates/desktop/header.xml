@@ -51,7 +51,7 @@
 					               actionListener="#{sprache.change('ru')}"/>
 				</rich:dropDownMenu>
 			</h:form>
-		<!--
+<!--		
 			<h:form id="warenkorbFormHeader">
 				<rich:dropDownMenu id="warenkorb">
 					<f:facet name="label">
@@ -80,7 +80,7 @@
 								<f:facet name="header">
 									#{msgBv['viewWarenkorb.artikel.bezeichnung']}
 								</f:facet>
-								#{position.artikel.bezeichnung}
+								#{position.artikel.name}
 							</rich:column>
 					
 							<rich:column id="anzahlSpalte">

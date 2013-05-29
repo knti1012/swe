@@ -59,6 +59,14 @@ public class ArtikelController implements Serializable {
 	private static final String FLASH_ARTIKEL = "artikel";
 	private static final String JSF_VIEW_ARTIKEL = "/artikelverwaltung/viewArtikel";
 	
+	private static final String JSF_LIST_ARTIKEL = "/artikelverwaltung/listArtikel";
+	private static final int ANZAHL_LADENHUETER = 5;
+	
+	private static final String JSF_SELECT_ARTIKEL = "/artikelverwaltung/selectArtikel";
+	private static final String SESSION_VERFUEGBARE_ARTIKEL = "verfuegbareArtikel";
+
+	private String name;
+	
 	@PersistenceContext(type = EXTENDED)
 	private transient EntityManager em;
 	
@@ -133,6 +141,13 @@ public class ArtikelController implements Serializable {
 	}
 	
 	
+	@Transactional
+	public String findArtikelByName() {
+		final List<Artikel> artikel = as.findArtikelByName(name);
+		flash.put(FLASH_ARTIKEL, artikel);
+
+		return JSF_LIST_ARTIKEL;
+	}
 	
 	public void createEmptyArtikel() {
 		if (neuerArtikel != null) // Seite nach Fehler erneut anzeigen
@@ -224,6 +239,12 @@ public class ArtikelController implements Serializable {
 //	public ArtikelController(){
 //		neuerArtikel = new Artikel();
 //	}
+	public String getName() {
+		return name;
+	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
 
 }
