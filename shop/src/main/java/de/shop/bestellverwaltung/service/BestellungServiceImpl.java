@@ -188,12 +188,15 @@ public class BestellungServiceImpl implements Serializable, BestellungService {
 	@Override
 	public Bestellung createBestellung(Bestellung bestellung, Kunde kunde,
 			Locale locale) {
+		double preis = 0.0;
 		if (bestellung == null) {
 			return null;
 		}
 
 		for (Bestellposition bp : bestellung.getBestellpositionen()) {
 			LOGGER.debugf("Bestellposition: {0}", bp);
+			preis += bp.getAnzahl() * bp.getArtikel().getPreis();
+			
 		}
 		
 		if (!em.contains(kunde)) {
@@ -207,6 +210,7 @@ public class BestellungServiceImpl implements Serializable, BestellungService {
 			bp.setId(KEINE_ID);
 		}
 
+		bestellung.setPreis(preis);
 		validateBestellung(bestellung, locale, Default.class);
 		em.persist(bestellung);
 		

@@ -167,6 +167,7 @@ public class Bestellung implements Serializable {
 
 	public Bestellung() {
 		super();
+		this.status="eingegangen";
 	}
 
 	public Bestellung(List<Bestellposition> bestellpositionen) {

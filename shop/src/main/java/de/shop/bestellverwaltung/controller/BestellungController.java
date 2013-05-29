@@ -37,6 +37,7 @@ import de.shop.bestellverwaltung.service.BestellungService;
 import de.shop.kundenverwaltung.domain.Adresse;
 import de.shop.kundenverwaltung.domain.Kunde;
 import de.shop.kundenverwaltung.service.EmailExistsException;
+import de.shop.bestellverwaltung.service.AbstractBestellungValidationException;
 import de.shop.kundenverwaltung.service.KundeService;
 import de.shop.kundenverwaltung.service.KundeService.FetchType;
 import de.shop.util.Client;
@@ -162,10 +163,11 @@ public class BestellungController implements Serializable {
 		try {
 			bestellung = bs.createBestellung(bestellung, kunde, locale);
 		}
-	catch (Exception e/*AbstractBestellungValidationException e*/) {
-	/*		// Validierungsfehler KOENNEN NICHT AUFTRETEN, da Attribute durch JSF validiert wurden
+		catch (Exception e) {
+		// Validierungsfehler KOENNEN NICHT AUFTRETEN, da Attribute durch JSF validiert wurden
 			// und in der Klasse Bestellung keine Validierungs-Methoden vorhanden sind
-			throw new IllegalStateException(e);*/
+			//throw new IllegalStateException(e);
+		System.out.println("Exception wurde gefangen: erstellen einer bestellung nicht möglich");
 		}
 
 		// Bestellung im Flash speichern wegen anschliessendem Redirect

@@ -46,7 +46,7 @@
 						</c:if>
 					</h:outputLink>
 				</rich:panelMenuItem>
-				<rich:panelMenuItem id="kundenverwaltungUpdateKundeItem" rendered="#{rich:isUserInRole('admin')}">
+				<!-- <rich:panelMenuItem id="kundenverwaltungUpdateKundeItem" rendered="#{rich:isUserInRole('admin')}">
 					<h:outputLink id="kundenverwaltungUpdateKunde"
 					              value="#{request.contextPath}/kundenverwaltung/updateKunde.jsf">
 						#{msg['nav.kundenverwaltung.updateKunde']}
@@ -54,7 +54,7 @@
 							<f:param id="updateKundeCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
 						</c:if>
 					</h:outputLink>
-				</rich:panelMenuItem>
+				</rich:panelMenuItem> -->
 				<!-- <rich:panelMenuItem id="kundenverwaltungUploadItem" rendered="#{rich:isUserInRole('admin')}">
 					<h:outputLink id="kundenverwaltungUpload"
 					              value="#{request.contextPath}/kundenverwaltung/upload.jsf">
@@ -108,7 +108,7 @@
 						</c:if>
 					</h:outputLink>
 				</rich:panelMenuItem>	
-				<rich:panelMenuItem id="artikelverwaltungUpdateArtikelItem" rendered="#{rich:isUserInRole('admin')}">
+				<!-- <rich:panelMenuItem id="artikelverwaltungUpdateArtikelItem" rendered="#{rich:isUserInRole('admin')}">
 					<h:outputLink id="artikelverwaltungUpdateArtikel"
 					              value="#{request.contextPath}/artikelverwaltung/updateArtikel.jsf">
 						#{msg['nav.artikelverwaltung.updateArtikel']}
@@ -116,7 +116,7 @@
 							<f:param id="updateArtikelCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
 						</c:if>
 					</h:outputLink>
-				</rich:panelMenuItem>			
+				</rich:panelMenuItem> -->			
 			</rich:panelMenuGroup>
 
 			<rich:panelMenuGroup id="bestellverwaltung"
@@ -141,7 +141,7 @@
 						</c:if>
 					</h:outputLink>
 				</rich:panelMenuItem>	
-				<rich:panelMenuItem id="bestellverwaltunghowViewWarenkorbItem">
+			<!--	<rich:panelMenuItem id="bestellverwaltunghowViewWarenkorbItem">
 					<h:outputLink id="bestellverwaltungViewWarenkorb"
 					              value="#{request.contextPath}/bestellverwaltung/viewWarenkorb.jsf">
 						#{msg['nav.bestellverwaltung.viewWarenkorb']}
@@ -149,7 +149,7 @@
 							<f:param id="viewWarenkorbCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/>
 						</c:if>
 					</h:outputLink>
-				</rich:panelMenuItem>
+				</rich:panelMenuItem>	-->
 			</rich:panelMenuGroup>
 			<rich:panelMenuGroup id="auth"
 			                     label="#{msg['nav.auth']}"
