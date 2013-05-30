@@ -85,17 +85,27 @@
 							<h:outputText id="artikelPreis" value="#{artikel.preis}" />
 
 						</h:panelGrid>
+
+						<br></br>
+						<center>
+						<h:panelGroup id="buttonsGroup" rendered="#{not empty ac.artikel}">
+							<h:panelGrid id="butons" columns="2" border="0" cellpadding="5">
+								<h:commandButton id="warenkorbButton"
+									image="#{resource['images:warenkorb.gif']}"
+									action="#{wk.add(art)}"
+									alt="#{msgAv['listArtikel.alt.warenkorb']}" />
+
+								<h:commandButton id="updateButtonArtikel"
+									image="#{resource['images:edit.gif']}"
+									action="/artikelverwaltung/updateArtikel"
+									alt="#{msgAv['viewArtukel.update.alt']}"
+									rendered="#{rich:isUserInRole('admin') or rich:isUserInRole('abteilungsleiter') or rich:isUserInRole('mitarbeiter')}" />
+							</h:panelGrid>
+						</h:panelGroup>
+						</center>
 					</rich:panel>
 
-					<p id="buttons">
-						<h:panelGroup id="buttonsGroup" rendered="#{not empty ac.artikel}">
-							<h:commandButton id="updateButtonArtikel"
-								image="#{resource['images:edit.gif']}"
-								action="/artikelverwaltung/updateArtikel"
-								alt="#{msgAv['viewArtukel.update.alt']}"
-								rendered="#{rich:isUserInRole('admin') or rich:isUserInRole('abteilungsleiter') or rich:isUserInRole('mitarbeiter')}" />
-						</h:panelGroup>
-					</p>
+
 				</c:if>
 
 				<!-- TODO Button zum Aendern und/oder Loeschen -->
