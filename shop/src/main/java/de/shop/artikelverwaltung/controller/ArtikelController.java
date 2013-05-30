@@ -79,6 +79,7 @@ public class ArtikelController implements Serializable {
 	private static final String MSG_KEY_UPDATE_ARTIKEL_CONCURRENT_DELETE = "updateArtikel.concurrentDelete";
 	
 	private static final String JSF_LIST_ARTIKEL = "/artikelverwaltung/listArtikel";
+	private static final String JSF_ALLE_ARTIKEL = "/artikelverwaltung/alleArtikel";
 	
 	private static final String JSF_SELECT_ARTIKEL = "/artikelverwaltung/selectArtikel";
 	private static final String SESSION_VERFUEGBARE_ARTIKEL = "verfuegbareArtikel";
@@ -168,6 +169,14 @@ public class ArtikelController implements Serializable {
 		flash.put(FLASH_ARTIKEL, artikel);
 
 		return JSF_LIST_ARTIKEL;
+	}
+	
+	@Transactional
+	public String findAlleArtikel() {
+		final List<Artikel> artikel = as.findVerfuegbareArtikel();
+		flash.put(FLASH_ARTIKEL, artikel);
+
+		return JSF_ALLE_ARTIKEL;
 	}
 	
 	public void createEmptyArtikel() {
