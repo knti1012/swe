@@ -82,7 +82,9 @@
 
 							<h:outputText id="artikelPreisLabel"
 								value="#{msgAv['viewArtikel.preis']}" />
-							<h:outputText id="artikelPreis" value="#{artikel.preis}" />
+							<h:outputText id="artikelPreis" value="#{artikel.preis}" >
+								<f:convertNumber type="currency" currencySymbol="€"/>
+							</h:outputText>
 
 						</h:panelGrid>
 
@@ -93,7 +95,8 @@
 								<h:commandButton id="warenkorbButton"
 									image="#{resource['images:warenkorb.gif']}"
 									action="#{wk.add(art)}"
-									alt="#{msgAv['listArtikel.alt.warenkorb']}" />
+									alt="#{msgAv['listArtikel.alt.warenkorb']}" 
+									rendered="#{rich:isUserInRole('admin') or rich:isUserInRole('abteilungsleiter') or rich:isUserInRole('mitarbeiter')}"/>
 
 								<h:commandButton id="updateButtonArtikel"
 									image="#{resource['images:edit.gif']}"

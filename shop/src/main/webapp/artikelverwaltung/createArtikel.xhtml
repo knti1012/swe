@@ -17,7 +17,16 @@
 	</ui:define>
 
 	<ui:define name="article">
+	<br/>
 		<h:form id="createArtikelForm">
+			<rich:panel>
+
+      <f:facet name="header">
+
+            <h:outputText value="#{msgAv['createArtikel.title']}"/>
+
+      </f:facet>
+      
 			<h:panelGrid id="createPanelGrid" columns="3">
 
 				<h:outputText id="artikelNameLabel" for="name"
@@ -58,9 +67,15 @@
 					value="#{ac.neuerArtikel.preis}" />
 				<f:verbatim />
 			</h:panelGrid>
+			
+			
+			<br/>
+			<center>
 			<h:commandButton id="createButton"
 				value="#{msgAv['createArtikel.submit']}"
 				action="#{ac.createArtikel}" />
+			</center>	
+		</rich:panel>
 		</h:form>
 	</ui:define>
 </ui:composition>

@@ -19,9 +19,7 @@
 		<ui:param name="pageTitle" value="#{msgKv['createKunde.title']}"/>
 		
 		<ui:define name="article">
-			<h1>
-				#{msgKv['createKunde.heading']}
-			</h1>
+<br/>
 			
 			<h:form id="createKundeForm">
 				<rich:jQuery id="nachnameFocus" selector="#nachname" query="focus()"/>
@@ -32,6 +30,15 @@
 					<rich:messages for="kundeValidator"/>
 					<rich:messages id="fehlermeldungPassword" globalOnly="true"/>
 					
+					<rich:panel>
+
+      <f:facet name="header">
+
+            <h:outputText value="#{msgKv['createKunde.heading']}"/>
+
+      </f:facet>
+
+
 					<h:panelGrid id="createPanelGrid" columns="3">
 					
 						<h:outputLabel id="nachnameLabel" for="nachname" 
@@ -133,7 +140,7 @@
 						<rich:message id="fehlermeldungAgb" for="agb"/>
 						
 					</h:panelGrid>
-					
+					</rich:panel>
 					<p id="buttons">
 						<h:commandButton id="createButton" 
 										value="#{msgKv['createKunde.submit']}" 
@@ -147,6 +154,8 @@
 			<p id="hinweisPflichtfelder">
 				#{msgKv['createKunde.required']}
 			</p>
+			
+			
 		</ui:define>
 	</ui:composition>
 </html>

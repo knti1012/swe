@@ -16,22 +16,14 @@
 	<ui:define name="article">
 		<h:form id="form">
 
-<!-- 			<a4j:commandButton id="findButton" action="#{ac.findAlleArtikel()}" -->
-<!-- 				value="#{msgAv['listArtikel.submit']}" /> -->
+<rich:panel>
 
-<!-- 			<a4j:status id="statusStart"> -->
-<!-- 				<f:facet name="start"> -->
-<!-- 					<h:panelGroup id="waitingGroup"> -->
-<!-- 						<h:graphicImage id="waitingGif" name="waiting.gif" -->
-<!-- 							library="images" /> -->
-<!-- 									#{msgAv['listArtikel.inBearbeitung']} -->
-<!-- 					</h:panelGroup> -->
-<!-- 				</f:facet> -->
-<!-- 			</a4j:status> -->
+      <f:facet name="header">
 
+            <h:outputText value="#{msgAv['listArtikel.title']}"/>
 
-<!-- 			<p id="abstand1" /> -->
-
+      </f:facet>
+			<center>
 			<a4j:outputPanel id="artikelPanel">
 				<c:if test="#{not empty flash.artikel or param.init ne 'true'}">
 					<c:set var="artikel" value="#{flash.artikel}" scope="view" />
@@ -82,6 +74,8 @@
 					</a4j:outputPanel>
 				</c:if>
 			</a4j:outputPanel>
+			</center>
+			</rich:panel>
 		</h:form>
 	</ui:define>
 </ui:composition>

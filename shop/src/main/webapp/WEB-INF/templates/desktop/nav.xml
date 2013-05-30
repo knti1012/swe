@@ -117,22 +117,6 @@
 						</c:if>
 					</h:outputLink>
 				</rich:panelMenuItem>
-				<rich:panelMenuItem id="bestellverwaltungCreateBestellungItem"
-					rendered="#{rich:isUserInRole('admin')}">
-					<h:outputLink id="bestellverwaltungCreateBestellung"
-						value="#{request.contextPath}/bestellverwaltung/createBestellung.jsf">
-						#{msg['nav.bestellverwaltung.createBestellung']}
-						<c:if test="#{not empty javax.enterprise.context.conversation.id}">
-							<f:param id="createBestellungCid" name="cid"
-								value="#{javax.enterprise.context.conversation.id}" />
-						</c:if>
-					</h:outputLink>
-				</rich:panelMenuItem>
-				<!-- <rich:panelMenuItem id="bestellverwaltunghowViewWarenkorbItem"> 
-					<h:outputLink id="bestellverwaltungViewWarenkorb" value="#{request.contextPath}/bestellverwaltung/viewWarenkorb.jsf"> 
-					#{msg['nav.bestellverwaltung.viewWarenkorb']} <c:if test="#{not empty javax.enterprise.context.conversation.id}"> 
-					<f:param id="viewWarenkorbCid" name="cid" value="#{javax.enterprise.context.conversation.id}"/> 
-					</c:if> </h:outputLink> </rich:panelMenuItem> -->
 			</rich:panelMenuGroup>
 			<rich:panelMenuGroup id="auth" label="#{msg['nav.auth']}"
 				expanded="true" rendered="#{rich:isUserInRole('admin')}">
