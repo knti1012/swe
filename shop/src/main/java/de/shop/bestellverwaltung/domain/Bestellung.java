@@ -154,10 +154,10 @@ public class Bestellung implements Serializable {
 	@Valid
 	@JsonProperty("bestellpositionen")
 	private List<Bestellposition> bestellpositionen;
-	
+
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "bestellung_lieferung", joinColumns = @JoinColumn(name = "b_fk"), 
-							inverseJoinColumns = @JoinColumn(name = "l_fk"))
+	@JoinTable(name = "bestellung_lieferung", joinColumns = @JoinColumn(name = "b_fk"),
+						inverseJoinColumns = @JoinColumn(name = "l_fk"))
 	@JsonIgnore
 	private Set<Lieferung> lieferungen;
 
@@ -167,7 +167,7 @@ public class Bestellung implements Serializable {
 
 	public Bestellung() {
 		super();
-		this.status="eingegangen";
+		this.status = "eingegangen";
 	}
 
 	public Bestellung(List<Bestellposition> bestellpositionen) {
@@ -177,11 +177,12 @@ public class Bestellung implements Serializable {
 
 	public String bestellpositionenToString() {
 		String bpn = "";
-		for (Bestellposition bp : bestellpositionen ){
-		bpn = bpn + bp.toString() + " ";}
+		for (Bestellposition bp : bestellpositionen) {
+			bpn = bpn + bp.toString() + " ";
+		}
 		return bpn;
 	}
-	
+
 	@PrePersist
 	private void prePersist() {
 		erzeugt = new Date();
@@ -216,14 +217,15 @@ public class Bestellung implements Serializable {
 	public void setAktualisiert(Date aktualisiert) {
 		this.aktualisiert = aktualisiert;
 	}
-	
+
 	@JsonProperty("datum")
 	public Date getErzeugt() {
 		return this.erzeugt;
 	}
-	
+
 	public String getErzeugt(String format) {
-		final Format formatter = new SimpleDateFormat(format, Locale.getDefault());
+		final Format formatter = new SimpleDateFormat(format,
+				Locale.getDefault());
 		return formatter.format(erzeugt);
 	}
 
