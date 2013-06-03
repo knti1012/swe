@@ -16,9 +16,9 @@ public class LogInterceptor implements Serializable {
 	private static final long serialVersionUID = 6225006198548883927L;
 
 	private static final String COUNT = "Anzahl = ";
-	private static final int MAX_ELEM = 4; 
-	private static final int CHAR_POST_AFTER_GET_SET = 3; 
-	private static final int CHAR_POST_AFTER_IS = 2; 
+	private static final int MAX_ELEM = 4;
+	private static final int CHAR_POST_AFTER_GET_SET = 3;
+	private static final int CHAR_POST_AFTER_IS = 2;
 
 	@AroundInvoke
 	public Object log(InvocationContext ctx) throws Exception {
@@ -116,7 +116,7 @@ public class LogInterceptor implements Serializable {
 			for (int i = 0; i < anzahl; i++) {
 				if (arr[i] == null) {
 					sbEnd.append("null");
-				}
+				} 
 				else {
 					sbEnd.append(arr[i]);
 				}
@@ -130,7 +130,6 @@ public class LogInterceptor implements Serializable {
 			return sbEnd.toString();
 		}
 
-		
 		if ("short".equals(componentClass.getName())) {
 			final short[] arr = (short[]) obj;
 			if (arr.length > MAX_ELEM) {

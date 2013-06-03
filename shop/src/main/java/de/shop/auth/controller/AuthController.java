@@ -157,13 +157,12 @@ public class AuthController implements Serializable {
 	@Transactional
 	public String login() {
 		// Konvertiere Username(ID) von Long zu String
-		String u = String.valueOf(username);
+		final String u = String.valueOf(username);
 		if (username == null || "".equals(username)) {
 			reset();
 			messages.error(SHOP, MSG_KEY_LOGIN_ERROR, CLIENT_ID_USERNAME);
 			return null;   // Gleiche Seite nochmals aufrufen: mit den fehlerhaften Werten
 		}
-		
 		try {
 			request.login(u, password);
 		}

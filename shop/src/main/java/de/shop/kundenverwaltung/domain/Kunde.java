@@ -74,8 +74,8 @@ import de.shop.util.IdGroup;
 		@NamedQuery(name = Kunde.FIND_IDS_BY_PREFIX, query = "SELECT   k.id"
 				+ " FROM  Kunde k" + " WHERE CONCAT('', k.id) LIKE :"
 				+ Kunde.PARAM_KUNDE_ID_PREFIX + " ORDER BY k.id"),
-		@NamedQuery(name  = Kunde.FIND_KUNDEN_BY_ID_PREFIX, query = "SELECT   k"
-                + " FROM  Kunde k" + " WHERE CONCAT('', k.id) LIKE :" 
+		@NamedQuery(name = Kunde.FIND_KUNDEN_BY_ID_PREFIX, query = "SELECT   k"
+				+ " FROM  Kunde k" + " WHERE CONCAT('', k.id) LIKE :"
 				+ Kunde.PARAM_KUNDE_ID_PREFIX + " ORDER BY k.id"),
 		@NamedQuery(name = Kunde.FIND_KUNDEN_BY_NACHNAME, query = "SELECT k"
 				+ " FROM   Kunde k" + " WHERE  UPPER(k.nachname) = UPPER(:"
@@ -102,7 +102,8 @@ import de.shop.util.IdGroup;
 				+ " FROM  Kunde k" + " WHERE k.erzeugt = :"
 				+ Kunde.PARAM_KUNDE_ERZEUGT) })
 @ScriptAssert(lang = "javascript", script = "(_this.password == null && _this.passwordWdh == null)"
-		+ "|| (_this.password != null && _this.password.equals(_this.passwordWdh))", message = "{kundenverwaltung.kunde.password.notEqual}", groups = PasswordGroup.class)
+		+ "|| (_this.password != null && _this.password.equals(_this.passwordWdh))", 
+		message = "{kundenverwaltung.kunde.password.notEqual}", groups = PasswordGroup.class)
 public class Kunde implements Serializable {
 
 	private static final long serialVersionUID = -9003409977721553025L;
@@ -128,7 +129,8 @@ public class Kunde implements Serializable {
 	public static final String FIND_KUNDEN_ORDER_BY_ID = PREFIX
 			+ "findKundenOrderById";
 	public static final String FIND_IDS_BY_PREFIX = PREFIX + "findIdsByPrefix";
-	public static final String FIND_KUNDEN_BY_ID_PREFIX = PREFIX + "findKundenByIdPrefix";
+	public static final String FIND_KUNDEN_BY_ID_PREFIX = PREFIX
+			+ "findKundenByIdPrefix";
 	public static final String FIND_KUNDEN_BY_NACHNAME = PREFIX
 			+ "findKundenByNachname";
 	public static final String FIND_KUNDEN_BY_NACHNAME_FETCH_BESTELLUNGEN = PREFIX
@@ -153,12 +155,11 @@ public class Kunde implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Kunde [id=" + id + ", version=" + version
-				+ ", aktualisiert=" + aktualisiert
-				+ ", email=" + email + ", erzeugt=" + erzeugt + ", geschlecht="
-				+ geschlecht + ", nachname=" + nachname + ", password="
-				+ password + ", passwordWdh=" + passwordWdh
-				+  ", vorname=" + vorname + "]";
+		return "Kunde [id=" + id + ", version=" + version + ", aktualisiert="
+				+ aktualisiert + ", email=" + email + ", erzeugt=" + erzeugt
+				+ ", geschlecht=" + geschlecht + ", nachname=" + nachname
+				+ ", password=" + password + ", passwordWdh=" + passwordWdh
+				+ ", vorname=" + vorname + "]";
 	}
 
 	@Id
@@ -170,7 +171,7 @@ public class Kunde implements Serializable {
 	@Version
 	@Basic(optional = false)
 	private int version = ERSTE_VERSION;
-	
+
 	@Column(length = EMAIL_LENGTH_MAX, nullable = false, unique = true)
 	@Email(message = "{kundenverwaltung.kunde.email.pattern}")
 	private String email;
@@ -217,19 +218,20 @@ public class Kunde implements Serializable {
 	@JsonIgnore
 	private List<Bestellung> bestellungen = new ArrayList<Bestellung>();
 
-	@OneToOne(optional = false, fetch = FetchType.EAGER, cascade = {PERSIST, MERGE, REMOVE })
+	@OneToOne(optional = false, fetch = FetchType.EAGER, cascade = { PERSIST,
+			MERGE, REMOVE })
 	@JoinColumn(name = "add_fk")
 	@NotNull(message = "{kundenverwaltung.kunde.adresse.notNull}")
-	private Adresse adresse; 
-	
+	private Adresse adresse;
+
 	@Transient
 	@AssertTrue(message = "{kundenverwaltung.kunde.agb}")
 	private boolean agbAkzeptiert;
-	
+
 	@ElementCollection(fetch = EAGER)
-	@CollectionTable(name = "kunde_rolle",
-	                 joinColumns = @JoinColumn(name = "kunde_fk", nullable = false),
-	                 uniqueConstraints =  @UniqueConstraint(columnNames = { "kunde_fk", "rolle_fk" }))
+	@CollectionTable(name = "kunde_rolle", joinColumns = 
+			@JoinColumn(name = "kunde_fk", nullable = false), uniqueConstraints = 
+			@UniqueConstraint(columnNames = {"kunde_fk", "rolle_fk" }))
 	@Column(table = "kunde_rolle", name = "rolle_fk", nullable = false)
 	private Set<RolleType> rollen;
 
@@ -255,10 +257,11 @@ public class Kunde implements Serializable {
 	public int getVersion() {
 		return version;
 	}
+
 	public void setVersion(int version) {
 		this.version = version;
 	}
-	
+
 	public Date getAktualisiert() {
 		return this.aktualisiert;
 	}
@@ -314,7 +317,7 @@ public class Kunde implements Serializable {
 	public void setPasswordWdh(String passwordWdh) {
 		this.passwordWdh = passwordWdh;
 	}
-	
+
 	public void setAgbAkzeptiert(boolean agbAkzeptiert) {
 		this.agbAkzeptiert = agbAkzeptiert;
 	}
@@ -322,7 +325,7 @@ public class Kunde implements Serializable {
 	public boolean isAgbAkzeptiert() {
 		return agbAkzeptiert;
 	}
-	
+
 	public String getVorname() {
 		return this.vorname;
 	}
@@ -362,7 +365,7 @@ public class Kunde implements Serializable {
 		bestellungen.add(bestellung);
 		return this;
 	}
-	
+
 	public Set<RolleType> getRollen() {
 		return rollen;
 	}
@@ -376,7 +379,7 @@ public class Kunde implements Serializable {
 		passwordWdh = password;
 		agbAkzeptiert = true;
 	}
-	
+
 	public void setValues(Kunde kunde) {
 		this.version = kunde.version;
 		this.adresse = kunde.adresse;
@@ -391,8 +394,7 @@ public class Kunde implements Serializable {
 	}
 
 	public void setBestellungenUri(URI bestellungenUri2) {
-	
-		
+
 	}
 
 }
