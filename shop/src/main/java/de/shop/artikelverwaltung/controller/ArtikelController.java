@@ -130,12 +130,10 @@ public class ArtikelController implements Serializable {
 		artikel = as.findArtikelById(artikelId);
 		if (artikel == null) {
 			flash.remove(FLASH_ARTIKEL);
-			System.out.println("find 1");
 			return null;
 		}
 
 		flash.put(FLASH_ARTIKEL, artikel);
-		System.out.println("a find 2");
 		return JSF_VIEW_ARTIKEL;
 	}
 
@@ -159,14 +157,12 @@ public class ArtikelController implements Serializable {
 		if (neuerArtikel != null) // Seite nach Fehler erneut anzeigen
 			return;
 		neuerArtikel = new Artikel();
-		System.out.println("Leerer Artikel erstellt");
 	}
 
 	@TransactionAttribute(REQUIRED)
 	public String createArtikel() {
 
 		neuerArtikel = as.createArtikel(neuerArtikel, locale);
-		System.out.println("Neuer Artikel erstellt");
 
 		neuerArtikelEvent.fire(String.valueOf(neuerArtikel.getId()));
 
@@ -247,21 +243,18 @@ public class ArtikelController implements Serializable {
 	@TransactionAttribute(REQUIRED)
 	public void loadArtikel() {
 		final String idStr = (String) request.getParameter("artikelId");
-		System.out.println("a 1" + idStr);
 		if (idStr == null)
 			return;
 
 		Long id = null;
 		try {
 			id = Long.valueOf(idStr);
-			System.out.println("a 2");
 		} catch (NumberFormatException e) {
 			return;
 		}
 
 		artikel = as.findArtikelById(id);
 		request.setAttribute("artikel", artikel);
-		System.out.println("a 3");
 	}
 
 	public Artikel getNeuerArtikel() {
