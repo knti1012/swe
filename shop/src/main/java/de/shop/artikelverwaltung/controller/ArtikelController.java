@@ -60,8 +60,8 @@ import de.shop.util.Transactional;
  * Dialogsteuerung fuer die Artikelverwaltung
  */
 @Named("ac")
-@Stateful
 @SessionScoped
+@Stateful
 @TransactionAttribute(SUPPORTS)
 @Log
 public class ArtikelController implements Serializable {
@@ -81,8 +81,6 @@ public class ArtikelController implements Serializable {
 	private static final String JSF_LIST_ARTIKEL = "/artikelverwaltung/listArtikel";
 	private static final String JSF_ALLE_ARTIKEL = "/artikelverwaltung/alleArtikel";
 	
-	private static final String JSF_SELECT_ARTIKEL = "/artikelverwaltung/selectArtikel";
-	private static final String SESSION_VERFUEGBARE_ARTIKEL = "verfuegbareArtikel";
 
 	private String name;
 	
@@ -152,13 +150,15 @@ public class ArtikelController implements Serializable {
 
 	@Transactional
 	public String findArtikelById() {
-		final Artikel artikel = as.findArtikelById(artikelId);
+		artikel = as.findArtikelById(artikelId);
 		if (artikel == null) {
 			flash.remove(FLASH_ARTIKEL);
+			System.out.println("find 1");
 			return null;
 		}
 		
 		flash.put(FLASH_ARTIKEL, artikel);
+		System.out.println("a find 2");
 		return JSF_VIEW_ARTIKEL;
 	}
 	
@@ -272,12 +272,14 @@ public class ArtikelController implements Serializable {
 	@TransactionAttribute(REQUIRED)
 	public void loadArtikel() {
 		String idStr = (String) request.getParameter("artikelId");
+		System.out.println("a 1" + idStr);
 		if (idStr == null)
 			return;
 		
 		Long id = null;
 		try {
 			id = Long.valueOf(idStr);
+			System.out.println("a 2");
 		}
 		catch (NumberFormatException e) {
 			return;
@@ -285,7 +287,7 @@ public class ArtikelController implements Serializable {
 		
 		artikel = as.findArtikelById(id);
 		request.setAttribute("artikel", artikel);
-		System.out.println("LoadArtikel durchgeführt");
+		System.out.println("a 3");;
 	}
 
 	public Artikel getNeuerArtikel() {

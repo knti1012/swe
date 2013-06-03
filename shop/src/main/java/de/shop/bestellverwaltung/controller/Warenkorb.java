@@ -32,7 +32,7 @@ public class Warenkorb implements Serializable {
 	private static final String JSF_VIEW_WARENKORB = "/bestellverwaltung/viewWarenkorb?init=true";
 	private static final int TIMEOUT = 5;
 	
-	private final List<Bestellposition> positionen = new ArrayList<Bestellposition>();;
+	private List<Bestellposition> positionen;
 	private Long artikelId;  // fuer selectArtikel.xhtml
 	
 	@Inject
@@ -43,6 +43,7 @@ public class Warenkorb implements Serializable {
 
 	@PostConstruct
 	private void postConstruct() {
+		positionen = new ArrayList<>();
 		LOGGER.debugf("CDI-faehiges Bean %s wurde erzeugt", this);
 	}
 	

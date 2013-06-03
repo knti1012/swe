@@ -155,10 +155,12 @@ public class KundeController implements Serializable {
 		kunde = ks.findKundeById(kundeId, FetchType.NUR_KUNDE, locale);
 		if (kunde == null) {
 			flash.remove(FLASH_KUNDE);
+			System.out.println("k find 1");
 			return null;
 		}
 		adresse = kunde.getAdresse();
 		flash.put(FLASH_KUNDE, kunde);
+		System.out.println("k find 2");
 
 		return JSF_VIEW_KUNDE + JSF_REDIRECT_SUFFIX;
 	}
@@ -196,12 +198,14 @@ public class KundeController implements Serializable {
 	@TransactionAttribute(REQUIRED)
 	public void loadKunde() {
 		String idStr = (String) request.getParameter("kundeId");
-		if (idStr == null)
+		if (idStr == null){
+			System.out.println("k 1" + idStr);
 			return;
-		
+		}
 		Long id = null;
 		try {
 			id = Long.valueOf(idStr);
+			System.out.println("k 2");
 		}
 		catch (NumberFormatException e) {
 			return;
@@ -209,7 +213,7 @@ public class KundeController implements Serializable {
 		
 		kunde = ks.findKundeById(id, FetchType.NUR_KUNDE, locale);
 		request.setAttribute("kunde", kunde);
-		System.out.println("LoadKunde durchgeführt");
+		System.out.println("k 3");
 	}
 	
 	@TransactionAttribute(REQUIRED)
@@ -227,7 +231,7 @@ public class KundeController implements Serializable {
 		
 		// Suche durch den Anwendungskern
 		kunde = ks.findKundeById(id, FetchType.NUR_KUNDE, locale);
-		System.out.println("LoadKundeById druchgeführt");
+		System.out.println("k LoadKundeById druchgeführt");
 		if (kunde == null) {
 			return;
 		}
@@ -242,14 +246,14 @@ public class KundeController implements Serializable {
 		
 		final Adresse adresse = new Adresse();
 		neuerKunde.setAdresse(adresse);
-		System.out.println("Leerer Kunde erstellt");
+		System.out.println("k Leerer Kunde erstellt");
 	}
 	
 	@TransactionAttribute(REQUIRED)
 	public String createKunde() {
 		try {
 			neuerKunde = (Kunde) ks.createKunde(neuerKunde, locale);
-			System.out.println("Neuer Kunde erstellt");
+			System.out.println("k Neuer Kunde erstellt");
 		}
 		catch (EmailExistsException e) {
 			final String outcome = createKundeErrorMsg(e);
