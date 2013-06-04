@@ -141,7 +141,6 @@ public class ArtikelController implements Serializable {
 	public String findArtikelByName() {
 		final List<Artikel> artikel = as.findArtikelByName(name);
 		flash.put(FLASH_ARTIKEL, artikel);
-
 		return JSF_LIST_ARTIKEL;
 	}
 
@@ -149,7 +148,6 @@ public class ArtikelController implements Serializable {
 	public String findAlleArtikel() {
 		final List<Artikel> artikel = as.findVerfuegbareArtikel();
 		flash.put(FLASH_ARTIKEL, artikel);
-
 		return JSF_ALLE_ARTIKEL;
 	}
 
