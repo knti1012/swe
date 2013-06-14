@@ -393,8 +393,13 @@ public class Kunde implements Serializable {
 		this.vorname = kunde.vorname;
 	}
 
-	public void setBestellungenUri(URI bestellungenUri2) {
-
+	public URI getBestellungenUri() {
+		return bestellungenUri;
 	}
+
+	public void setBestellungenUri(URI bestellungenUri) {
+		this.bestellungenUri = bestellungenUri;
+	}
+
 
 }
