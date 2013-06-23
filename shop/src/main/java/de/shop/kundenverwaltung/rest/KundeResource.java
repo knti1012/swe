@@ -1,7 +1,11 @@
 package de.shop.kundenverwaltung.rest;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import de.shop.kundenverwaltung.service.KundeService.OrderType;
+import de.shop.util.LocaleHelper;
 import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
+
+
 
 
 
@@ -22,12 +26,14 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
@@ -58,6 +64,13 @@ public class KundeResource {
 	@Inject
 	private KundeService ks;
 
+	@Context
+	private HttpHeaders headers;
+	
+
+	@Context
+	private UriInfo uriInfo;
+	
 	@Inject
 	private BestellungService bs;
 
@@ -66,6 +79,9 @@ public class KundeResource {
 
 	@Inject
 	private UriHelperBestellung uriHelperBestellung;
+	
+	@Inject
+	private LocaleHelper localeHelper;
 	
 	@PersistenceContext
 	private EntityManager em;
@@ -202,6 +218,27 @@ public class KundeResource {
 		final Kunde kunde = ks.findKundeById(kundeId, FetchType.NUR_KUNDE,
 				locale);
 		ks.deleteKunde(kunde);
+	}
+	@GET
+	@Path("{nachname:[A-Z][a-z]*}")
+	public Collection<Kunde> findKundenByNachname(@PathParam("nachname") String nachname) {
+		Collection<Kunde> kunden = null;
+		if ("".equals(nachname)) {
+			kunden = ks.findAllKunden(FetchType.NUR_KUNDE, OrderType.KEINE);
+		}
+		else {
+			final Locale locale = localeHelper.getLocale(headers);
+			kunden = ks.findKundenByNachname(nachname, FetchType.NUR_KUNDE, locale);
+			if (kunden.isEmpty()) {
+				final String msg = "Kein Kunde gefunden mit Nachname " + nachname;
+				throw new NotFoundException(msg);
+			}
+		}
+		// URIs innerhalb der gefundenen Kunden anpassen
+		for (Kunde kunde : kunden) {
+			uriHelperKunde.updateUriKunde(kunde, uriInfo);
+		}
+		return kunden;
 	}
 
 }
